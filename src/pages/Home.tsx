@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import { useActions } from '../hooks/useActions'
-import MyButton from '../UI/MyButton'
 import { ReactComponent as MoonIcon } from '../assets/moon.svg'
 import { ReactComponent as SunIcon } from '../assets/sun.svg'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -23,8 +22,7 @@ const Home = () => {
           : <MoonIcon className='h-10 w-10 fill-white' onClick={onSwitchTheme} />}
       </div>
 
-      <MyButton color='black' onClick={() => { }} title='button title' variant='roundedXl' />
-      <MyButton color='yellow' onClick={() => { }} title='button title' variant='roundedXl' />
+      <div>Home</div>
       <Navbar />
     </div>
   )

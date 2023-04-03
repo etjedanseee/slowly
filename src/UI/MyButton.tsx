@@ -1,5 +1,6 @@
 import React from 'react'
 import { buttonColor, buttonVariant } from './ui'
+import { useTranslation } from 'react-i18next';
 
 interface MyButtonProps {
   color: buttonColor,
@@ -9,15 +10,14 @@ interface MyButtonProps {
 }
 
 const MyButton = ({ color, title, variant }: MyButtonProps) => {
-  const buttonColor = color === 'black' ? 'bg-black text-white hover:bg-zinc-900' : 'bg-yellow-400 text-black hover:bg-yellow-300'
+  const { t } = useTranslation();
+
+  const buttonColor = color === 'black' ? 'bg-black text-white' : 'bg-yellow-400 text-zinc-900'
   const variantStyle = variant === 'roundedLg' ? 'rounded-lg' : variant === 'roundedFull' ? 'rounded-full' : 'rounded-xl'
 
   return (
-    <div className={`
-      text-2xl ${buttonColor} ${variantStyle} mb-5 px-4 py-2 text-center 
-      font-medium transition-colors duration-500 select-none`
-    }>
-      {title}
+    <div className={`${buttonColor} ${variantStyle} text-xl mb-5 px-4 py-2 text-center font-medium select-none`}>
+      {t(title)}
     </div>
   )
 }
