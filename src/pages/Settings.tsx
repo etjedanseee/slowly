@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useActions } from '../hooks/useActions'
 import { useTypedSelector } from '../hooks/useTypedSelector'
-import { langType } from '../types/Theme/theme'
+import { langType } from '../types/User/user'
 import Select from '../UI/Select'
 
 const Settings = () => {

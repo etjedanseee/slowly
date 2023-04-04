@@ -1,4 +1,5 @@
-import { themeType, langType } from './theme';
+import { langType } from './../User/user';
+import { themeType } from './theme';
 
 export interface ThemeState {
   theme: themeType,

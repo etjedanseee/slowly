@@ -9,14 +9,17 @@ interface MyButtonProps {
   onClick: () => void,
 }
 
-const MyButton = ({ color, title, variant }: MyButtonProps) => {
+const MyButton = ({ color, title, variant, onClick }: MyButtonProps) => {
   const { t } = useTranslation();
 
   const buttonColor = color === 'black' ? 'bg-black text-white' : 'bg-yellow-400 text-zinc-900'
   const variantStyle = variant === 'roundedLg' ? 'rounded-lg' : variant === 'roundedFull' ? 'rounded-full' : 'rounded-xl'
 
   return (
-    <div className={`${buttonColor} ${variantStyle} text-xl mb-5 px-4 py-2 text-center font-medium select-none`}>
+    <div
+      className={`${buttonColor} ${variantStyle} w-full px-4 py-2 text-center font-medium select-none`}
+      onClick={onClick}
+    >
       {t(title)}
     </div>
   )

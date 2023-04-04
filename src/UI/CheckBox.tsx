@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { langType } from '../types/Theme/theme'
+import { langType } from '../types/User/user'
 
 interface CheckBoxProps {
   title: langType,

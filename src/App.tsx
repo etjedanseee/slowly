@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom'
 import { useTypedSelector } from './hooks/useTypedSelector';
 import Draft from './pages/Draft';
@@ -10,6 +10,8 @@ import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 import { dictionary } from './utils/consts';
 import Profile from './pages/Profile';
+import AuthPage from './pages/AuthPage';
+import SignUpPage from './pages/SignUpPage';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
@@ -41,6 +43,12 @@ function App() {
         </>} />
         <Route path='/profile/settings' element={<>
           <Settings />
+        </>} />
+        <Route path='/auth' element={<>
+          <AuthPage />
+        </>} />
+        <Route path='/auth/signUp' element={<>
+          <SignUpPage />
         </>} />
       </Routes>
     </div>

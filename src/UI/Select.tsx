@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ILangs, langType } from '../types/Theme/theme'
+import { ILangs } from '../types/Theme/theme'
+import { langType } from '../types/User/user'
 import CheckBox from './CheckBox'
 
 interface SelectProps {
