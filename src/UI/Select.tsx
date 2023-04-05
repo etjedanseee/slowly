@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ILangs } from '../types/Theme/theme'
-import { langType } from '../types/User/user'
+import { appLangType } from '../types/User/user'
 import CheckBox from './CheckBox'
 
 interface SelectProps {
-  lang: langType,
-  onAccept: (value: langType) => void
+  lang: appLangType,
+  onAccept: (value: appLangType) => void
 }
 
 const Select = ({ lang, onAccept }: SelectProps) => {
@@ -14,7 +14,7 @@ const Select = ({ lang, onAccept }: SelectProps) => {
   const langsArr: ILangs[] = [{ text: 'English', lang: 'en', checked: lang === 'en' }, { text: 'Українська', lang: 'ua', checked: lang === 'ua' }]
   const [langs, setlangs] = useState(langsArr)
 
-  const onCheckBoxChange = (lang: langType) => {
+  const onCheckBoxChange = (lang: appLangType) => {
     setlangs([...langs].map(l => l.lang === lang ? { ...l, checked: true } : { ...l, checked: false }))
   }
 

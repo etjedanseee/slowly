@@ -5,23 +5,23 @@ interface TextInputProps {
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void,
   value: string,
   placeholder: string,
-  onBlur: () => void
+  onFocus: () => void
 }
 
-//если он будет использоваться не только при регистрации то нужно переписать стили
-const TextInput = ({ placeholder, onInputChange, value, onBlur }: TextInputProps) => {
-  // const { theme } = useTypedSelector(state => state.theme)
+const TextInput = ({ placeholder, onInputChange, value, onFocus }: TextInputProps) => {
+  const { theme } = useTypedSelector(state => state.theme)
 
   return (
     <input
       value={value}
       onChange={(e) => onInputChange(e)}
       placeholder={placeholder}
-      className='w-full border-b border-black bg-zinc-800 px-4 pb-1 mb-1 outline-none'
+      className={`${theme === 'dark' ? 'border-black bg-zinc-800' : 'border-gray-500 bg-gray-200'} 
+        w-full border-b px-4 py-1 mb-1 outline-none flex items-center
+      `}
       spellCheck={false}
-      onBlur={onBlur}
-    >
-    </input>
+      onFocus={onFocus}
+    />
   )
 }
 

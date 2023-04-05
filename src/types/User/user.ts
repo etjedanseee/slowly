@@ -1,3 +1,4 @@
+import { langType } from "../../utils/consts"
 
 export interface IUser {
   id?: number,
@@ -8,7 +9,7 @@ export interface IUser {
   languages: ILang[]
 }
 
-export type langType = 'en' | 'ua'
+export type appLangType = 'en' | 'ua'
 
 export type SexType = 'male' | 'female' | 'other'
 
@@ -28,4 +29,12 @@ export interface ILang {
   name: string,
   code: langType
   level: number
+}
+
+export interface ILangList {
+  name: string,
+  engName: string,
+  code: langType,
+  isSelected: boolean,
+  level: number | null
 }

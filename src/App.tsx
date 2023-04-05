@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import AuthPage from './pages/AuthPage';
 import SignUpPage from './pages/SignUpPage';
 
+//сделать редирект на авторизацию если в куках нет юзера
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
 

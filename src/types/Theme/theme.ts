@@ -1,10 +1,10 @@
-import { langType } from './../User/user';
+import { appLangType } from "../User/user"
 
 export type themeType = 'white' | 'dark'
 
 
 export interface ILangs {
   text: string,
-  lang: langType,
+  lang: appLangType,
   checked: boolean
 }

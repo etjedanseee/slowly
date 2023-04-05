@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { langType } from '../types/User/user'
+import { appLangType } from '../types/User/user'
 
 interface CheckBoxProps {
-  title: langType,
+  title: appLangType,
   text: string,
   cheked: boolean,
-  onCheckBoxChange: (title: langType) => void
+  onCheckBoxChange: (title: appLangType) => void
 }
 
 const CheckBox = ({ cheked, text, title, onCheckBoxChange }: CheckBoxProps) => {

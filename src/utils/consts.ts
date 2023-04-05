@@ -1,15 +1,16 @@
+import { interest, ILang, ILangList } from './../types/User/user';
 
 
 export const dictionary = {
   en: {
-    autoSearch: 'Auto search',
-    manuallySearch: 'Manually search',
+    autoSearch: 'Auto-match',
+    manuallySearch: 'Explore manually',
     letterOnTheWay: 'Letter on the way',
     changeLang: 'Change language to english',
     appLang: 'Application language',
     penpals: 'Penpals',
     friends: 'Friends',
-    helloWorld: 'Share your interests with the world',
+    helloWorld: 'Share your interests with the world!',
     letsStart: 'Let\'s start',
     alredyHaveAcc: 'Already have an account? Login',
     next: 'Next',
@@ -18,9 +19,26 @@ export const dictionary = {
     female: 'Female',
     other: 'Other',
     birthday: 'Birthday',
-    enterDate: 'Please enter the correct date',
+    enterDate: 'Please enter the correct date (YYYY-MM-DD)',
     nickName: 'Nickname',
-    required: 'Field is required'
+    required: 'Field is required',
+    selectInterests: 'Select topics that interest you.',
+    interestsHelp: 'They will help you to find friends with common interests.',
+    'Language learning': 'Language learning',
+    'Movies': 'Movies',
+    'Pets': 'Pets',
+    'Nature': 'Nature',
+    'Adventures': 'Adventures',
+    'Climate': 'Climate',
+    'Handmade': 'Handmade',
+    'Writing': 'Writing',
+    'Beauty': 'Beauty',
+    'Makeup': 'Makeup',
+    'Fitness': 'Fitness',
+    'Cosplay': 'Cosplay',
+    'Dancing': 'Dancing',
+    'Languages': 'Languages',
+    'You can add more than one': 'You can add more than one',
   },
   ua: {
     autoSearch: 'Автопошук',
@@ -28,9 +46,9 @@ export const dictionary = {
     letterOnTheWay: 'Лист у дорозі',
     changeLang: 'Змінити мову на українську',
     appLang: 'Мова програми',
-    penpals: 'Дружки по листуванню',
+    penpals: 'Друзі по листуванню',
     friends: 'Друзі',
-    helloWorld: 'Поділіться своїми інтересами зі світом',
+    helloWorld: 'Поділіться своїми інтересами зі світом!',
     letsStart: 'Давайте почнемо',
     alredyHaveAcc: 'Вже є акаунт? Увійти',
     next: 'Далі',
@@ -39,10 +57,39 @@ export const dictionary = {
     female: 'Жіноча',
     other: 'Інший',
     birthday: 'День народження',
-    enterDate: 'Будь ласка, введіть правильну дату',
+    enterDate: 'Будь ласка, введіть правильну дату (YYYY-MM-DD)',
     nickName: 'Псевдонім',
-    required: 'Поле обов\'язкове'
+    required: 'Поле обов\'язкове',
+    selectInterests: 'Виберіть теми, які вас цікавлять.',
+    interestsHelp: 'Вони допоможуть знайти друзів зі спільними інтересами.',
+    'Language learning': 'Вивчення мови',
+    'Movies': 'Фільми',
+    'Pets': 'Домашні тварини',
+    'Nature': 'Природа',
+    'Adventures': 'Пригоди',
+    'Climate': 'Клімат',
+    'Handmade': 'Ручна робота',
+    'Writing': "Написання",
+    'Beauty': 'Краса',
+    'Makeup': 'Макіяж',
+    'Fitness': "Фітнес",
+    'Cosplay': "Косплей",
+    'Dancing': "Танці",
+    'Languages': "Мови",
+    'You can add more than one': 'Ви можете додати більше однієї'
   }
 }
 
-export const regexStringDate = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/
+export const interestArr: interest[] = ['Language learning', 'Movies', 'Pets', 'Nature', 'Adventures', 'Climate', 'Handmade', 'Writing', 'Beauty', 'Makeup', 'Fitness', 'Cosplay', 'Dancing']
+
+export type langType = 'en' | 'ua' | 'de' | 'es' | 'it' | 'fr'
+
+export const writingLang: ILangList[] = [
+  { name: 'English', engName: 'English', isSelected: false, level: null, code: 'en' },
+  { name: 'Українська', engName: 'Ukrainian', isSelected: false, level: null, code: 'ua' },
+  { name: 'Français', engName: 'French', isSelected: false, level: null, code: 'fr' },
+  { name: 'Deutsch', engName: 'German', isSelected: false, level: null, code: 'de' },
+  { name: 'Italiano', engName: 'Italian', isSelected: false, level: null, code: 'it' },
+  { name: 'Español', engName: 'Spanish', isSelected: false, level: null, code: 'es' },
+]
+

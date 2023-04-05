@@ -1,9 +1,9 @@
-import { langType } from './../User/user';
+import { appLangType } from '../User/user';
 import { themeType } from './theme';
 
 export interface ThemeState {
   theme: themeType,
-  lang: langType
+  lang: appLangType
 }
 
 export enum ThemeActionsTypes {
@@ -17,7 +17,7 @@ interface setTheme {
 
 interface setLang {
   type: ThemeActionsTypes.SET_LANG,
-  payload: langType
+  payload: appLangType
 }
 
 

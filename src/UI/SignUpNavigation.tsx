@@ -7,18 +7,20 @@ import { useNavigate } from 'react-router-dom'
 
 interface NavigationProps {
   step: number,
+  isStepsValid: boolean[],
   onPrevClick: () => void,
   onNextClick: () => void
 }
 
-const SignUpNavigation = ({ onNextClick, onPrevClick, step }: NavigationProps) => {
+const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid }: NavigationProps) => {
   const { theme } = useTypedSelector(state => state.theme)
   const navigate = useNavigate()
+  const isCurrentStepValid = isStepsValid[step - 1]
 
   return (
     <div className={`
-    ${theme === 'dark' ? 'bg-black text-white' : 'bg-slate-400 text-zinc-900'}
-    flex items-center justify-between py-3 px-2
+    ${theme === 'dark' ? 'bg-black text-white' : 'bg-zinc-300 text-zinc-900'}
+    flex items-center justify-between py-3 px-2 
     `}>
       <div>
         {step === 1
@@ -27,7 +29,13 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step }: NavigationProps) =
         }
       </div>
       <div>
-        <MyButton color='yellow' onClick={onNextClick} title='next' variant='roundedFull' />
+        <MyButton
+          color='yellow'
+          disabled={!isCurrentStepValid}
+          onClick={isCurrentStepValid ? onNextClick : () => { }}
+          title='next'
+          variant='roundedFull'
+        />
       </div>
     </div>
   )

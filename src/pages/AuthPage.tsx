@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import MyButton from '../UI/MyButton'
+import { ReactComponent as LogoIcon } from '../assets/logo.svg'
 
 const AuthPage = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -15,7 +16,8 @@ const AuthPage = () => {
     min-h-screen flex flex-col justify-between items-center px-2`
     }>
       <div className='text-center flex-1 flex flex-col justify-center'>
-        <div className='tracking-widest mb-3 text-4xl font-bold'>SLOWLY</div>
+        <LogoIcon className={`h-28 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
+        <div className='tracking-widest mb-3 text-4xl font-bold text-yellow-400'>SLOWLY</div>
         <div>{t('helloWorld')}</div>
       </div>
 

@@ -2,8 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useActions } from '../hooks/useActions'
 import { useTypedSelector } from '../hooks/useTypedSelector'
-import { langType } from '../types/User/user'
+import { appLangType } from '../types/User/user'
 import Select from '../UI/Select'
+import { langType } from '../utils/consts'
 
 const Settings = () => {
   // const { t } = useTranslation()
@@ -11,7 +12,7 @@ const Settings = () => {
   const { changeLanguage } = useActions()
 
 
-  const onAccept = (selectedLang: langType) => {
+  const onAccept = (selectedLang: appLangType) => {
     changeLanguage(selectedLang)
   }
 
