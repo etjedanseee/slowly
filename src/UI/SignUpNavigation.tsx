@@ -20,7 +20,7 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid }: Navi
   return (
     <div className={`
     ${theme === 'dark' ? 'bg-black text-white' : 'bg-zinc-300 text-zinc-900'}
-    flex items-center justify-between py-3 px-2 
+    flex items-center justify-between py-3 px-2 z-30
     `}>
       <div>
         {step === 1

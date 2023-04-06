@@ -1,4 +1,4 @@
-import { SexType, interest, ILang } from './../User/user';
+import { SexType } from './../User/user';
 
 
 export interface IStep1Data {

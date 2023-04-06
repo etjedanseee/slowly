@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <div className={`
-      fixed left-0 bottom-0 z-50 w-full py-2 flex items-center justify-around 
+      fixed left-0 bottom-0 z-40 w-full py-2 flex items-center justify-around 
       ${theme === 'dark' ? 'bg-black' : 'bg-white'}
     `}>
       <NavLink to='/'>

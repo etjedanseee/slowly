@@ -24,7 +24,7 @@ const MyButton = ({ color, title, variant, disabled, onClick }: MyButtonProps) =
 
   return (
     <div
-      className={`${buttonColor} ${variantStyle} w-full  px-4 py-2 text-center font-medium select-none`}
+      className={`${buttonColor} ${variantStyle} w-full px-4 py-2 text-center font-medium select-none`}
       onClick={onClick}
     >
       {t(title)}

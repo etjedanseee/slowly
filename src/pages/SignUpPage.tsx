@@ -16,6 +16,9 @@ const SignUpPage = () => {
   const [step2Data, setStep2Data] = useState<interest[]>([])
   const [isStep2Valid, setIsStep2Valid] = useState(false)
 
+  const [step3Data, setStep3Data] = useState<ILang[]>([])
+  const [isStep3Valid, setIsStep3Valid] = useState(false)
+
   const [isFormValid, setIsFormValid] = useState(false)
 
   // const [interests, setInterests] = useState<interest[]>([])
@@ -50,7 +53,7 @@ const SignUpPage = () => {
     } else {
       setIsFormValid(false)
     }
-  }, [isStep1Valid, isStep2Valid])
+  }, [isStep1Valid, isStep2Valid, isStep3Valid])
 
   return (
     <>
@@ -58,7 +61,7 @@ const SignUpPage = () => {
         onPrevClick={onPrevStepClick}
         onNextClick={onNextStepClick}
         step={formStep}
-        isStepsValid={[isStep1Valid, isStep2Valid]}
+        isStepsValid={[isStep1Valid, isStep2Valid, isStep3Valid]}
       />
       {formStep === 1 && (
         <Step1 setStepData={setStep1Data} step1Data={step1Data} />
@@ -71,7 +74,11 @@ const SignUpPage = () => {
         />
       )}
       {formStep === 3 && (
-        <Step3 />
+        <Step3
+          step3Data={step3Data}
+          setIsStep3Valid={setIsStep3Valid}
+          setStepData={setStep3Data}
+        />
       )}
     </>
   )

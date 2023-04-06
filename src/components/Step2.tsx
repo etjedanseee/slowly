@@ -25,7 +25,7 @@ const Step2 = ({ step2Data, setStepData, setIsStep2Valid }: Step2Props) => {
   }
 
   useEffect(() => {
-    if (step2Data.length >= 5 && step2Data.length <= 10) {
+    if (step2Data.length >= 3 && step2Data.length <= 10) {
       setIsStep2Valid(true)
     } else {
       setIsStep2Valid(false)

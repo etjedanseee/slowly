@@ -1,4 +1,4 @@
-import { interest, ILang, ILangList } from './../types/User/user';
+import { interest, ILang } from './../types/User/user';
 
 
 export const dictionary = {
@@ -39,6 +39,17 @@ export const dictionary = {
     'Dancing': 'Dancing',
     'Languages': 'Languages',
     'You can add more than one': 'You can add more than one',
+    add: 'Add',
+    'Language Proficiency': 'Language Proficiency',
+    Interested: 'Interested',
+    Beginning: 'Beginning',
+    Average: 'Average',
+    Advanced: 'Advanced',
+    Fluency: 'Fluency',
+    'Native language': 'Native language',
+    updateProficiency: 'Update your language proficiency',
+    deleteLang: 'Delete language',
+    cancel: 'Cancel',
   },
   ua: {
     autoSearch: 'Автопошук',
@@ -76,7 +87,18 @@ export const dictionary = {
     'Cosplay': "Косплей",
     'Dancing': "Танці",
     'Languages': "Мови",
-    'You can add more than one': 'Ви можете додати більше однієї'
+    'You can add more than one': 'Ви можете додати більше однієї',
+    add: 'Додати',
+    'Language Proficiency': 'Рівень володіння мовою',
+    Interested: 'Цікавить',
+    Beginning: 'Початківець',
+    Average: 'Середній',
+    Advanced: 'Вище середнього',
+    Fluency: 'Вільне володіння',
+    'Native language': 'Рідна мова',
+    updateProficiency: 'Оновити рівень володіння мовою',
+    deleteLang: 'Видалити мову',
+    cancel: 'Відміна',
   }
 }
 
@@ -84,12 +106,12 @@ export const interestArr: interest[] = ['Language learning', 'Movies', 'Pets', '
 
 export type langType = 'en' | 'ua' | 'de' | 'es' | 'it' | 'fr'
 
-export const writingLang: ILangList[] = [
-  { name: 'English', engName: 'English', isSelected: false, level: null, code: 'en' },
-  { name: 'Українська', engName: 'Ukrainian', isSelected: false, level: null, code: 'ua' },
-  { name: 'Français', engName: 'French', isSelected: false, level: null, code: 'fr' },
-  { name: 'Deutsch', engName: 'German', isSelected: false, level: null, code: 'de' },
-  { name: 'Italiano', engName: 'Italian', isSelected: false, level: null, code: 'it' },
-  { name: 'Español', engName: 'Spanish', isSelected: false, level: null, code: 'es' },
+export const writingLang: ILang[] = [
+  { name: 'English', engName: 'English', isSelected: false, level: 0, code: 'en' },
+  { name: 'Українська', engName: 'Ukrainian', isSelected: false, level: 0, code: 'ua' },
+  { name: 'Français', engName: 'French', isSelected: false, level: 0, code: 'fr' },
+  { name: 'Deutsch', engName: 'German', isSelected: false, level: 0, code: 'de' },
+  { name: 'Italiano', engName: 'Italian', isSelected: false, level: 0, code: 'it' },
+  { name: 'Español', engName: 'Spanish', isSelected: false, level: 0, code: 'es' },
 ]
 
