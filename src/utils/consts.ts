@@ -64,6 +64,8 @@ export const dictionary = {
     successfulSignUp: 'Registration completed successfully!',
     confirmEmail: 'Confirm email and sign in',
     gotoLogin: 'Go to login page',
+    welcome: 'Welcome!',
+    signIn: 'Sign In'
   },
   ua: {
     autoSearch: 'Автопошук',
@@ -126,7 +128,9 @@ export const dictionary = {
     password: 'Пароль',
     successfulSignUp: 'Реєстрація пройшла успішно!',
     confirmEmail: 'Підтвердіть пошту та увійдіть',
-    gotoLogin: 'Перейти на сторінку входу'
+    gotoLogin: 'Перейти на сторінку входу',
+    welcome: 'Ласкаво просимо!',
+    signIn: 'Увійти'
   }
 }
 

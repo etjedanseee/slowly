@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useTypedSelector } from '../hooks/useTypedSelector'
-import { ReactComponent as HomeIcon } from '../assets/house.svg'
+import { ReactComponent as LogoIcon } from '../assets/logo.svg'
 import { ReactComponent as LetterIcon } from '../assets/letter.svg'
 import { ReactComponent as FriendIcon } from '../assets/addFriend.svg'
 import { ReactComponent as PencilIcon } from '../assets/pencil.svg'
@@ -19,10 +19,10 @@ const Navbar = () => {
       ${theme === 'dark' ? 'bg-black' : 'bg-white'}
     `}>
       <NavLink to='/'>
-        <HomeIcon className={`h-8 w-8 ${location.pathname === '/' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <LogoIcon className={`h-9 w-9 -mt-1 ${location.pathname === '/' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/friends'>
-        <LetterIcon className={`h-9 w-9 ${location.pathname === '/friends' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <LetterIcon className={`h-9 w-9 -mb-1 ${location.pathname === '/friends' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/search'>
         <FriendIcon className={`h-8 w-8 ${location.pathname === '/search' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />

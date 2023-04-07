@@ -28,33 +28,15 @@ function App() {
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} min-h-screen`}>
       <Routes>
-        <Route path='/' element={<>
-          <Home />
-        </>} />
-        <Route path='/friends' element={<>
-          <Friends />
-        </>} />
-        <Route path='/search' element={<>
-          <SearchFriends />
-        </>} />
-        <Route path='/draft' element={<>
-          <Draft />
-        </>} />
-        <Route path='/profile' element={<>
-          <Profile />
-        </>} />
-        <Route path='/profile/settings' element={<>
-          <Settings />
-        </>} />
-        <Route path='/auth' element={<>
-          <AuthPage />
-        </>} />
-        <Route path='/auth/signUp' element={<>
-          <SignUpPage />
-        </>} />
-        <Route path='/auth/signIp' element={<>
-          <SignInPage />
-        </>} />
+        <Route path='/' element={<Home />} />
+        <Route path='/friends' element={<Friends />} />
+        <Route path='/search' element={<SearchFriends />} />
+        <Route path='/draft' element={<Draft />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/settings' element={<Settings />} />
+        <Route path='/auth' element={<AuthPage />} />
+        <Route path='/auth/signUp' element={<SignUpPage />} />
+        <Route path='/auth/signIn' element={<SignInPage />} />
       </Routes>
     </div>
   );

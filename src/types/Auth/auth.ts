@@ -1,12 +1,12 @@
 import { langType } from "../../utils/consts"
 
 export interface IUser {
-  id?: number,
-  sex: SexType,
-  birthdate: Date,
-  nickName: string,
+  id: string,
+  email: string,
+  info: IUserInfo,
   interests: interest[],
-  languages: ILang[]
+  languages: ILang[],
+  geo: IUserGeo
 }
 
 export type appLangType = 'en' | 'ua'
