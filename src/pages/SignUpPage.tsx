@@ -1,38 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import Step1 from '../components/Step1'
-import Step2 from '../components/Step2'
-import Step3 from '../components/Step3'
-import { IStep1Data } from '../types/Auth/sighUp'
-import { ILang, interest } from '../types/User/user'
 import SignUpNavigation from '../UI/SignUpNavigation'
+import UserInfo from '../components/UserInfo'
+import Interests from '../components/Interests'
+import Languages from '../components/Languages'
+import UserGeo from '../components/UserGeo'
+import UserEmail from '../components/UserEmail'
+import { ILang, IUserGeo, IUserInfo, interest } from '../types/Auth/auth'
+import ConfirmEmail from './ConfirmEmail'
 
-//наверно лучше сделать тут валидность каждой из форм и одну за все, и передавать в степы сетВалид
 const SignUpPage = () => {
   const [formStep, setFormStep] = useState(1)
 
-  const [step1Data, setStep1Data] = useState<IStep1Data | null>(null)
-  const [isStep1Valid, setIsStep1Valid] = useState(false)
+  const [userInfo, setUserInfo] = useState<IUserInfo | null>(null)
+  const [isUserInfoValid, setIsUserInfoValid] = useState(false)
 
-  const [step2Data, setStep2Data] = useState<interest[]>([])
-  const [isStep2Valid, setIsStep2Valid] = useState(false)
+  const [interests, setInterests] = useState<interest[]>([])
+  const [isInterestsValid, setIsInterestsValid] = useState(false)
 
-  const [step3Data, setStep3Data] = useState<ILang[]>([])
-  const [isStep3Valid, setIsStep3Valid] = useState(false)
+  const [languages, setLanguages] = useState<ILang[]>([])
+  const [isLanguagesValid, setIsLanguagesValid] = useState(false)
+
+  const [userGeo, setUserGeo] = useState<IUserGeo | null>(null)
+  const [isUserGeoValid, setIsUserGeoValid] = useState(false)
+
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [isUserEmailValid, setIsUserEmailValid] = useState(false)
+
+  const [userPassword, setUserPassword] = useState<string | null>(null)
 
   const [isFormValid, setIsFormValid] = useState(false)
 
-  // const [interests, setInterests] = useState<interest[]>([])
-  // const [languages, setLanguages] = useState<ILang[]>([])
-
   const onPrevStepClick = () => {
-    if (formStep === 1) {
-    } else {
+    if (formStep !== 1) {
       setFormStep(prev => prev - 1)
     }
   }
 
   const onNextStepClick = () => {
-    if (formStep === 4) {
+    if (formStep === 7) {
       console.log('successful registration')
     } else {
       setFormStep(prev => prev + 1)
@@ -40,20 +45,12 @@ const SignUpPage = () => {
   }
 
   useEffect(() => {
-    if (step1Data !== null) {
-      setIsStep1Valid(true)
-    } else {
-      setIsStep1Valid(false)
-    }
-  }, [step1Data])
-
-  useEffect(() => {
-    if (isStep1Valid && isStep2Valid) {
+    if (isUserInfoValid && isInterestsValid && isLanguagesValid && isUserGeoValid && isUserEmailValid) {
       setIsFormValid(true)
     } else {
       setIsFormValid(false)
     }
-  }, [isStep1Valid, isStep2Valid, isStep3Valid])
+  }, [isUserInfoValid, isInterestsValid, isLanguagesValid, isUserGeoValid, isUserEmailValid])
 
   return (
     <>
@@ -61,23 +58,61 @@ const SignUpPage = () => {
         onPrevClick={onPrevStepClick}
         onNextClick={onNextStepClick}
         step={formStep}
-        isStepsValid={[isStep1Valid, isStep2Valid, isStep3Valid]}
+        isStepsValid={[isUserInfoValid, isInterestsValid, isLanguagesValid, isUserGeoValid, isUserEmailValid]}
       />
       {formStep === 1 && (
-        <Step1 setStepData={setStep1Data} step1Data={step1Data} />
+        <UserInfo
+          setUserInfo={setUserInfo}
+          userInfo={userInfo}
+          setIsUserInfoValid={setIsUserInfoValid}
+        />
       )}
       {formStep === 2 && (
-        <Step2
-          step2Data={step2Data}
-          setStepData={setStep2Data}
-          setIsStep2Valid={setIsStep2Valid}
+        <Interests
+          interests={interests}
+          setInterests={setInterests}
+          setIsInterestsValid={setIsInterestsValid}
         />
       )}
       {formStep === 3 && (
-        <Step3
-          step3Data={step3Data}
-          setIsStep3Valid={setIsStep3Valid}
-          setStepData={setStep3Data}
+        <Languages
+          languages={languages}
+          setLanguages={setLanguages}
+          setIsLanguagesValid={setIsLanguagesValid}
+        />
+      )}
+      {formStep === 4 && (
+        <UserGeo
+          userGeo={userGeo}
+          setIsUserGeoValid={setIsUserGeoValid}
+          setUserGeo={setUserGeo}
+        />
+      )}
+      {formStep === 4 && (
+        <UserGeo
+          userGeo={userGeo}
+          setIsUserGeoValid={setIsUserGeoValid}
+          setUserGeo={setUserGeo}
+        />
+      )}
+      {formStep === 5 && (
+        <UserEmail
+          userEmail={userEmail}
+          setUserEmail={setUserEmail}
+          setIsUserEmailValid={setIsUserEmailValid}
+          setUserPassword={setUserPassword}
+          userPassword={userPassword}
+        />
+      )}
+      {formStep === 6 && (
+        <ConfirmEmail
+          interests={interests}
+          isFormValid={isFormValid}
+          languages={languages}
+          email={userEmail || ''}
+          geo={userGeo || { coord: { latitude: 0, longitude: 0 }, ip: '', location: { city: '', country: '' } }}
+          info={userInfo}
+          password={userPassword || ''}
         />
       )}
     </>

@@ -12,6 +12,7 @@ import { dictionary } from './utils/consts';
 import Profile from './pages/Profile';
 import AuthPage from './pages/AuthPage';
 import SignUpPage from './pages/SignUpPage';
+import SignInPage from './pages/SignInPage';
 
 //сделать редирект на авторизацию если в куках нет юзера
 function App() {
@@ -50,6 +51,9 @@ function App() {
         </>} />
         <Route path='/auth/signUp' element={<>
           <SignUpPage />
+        </>} />
+        <Route path='/auth/signIp' element={<>
+          <SignInPage />
         </>} />
       </Routes>
     </div>

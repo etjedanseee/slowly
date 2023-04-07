@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { ILang } from '../types/User/user'
 import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import { useTranslation } from 'react-i18next'
 import MyButton from './MyButton'
 import { useTypedSelector } from '../hooks/useTypedSelector'
+import { ILang } from '../types/Auth/auth'
 
 interface LangModalProps {
   lang: ILang | null,
@@ -28,7 +28,7 @@ const LangModal = ({ lang, handleModalLangVisible, onAddLang }: LangModalProps) 
   }
 
   return (
-    <div className={`absolute -top-16 left-0 h-screen z-50 w-full py-3
+    <div className={`absolute -top-16 left-0 h-screen z-50 w-full py-20
       ${theme === 'dark' ? 'bg-zinc-900 text-white' : 'bg-white text-zinc-900'}`}
     >
       <div className='flex justify-between mb-8 px-2'>

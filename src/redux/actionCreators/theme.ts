@@ -1,7 +1,7 @@
-import { appLangType } from './../../types/User/user';
 import { ThemeActionsTypes } from './../../types/Theme/themeReducer';
 import { Dispatch } from 'redux';
 import { ThemeAction } from '../../types/Theme/themeReducer';
+import { appLangType } from '../../types/Auth/auth';
 
 export const switchTheme = () => {
   return (dispatch: Dispatch<ThemeAction>) => {

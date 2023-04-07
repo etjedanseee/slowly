@@ -1,4 +1,4 @@
-import { appLangType } from "../User/user"
+import { appLangType } from "../Auth/auth"
 
 export type themeType = 'white' | 'dark'
 

@@ -1,0 +1,59 @@
+import { langType } from "../../utils/consts"
+
+export interface IUser {
+  id?: number,
+  sex: SexType,
+  birthdate: Date,
+  nickName: string,
+  interests: interest[],
+  languages: ILang[]
+}
+
+export type appLangType = 'en' | 'ua'
+
+export interface IUserInfo {
+  sex: SexType,
+  birthDate: Date,
+  nickName: string
+}
+
+export type SexType = 'male' | 'female' | 'other'
+
+export type interest = 'Language learning' | 'Movies' | 'Pets' | 'Nature' | 'Adventures' | 'Climate' | 'Handmade' | 'Writing' | 'Beauty' | 'Makeup' | 'Fitness' | 'Cosplay' | 'Dancing'
+
+export interface ILang {
+  name: string,
+  engName: string,
+  code: langType,
+  isSelected: boolean,
+  level: number
+}
+
+export interface IСoordinates {
+  latitude: number,
+  longitude: number
+}
+
+export interface ILocationData {
+  address: {
+    state: string;
+    town: string;
+  }
+}
+
+interface ILocation {
+  country: string;
+  city: string;
+}
+
+export interface IUserGeoByCoords {
+  coord: IСoordinates,
+  location: ILocation
+}
+
+export interface IUserGeoByIp {
+  ip: string,
+  location: ILocation
+}
+
+export type IUserGeo = IUserGeoByCoords | IUserGeoByIp

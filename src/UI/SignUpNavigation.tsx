@@ -20,7 +20,7 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid }: Navi
   return (
     <div className={`
     ${theme === 'dark' ? 'bg-black text-white' : 'bg-zinc-300 text-zinc-900'}
-    flex items-center justify-between py-3 px-2 z-30
+    flex items-center justify-between py-3 px-2 z-30 fixed top-0 w-full
     `}>
       <div>
         {step === 1
@@ -29,13 +29,15 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid }: Navi
         }
       </div>
       <div>
-        <MyButton
-          color='yellow'
-          disabled={!isCurrentStepValid}
-          onClick={isCurrentStepValid ? onNextClick : () => { }}
-          title='next'
-          variant='roundedFull'
-        />
+        {step !== 6 && (
+          <MyButton
+            color='yellow'
+            disabled={!isCurrentStepValid}
+            onClick={isCurrentStepValid ? onNextClick : () => { }}
+            title='next'
+            variant='roundedFull'
+          />
+        )}
       </div>
     </div>
   )

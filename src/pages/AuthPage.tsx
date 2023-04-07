@@ -23,7 +23,7 @@ const AuthPage = () => {
 
       <div className='justify-self-end w-full flex flex-col gap-y-2 pb-5'>
         <MyButton color='yellow' title={'letsStart'} variant='roundedXl' onClick={() => { navigate('/auth/signUp') }} />
-        <MyButton color='black' title={'alredyHaveAcc'} variant='roundedXl' onClick={() => { navigate('/auth/login') }} />
+        <MyButton color='black' title={'alredyHaveAcc'} variant='roundedXl' onClick={() => { navigate('/auth/signIn') }} />
       </div>
     </div>
   )

@@ -1,9 +1,19 @@
-import { AuthState } from './../../types/Auth/authReducer';
+
+import { AuthState, AuthAction, AuthActionTypes } from './../../types/Auth/authReducer';
+
 
 const initialState: AuthState = {
-  user: null
+  user: null,
 }
 
-export const authReducer = (state = initialState): AuthState => {
-  return state
+export const authReducer = (state = initialState, action: AuthAction): AuthState => {
+  switch (action.type) {
+    case AuthActionTypes.SET_USER: {
+      return {
+        ...state,
+        user: action.payload
+      }
+    }
+    default: return state
+  }
 }

@@ -1,4 +1,4 @@
-import { interest, ILang } from './../types/User/user';
+import { ILang, interest } from "../types/Auth/auth"
 
 
 export const dictionary = {
@@ -50,6 +50,20 @@ export const dictionary = {
     updateProficiency: 'Update your language proficiency',
     deleteLang: 'Delete language',
     cancel: 'Cancel',
+    'Where are you?': 'Where are you?',
+    deliveryTimeDepens: 'Delivery time for letters depends on where you and your friend live.',
+    determineGeo: 'Determine by geolocation',
+    determineIp: 'Determine by IP-address',
+    condolences: 'My condolences, you are from',
+    hello: 'Hello',
+    helloUkraine: 'Good evening, you are from Ukraine!',
+    email: 'Email',
+    enterCorrectEmail: 'Enter correct email',
+    enterCorrectPassword: 'Password must be longer than 6 characters',
+    password: 'Password',
+    successfulSignUp: 'Registration completed successfully!',
+    confirmEmail: 'Confirm email and sign in',
+    gotoLogin: 'Go to login page',
   },
   ua: {
     autoSearch: 'Автопошук',
@@ -99,6 +113,20 @@ export const dictionary = {
     updateProficiency: 'Оновити рівень володіння мовою',
     deleteLang: 'Видалити мову',
     cancel: 'Відміна',
+    'Where are you?': 'Звідки ви?',
+    deliveryTimeDepens: 'Час доставки листів залежить від того, де ви та ваш друг мешкаєте.',
+    determineGeo: 'Визначити по геолокації',
+    determineIp: 'Визначити по IP-адресі',
+    condolences: 'Співчуваю, ви з',
+    hello: 'Hello',
+    helloUkraine: 'Доброго вечора, ви з України!',
+    email: 'Електронна пошта',
+    enterCorrectEmail: 'Введіть коректну пошту',
+    enterCorrectPassword: 'Пароль повинен бути довшим за 6 символів',
+    password: 'Пароль',
+    successfulSignUp: 'Реєстрація пройшла успішно!',
+    confirmEmail: 'Підтвердіть пошту та увійдіть',
+    gotoLogin: 'Перейти на сторінку входу'
   }
 }
 
@@ -114,4 +142,3 @@ export const writingLang: ILang[] = [
   { name: 'Italiano', engName: 'Italian', isSelected: false, level: 0, code: 'it' },
   { name: 'Español', engName: 'Spanish', isSelected: false, level: 0, code: 'es' },
 ]
-

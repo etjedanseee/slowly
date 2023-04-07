@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ILangs } from '../types/Theme/theme'
-import { appLangType } from '../types/User/user'
 import CheckBox from './CheckBox'
+import { appLangType } from '../types/Auth/auth'
 
 interface SelectProps {
   lang: appLangType,
