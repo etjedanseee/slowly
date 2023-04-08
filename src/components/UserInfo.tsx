@@ -2,8 +2,9 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import TextInput from '../UI/TextInput'
-import { isValidDate, dateToString } from '../utils/validate'
+import { isValidDate } from '../utils/validate'
 import { IUserInfo, SexType } from '../types/Auth/auth'
+import { calcZodiak } from '../utils/calcZodiak'
 
 interface UserInfoProps {
   setUserInfo: (data: IUserInfo | null) => void,
@@ -16,7 +17,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   const { t } = useTranslation()
 
   const [sex, setSex] = useState<SexType>(userInfo?.sex || 'male')
-  const [birthDate, setBirthDate] = useState((userInfo?.birthDate && dateToString(userInfo.birthDate)) || '')
+  const [birthDate, setBirthDate] = useState((userInfo?.birthDate && userInfo.birthDate) || '')
   const [birthDateError, setBirthDateError] = useState('')
   const [isBirthDateDirty, setIsBirthDateDirty] = useState(false)
   const [nickName, setNickName] = useState(userInfo?.nickName || '')
@@ -59,7 +60,8 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
       setUserInfo({
         sex,
         nickName,
-        birthDate: new Date(Date.parse(birthDate))
+        birthDate: birthDate,
+        zodiac: calcZodiak(birthDate)
       })
     } else {
       setUserInfo(null)

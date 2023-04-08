@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom'
 import { useTypedSelector } from './hooks/useTypedSelector';
 import Draft from './pages/Draft';
@@ -13,10 +13,13 @@ import Profile from './pages/Profile';
 import AuthPage from './pages/AuthPage';
 import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
+import { useActions } from './hooks/useActions';
 
 //сделать редирект на авторизацию если в куках нет юзера
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
+  const { user } = useTypedSelector(state => state.auth)
+  const { setUser } = useActions()
 
   i18n.use(initReactI18next).init({
     resources: { en: { translation: dictionary.en }, ua: { translation: dictionary.ua } },
@@ -24,6 +27,15 @@ function App() {
     fallbackLng: lang,
     interpolation: { escapeValue: false },
   });
+
+  useEffect(() => {
+    const localUser = localStorage.getItem('user')
+    if (localUser && !user) {
+      setUser(JSON.parse(localUser))
+    } else if (user && !localUser) {
+      localStorage.setItem('user', JSON.stringify(user))
+    }
+  }, [user])
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} min-h-screen`}>

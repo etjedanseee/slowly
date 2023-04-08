@@ -39,7 +39,7 @@ const SignInPage = () => {
       const userObj: IUser = {
         id: data.user?.id || '0',
         email: data.user?.email || '0',
-        info: data.user?.user_metadata?.info || { sex: 'male', birthDate: new Date(), nickName: '' },
+        info: data.user?.user_metadata?.info || { sex: 'male', birthDate: new Date(), nickName: '', zodiac: 'Libra' },
         interests: data.user?.user_metadata?.interests || [],
         languages: data.user?.user_metadata?.languages || [],
         geo: data.user?.user_metadata?.geo || { ip: '', location: { country: '', city: '' } },

@@ -13,8 +13,9 @@ export type appLangType = 'en' | 'ua'
 
 export interface IUserInfo {
   sex: SexType,
-  birthDate: Date,
-  nickName: string
+  birthDate: string,
+  nickName: string,
+  zodiac: ZodiakType
 }
 
 export type SexType = 'male' | 'female' | 'other'
@@ -57,3 +58,5 @@ export interface IUserGeoByIp {
 }
 
 export type IUserGeo = IUserGeoByCoords | IUserGeoByIp
+
+export type ZodiakType = 'Aries' | 'Taurus' | 'Gemini' | 'Cancer' | 'Leo' | 'Virgo' | 'Libra' | 'Scorpio' | 'Sagittarius' | 'Capricorn' | 'Aquarius' | 'Pisces'

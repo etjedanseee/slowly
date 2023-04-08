@@ -4,12 +4,12 @@ import { ILangs } from '../types/Theme/theme'
 import CheckBox from './CheckBox'
 import { appLangType } from '../types/Auth/auth'
 
-interface SelectProps {
+interface LangSelectProps {
   lang: appLangType,
   onAccept: (value: appLangType) => void
 }
 
-const Select = ({ lang, onAccept }: SelectProps) => {
+const LangSelect = ({ lang, onAccept }: LangSelectProps) => {
   const { t } = useTranslation()
   const langsArr: ILangs[] = [{ text: 'English', lang: 'en', checked: lang === 'en' }, { text: 'Українська', lang: 'ua', checked: lang === 'ua' }]
   const [langs, setlangs] = useState(langsArr)
@@ -29,4 +29,4 @@ const Select = ({ lang, onAccept }: SelectProps) => {
   )
 }
 
-export default Select
+export default LangSelect

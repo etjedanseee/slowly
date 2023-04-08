@@ -1,12 +1,11 @@
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useTypedSelector } from '../hooks/useTypedSelector'
-import { ReactComponent as LogoIcon } from '../assets/logo.svg'
-import { ReactComponent as LetterIcon } from '../assets/letter.svg'
-import { ReactComponent as FriendIcon } from '../assets/addFriend.svg'
-import { ReactComponent as PencilIcon } from '../assets/pencil.svg'
-import { ReactComponent as MenuIcon } from '../assets/menu.svg'
-
+import { ReactComponent as HouseIcon } from '../assets/navbarIcons/house.svg'
+import { ReactComponent as LetterIcon } from '../assets/navbarIcons/letter.svg'
+import { ReactComponent as SearchIcon } from '../assets/navbarIcons/search.svg'
+import { ReactComponent as PencilIcon } from '../assets/navbarIcons/pencil.svg'
+import { ReactComponent as UserIcon } from '../assets/navbarIcons/user.svg'
 
 const Navbar = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -19,19 +18,19 @@ const Navbar = () => {
       ${theme === 'dark' ? 'bg-black' : 'bg-white'}
     `}>
       <NavLink to='/'>
-        <LogoIcon className={`h-9 w-9 -mt-1 ${location.pathname === '/' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
-      </NavLink>
-      <NavLink to='/friends'>
-        <LetterIcon className={`h-9 w-9 -mb-1 ${location.pathname === '/friends' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <HouseIcon className={`h-8 w-8  ${location.pathname === '/' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/search'>
-        <FriendIcon className={`h-8 w-8 ${location.pathname === '/search' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <SearchIcon className={`h-8 w-8 -mb-1 ${location.pathname === '/search' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+      </NavLink>
+      <NavLink to='/friends'>
+        <LetterIcon className={`h-10 w-10 -mb-1 ${location.pathname === '/friends' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/draft'>
-        <PencilIcon className={`h-8 w-8 ${location.pathname === '/draft' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <PencilIcon className={`h-7 w-7 ${location.pathname === '/draft' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/profile'>
-        <MenuIcon className={`h-8 w-8 ${location.pathname === '/menu' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <UserIcon className={`h-10 w-10 ${location.pathname === '/profile' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
       </NavLink>
     </div>
   )

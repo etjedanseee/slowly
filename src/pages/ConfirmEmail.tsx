@@ -6,6 +6,8 @@ import { ILang, IUserGeo, IUserInfo, interest } from '../types/Auth/auth'
 import MyButton from '../UI/MyButton'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as CheckMarkIcon } from '../assets/checkmark.svg'
+import { calcZodiak } from '../utils/calcZodiak'
+import { log } from 'console'
 
 interface ConfirmEmailProps {
   info: IUserInfo | null,
@@ -37,7 +39,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
               info,
               interests,
               languages,
-              geo
+              geo,
             }
           }
         })

@@ -7,11 +7,12 @@ interface MyButtonProps {
   title: string,
   variant: buttonVariant,
   disabled?: boolean,
+  p?: string,
   onClick: () => void,
 }
 
 //при светлой теме и дизейбл поменять цвета
-const MyButton = ({ color, title, variant, disabled, onClick }: MyButtonProps) => {
+const MyButton = ({ color, title, variant, disabled, onClick, p }: MyButtonProps) => {
   const { t } = useTranslation();
 
   let buttonColor;
@@ -24,7 +25,7 @@ const MyButton = ({ color, title, variant, disabled, onClick }: MyButtonProps) =
 
   return (
     <div
-      className={`${buttonColor} ${variantStyle} w-full px-4 py-2 text-center font-medium select-none`}
+      className={`${buttonColor} ${variantStyle} w-full px-4 ${p ? p : 'py-2'} text-center font-medium select-none`}
       onClick={onClick}
     >
       {t(title)}
