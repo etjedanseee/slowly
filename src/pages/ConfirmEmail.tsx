@@ -25,7 +25,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
   const navigate = useNavigate()
 
   const onGoToLoginClick = () => {
-    navigate('/auth/signIn')
+    navigate('/auth/signIn', { replace: true })
   }
 
   useEffect(() => {

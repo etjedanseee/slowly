@@ -1,4 +1,5 @@
-import { IUserGeoByCoords, IUserGeoByIp, IСoordinates, appLangType } from "../types/Auth/auth"
+import { IUserGeoByCoords, IUserGeoByIp, IСoordinates } from "../types/Auth/auth"
+import { appLangType } from "../types/Theme/theme"
 
 interface fetchLocByCoordParams {
   setUserGeo: (data: IUserGeoByCoords) => void,

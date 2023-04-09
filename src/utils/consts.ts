@@ -1,4 +1,4 @@
-import { ILang, interest } from "../types/Auth/auth"
+import { ILang, SexType, interest } from "../types/Auth/auth"
 
 
 export const dictionary = {
@@ -96,7 +96,8 @@ export const dictionary = {
     within3Week: 'Within a 3 week',
     withinMonth: 'Within a month',
     overMonth: 'Over a month',
-
+    preferences: 'Preferences',
+    selectGender: 'Select gender',
   },
   ua: {
     autoSearch: 'Автопошук',
@@ -192,6 +193,8 @@ export const dictionary = {
     within3Week: 'Протягом 3 тижнів',
     withinMonth: 'Напротязі місяця',
     overMonth: 'Більше місяця',
+    preferences: 'Вподобання',
+    selectGender: 'Вибрати стать',
   }
 }
 
@@ -207,3 +210,7 @@ export const writingLang: ILang[] = [
   { name: 'Italiano', engName: 'Italian', isSelected: false, level: 0, code: 'it' },
   { name: 'Español', engName: 'Spanish', isSelected: false, level: 0, code: 'es' },
 ]
+
+export const letterLengths = ['any', 'short', 'shortMedium', 'medium', 'mediumLong', 'long']
+export const responseTimeArr = ['soonPossible', 'withinWeek', 'within2Week', 'within3Week', 'withinMonth', 'overMonth']
+export const sexArr: SexType[] = ['male', 'female', "other"]

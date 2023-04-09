@@ -37,9 +37,7 @@ const SignUpPage = () => {
   }
 
   const onNextStepClick = () => {
-    if (formStep === 7) {
-      console.log('successful registration')
-    } else {
+    if (formStep < 6) {
       setFormStep(prev => prev + 1)
     }
   }

@@ -2,26 +2,30 @@ import React, { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 
-interface SelectMenuProps {
-  onSelectOption: (e: MouseEvent<HTMLDivElement>, option: string) => void,
+interface SelectMenuProps<T> {
+  onSelectOption: (e: MouseEvent<HTMLDivElement>, option: T | any) => void,
   isMenuVisible: boolean,
-  arr: string[]
+  options: T[],
+  isMultiSelect?: boolean,
+  selectedOptions?: T[],
 }
 
-const SelectMenu = ({ onSelectOption, isMenuVisible, arr }: SelectMenuProps) => {
+const SelectMenu = <T,>({ onSelectOption, isMenuVisible, options, isMultiSelect, selectedOptions }: SelectMenuProps<T>) => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
 
   return (
-    <div className={`absolute right-0 top-full z-50 px-4 py-2 flex flex-col gap-y-5 mt-2 overflow-y-scroll h-52
-      ${theme === 'dark' ? 'bg-zinc-800' : ''} ${isMenuVisible ? '' : 'hidden'}
+    <div className={`absolute right-0 top-full z-50 px-4 py-2 flex flex-col gap-y-5 mt-2 overflow-y-scroll max-h-52
+      ${theme === 'dark' ? 'bg-zinc-800' : 'bg-gray-400'} ${isMenuVisible ? '' : 'hidden'}
     `}>
-      {arr.map(option => (
+      {options.map((option, indx) => (
         <div
-          key={option}
+          key={indx}
           onClick={(e) => onSelectOption(e, option)}
+          className='flex items-center gap-x-4'
         >
-          {t(option)}
+          {isMultiSelect && <div className={`${selectedOptions?.find(item => item === option) ? 'bg-yellow-500' : ' border-white'} p-2 border-2`} />}
+          <div>{t(`${option}`)}</div>
         </div>
       ))}
 

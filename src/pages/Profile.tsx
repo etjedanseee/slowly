@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEvent, useState } from 'react'
+import React, { MouseEvent, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -11,37 +11,35 @@ import { ReactComponent as OtherGenderIcon } from '../assets/otherGender.svg'
 import { ReactComponent as PencilIcon } from '../assets/navbarIcons/pencil.svg'
 import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { ReactComponent as ClockIcon } from '../assets/clock.svg'
+import { ReactComponent as CopyIcon } from '../assets/copy.svg'
+import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
 import { useTranslation } from 'react-i18next'
 import { ageToString } from '../utils/calcAge'
 import ZodiacIcon from '../components/ZodiacIcon'
 import MyButton from '../UI/MyButton'
 import SelectMenu from '../UI/SelectMenu'
+import UserAvatar from '../components/UserAvatar'
+import { letterLengths, responseTimeArr, sexArr } from '../utils/consts'
+import { SexType } from '../types/Auth/auth'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
-  const [isLetterSizeMenuVisible, setIsLetterSizeMenuVisible] = useState(false)
   //взять из юзера
   const [selectedLetterLength, setSelectedLetterLength] = useState('any')
+  const [isLetterSizeMenuVisible, setIsLetterSizeMenuVisible] = useState(false)
 
-  const [isResponseTimeMenuVisible, setIsResponseTimeMenuVisible] = useState(false)
   //взять из юзера
   const [responseTime, setResponseTime] = useState('soonPossible')
+  const [isResponseTimeMenuVisible, setIsResponseTimeMenuVisible] = useState(false)
 
-  const letterLengths = ['any', 'short', 'shortMedium', 'medium', 'mediumLong', 'long']
-  const responseTimeArr = ['soonPossible', 'withinWeek', 'within2Week', 'within3Week', 'withinMonth', 'overMonth']
+  const [isEditAvatarVisible, setIsEditAvatarVisible] = useState(false)
+  const [isCopyedId, setIsCopyedId] = useState(false)
 
-  const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const selectedFile = event.target.files[0];
-      setFile(selectedFile);
-      setPreviewUrl(URL.createObjectURL(selectedFile));
-    }
-  };
+  //взять из юзера
+  const [preferenceSex, setPreferenceSex] = useState<SexType[]>(['female', 'male', 'other'])
+  const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
 
   const hangleLetterSizeMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
@@ -53,144 +51,242 @@ const Profile = () => {
     hangleLetterSizeMenuVisible(e)
   }
 
-  const hangleResponseTimeMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
+  const handleResponseTimeMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
     setIsResponseTimeMenuVisible(prev => !prev)
   }
 
   const changeSelectedResponseTime = (e: MouseEvent<HTMLDivElement>, option: string) => {
     setResponseTime(option)
-    hangleResponseTimeMenuVisible(e)
+    handleResponseTimeMenuVisible(e)
+  }
+
+  const handleEditAvatarVisible = () => {
+    setIsEditAvatarVisible(prev => !prev)
+  }
+
+  const handlePrefSexMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation()
+    setIsPrefSexMenuVisible(prev => !prev)
+  }
+
+  const changePreferenceSex = (e: MouseEvent<HTMLDivElement>, option: SexType) => {
+    if (preferenceSex.find(prefS => prefS === option)) {
+      if (preferenceSex.length !== 1) {
+        setPreferenceSex(preferenceSex.filter(prefS => prefS !== option))
+      }
+    } else {
+      setPreferenceSex([...preferenceSex, option])
+    }
+    handlePrefSexMenuVisible(e)
+  }
+
+  const onCopyId = () => {
+    navigator.clipboard.writeText(user?.id || '')
+      .then(() => {
+        setIsCopyedId(true)
+        setTimeout(() => {
+          setIsCopyedId(false)
+        }, 1500);
+      })
+      .catch(err => {
+        console.log('Something went wrong', err);
+      });
+  }
+
+  if (!user) {
+    return null
   }
 
   return (
-    <div className={`
-      ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
-      py-3`
-    }>
+    <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} py-3`}>
       <NavLink to='/profile/settings'>
-        <div className={`fixed top-0 left-0 w-full grid grid-cols-3 items-center py-2 ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}`}>
+        <div className={`fixed z-50 top-0 left-0 w-full grid grid-cols-3 items-center py-2 ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}`}>
           <div></div>
           <div className='text-center text-xl'>{user && user.info.nickName}</div>
           <div className='flex justify-end pr-3'>
             <SettingsIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
           </div>
-
         </div>
       </NavLink>
 
-      {user && (
-        <>
+      <div className='py-10'>
+        <div className='px-2 relative mb-6'>
+          <UserAvatar
+            userAvatar={user.info.avatarUrl}
+            theme={theme}
+            canUpdate={isEditAvatarVisible}
+          />
+          <div
+            className={`absolute ${isEditAvatarVisible ? 'bottom-1/2 ' : 'bottom-0 '} right-2 bottom-0 px-8 rounded-xl border`}
+            onClick={handleEditAvatarVisible}
+          >
+            <PencilIcon className={`absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 
+              ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
+            />
+            <div className='text-sm'>Edit</div>
+          </div>
 
-          <div className='flex gap-x-1 items-center py-10 px-2'>
+          <div className={`absolute ${isEditAvatarVisible ? 'bottom-1/2' : 'bottom-0'} left-0 flex gap-x-1 items-center px-2`}>
             <GeoIcon className={`h-4 w-4 fill-yellow-400`} />
             <div>{user.geo.location.country}</div>
           </div>
+        </div>
 
-          <div className='text-sm opacity-70 px-2 mb-2'>{t('aboutMe')}</div>
+        <div className='text-sm opacity-70 px-2 mb-2'>{t('aboutMe')}</div>
 
-          <div className={`
+        <div className={`
             ${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} 
-            px-2 py-3 mb-4
+            px-2 py-3 mb-3
           `}>
-            <div className='flex flex-col items-center'>
-              <input type="file" onChange={handleFileChange} />
-              {previewUrl && <img src={previewUrl} alt="Preview" className='rounded-full h-32 w-32' />}
-            </div>
-            <div className='font-medium text-lg mb-1'>{user.info.nickName}</div>
+          <div className='font-medium text-lg mb-1'>{user.info.nickName}</div>
 
-            <div className='flex gap-x-2 mb-2 text-sm'>
-              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
+          <div className='flex gap-x-2 mb-2 text-sm'>
+            <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
                 flex items-center gap-x-1 rounded-lg px-2 py-1
               `}>
-                {user.info.sex === 'male'
-                  ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                  : user.info.sex === 'female' ? <FemaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                    : <OtherGenderIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+              {user.info.sex === 'male'
+                ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+                : user.info.sex === 'female' ? <FemaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+                  : <OtherGenderIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+              }
+              <div>{t(user.info.sex)}</div>
+            </div>
+
+            <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
+                flex items-center gap-x-1 rounded-lg px-2 py-1
+              `}>
+              <CakeIcon className={`h-4 w-4 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+              <div className='text-sm'>{ageToString(user.info.birthDate)}</div>
+            </div>
+
+            <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
+                flex items-center gap-x-1 rounded-lg px-2 py-1
+              `}>
+              <ZodiacIcon zodiac={user.info.zodiac} theme={theme} />
+              {/* <ZodiacIcon zodiac={'Virgo'} theme={theme} /> */}
+              <div>{t(user.info.zodiac)}</div>
+            </div>
+          </div>
+
+          <div className='h-[1px] w-full bg-black mb-4'></div>
+
+          <div className='flex flex-col gap-y-2'>
+            <MyButton
+              color='black'
+              onClick={() => { }}
+              title='writeBio'
+              variant='roundedXl'
+              p='py-1'
+            />
+            <MyButton
+              color='yellow'
+              onClick={() => { }}
+              title='profilePreview'
+              variant='roundedXl'
+              p='py-1'
+            />
+          </div>
+        </div>
+
+        <div className='text-sm opacity-70 px-2 mb-2'>{t('emailPreferences')}</div>
+
+        <div className={`
+          ${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} 
+            px-2 py-3 mb-3
+          `}
+        >
+          <div className='flex justify-between items-center relative mb-2'>
+            <div className='flex items-center gap-x-2'>
+              <PencilIcon className={`h-4 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+              <div>{t('letterLength')}</div>
+            </div>
+
+            <div
+              className='flex items-center gap-x-1'
+              onClick={hangleLetterSizeMenuVisible}
+            >
+              <div>{t(selectedLetterLength)}</div>
+              <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+
+              <SelectMenu
+                options={letterLengths}
+                onSelectOption={changeSelectedLetterLength}
+                isMenuVisible={isLetterSizeMenuVisible}
+              />
+            </div>
+          </div>
+
+          <div className='flex justify-between items-center relative'>
+            <div className='flex items-center gap-x-2'>
+              <ClockIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+              <div>{t('responseTime')}</div>
+            </div>
+
+            <div
+              className='flex items-center gap-x-1'
+              onClick={handleResponseTimeMenuVisible}
+            >
+              <div>{t(responseTime)}</div>
+              <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+
+              <SelectMenu
+                options={responseTimeArr}
+                isMenuVisible={isResponseTimeMenuVisible}
+                onSelectOption={changeSelectedResponseTime}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className='text-sm opacity-70 px-2 mb-2'>{t('preferences')}</div>
+
+        <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3`}>
+          <div className='flex items-center justify-between mb-2'>
+            <div>Slowly ID</div>
+            {isCopyedId
+              ? <CheckmarkIcon className={`h-7 w-7 fill-green-500`} />
+              : (
+                <div
+                  className='flex items-center justify-between gap-x-1'
+                  onClick={onCopyId}
+                >
+                  <div className='-mb-2'>*******</div>
+                  <CopyIcon className={`h-7 w-7 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+                </div>
+              )
+            }
+          </div>
+
+          <div className='flex justify-between items-center relative mb-32'>
+            <div>{t('selectGender')}</div>
+
+            <div
+              className='flex items-center gap-x-1'
+              onClick={handlePrefSexMenuVisible}
+            >
+              <div>
+                {preferenceSex.length === 3
+                  ? t('Any')
+                  : preferenceSex.length === 2
+                    ? t(preferenceSex[0]) + ', ' + t(preferenceSex[1])
+                    : t(preferenceSex[0])
                 }
-                <div>{t(user.info.sex)}</div>
               </div>
+              <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
 
-              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
-                flex items-center gap-x-1 rounded-lg px-2 py-1
-              `}>
-                <CakeIcon className={`h-4 w-4 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                <div className='text-sm'>{ageToString(user.info.birthDate)}</div>
-              </div>
-
-              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
-                flex items-center gap-x-1 rounded-lg px-2 py-1
-              `}>
-                {/* <ZodiacIcon zodiac={user.info.zodiac} theme={theme} /> */}
-                <ZodiacIcon zodiac={'Virgo'} theme={theme} />
-                <div>{t(user.info.zodiac)}</div>
-              </div>
-            </div>
-
-            <div className='h-[1px] w-full bg-black mb-4'></div>
-
-            <div className='flex flex-col gap-y-2'>
-              <MyButton
-                color='black'
-                onClick={() => { }}
-                title='writeBio'
-                variant='roundedXl'
-                p='py-1'
-              />
-              <MyButton
-                color='yellow'
-                onClick={() => { }}
-                title='profilePreview'
-                variant='roundedXl'
-                p='py-1'
+              <SelectMenu
+                options={sexArr}
+                isMenuVisible={isPrefSexMenuVisible}
+                onSelectOption={changePreferenceSex}
+                isMultiSelect={true}
+                selectedOptions={preferenceSex}
               />
             </div>
           </div>
 
-          <div className='text-sm opacity-70 px-2 mb-2'>{t('emailPreferences')}</div>
-
-          <div className={`
-            ${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} 
-              px-2 py-3
-            `}
-          >
-            <div className='flex justify-between items-center relative mb-2'>
-              <div className='flex items-center gap-x-2'>
-                <PencilIcon className={`h-4 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                <div>{t('letterLength')}</div>
-              </div>
-
-              <div
-                className='flex items-center gap-x-1'
-                onClick={hangleLetterSizeMenuVisible}
-              >
-                <div>{t(selectedLetterLength)}</div>
-                <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-
-                <SelectMenu arr={letterLengths} onSelectOption={changeSelectedLetterLength} isMenuVisible={isLetterSizeMenuVisible} />
-              </div>
-            </div>
-
-            <div className='flex justify-between items-center relative'>
-              <div className='flex items-center gap-x-2'>
-                <ClockIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                <div>{t('responseTime')}</div>
-              </div>
-
-              <div
-                className='flex items-center gap-x-1'
-                onClick={hangleResponseTimeMenuVisible}
-              >
-                <div>{t(responseTime)}</div>
-                <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-
-                <SelectMenu arr={responseTimeArr} isMenuVisible={isResponseTimeMenuVisible} onSelectOption={changeSelectedResponseTime} />
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-
+        </div>
+      </div>
       <Navbar />
     </div>
   )

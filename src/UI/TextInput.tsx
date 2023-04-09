@@ -4,11 +4,11 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 interface TextInputProps {
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void,
   value: string,
-  placeholder: string,
-  onFocus: () => void
+  placeholder?: string,
+  onFocus: () => void,
 }
 
-const TextInput = ({ placeholder, onInputChange, value, onFocus }: TextInputProps) => {
+const TextInput = ({ placeholder = '', onInputChange, value, onFocus }: TextInputProps) => {
   const { theme } = useTypedSelector(state => state.theme)
 
   return (

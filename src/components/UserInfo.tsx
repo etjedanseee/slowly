@@ -5,6 +5,7 @@ import TextInput from '../UI/TextInput'
 import { isValidDate } from '../utils/validate'
 import { IUserInfo, SexType } from '../types/Auth/auth'
 import { calcZodiak } from '../utils/calcZodiak'
+import UserAvatar from './UserAvatar'
 
 interface UserInfoProps {
   setUserInfo: (data: IUserInfo | null) => void,
@@ -16,13 +17,16 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
 
+  const [avatarUrl, setAvatarUrl] = useState(userInfo?.avatarUrl || '')
   const [sex, setSex] = useState<SexType>(userInfo?.sex || 'male')
-  const [birthDate, setBirthDate] = useState((userInfo?.birthDate && userInfo.birthDate) || '')
+  const [birthDate, setBirthDate] = useState(userInfo?.birthDate || '')
   const [birthDateError, setBirthDateError] = useState('')
   const [isBirthDateDirty, setIsBirthDateDirty] = useState(false)
   const [nickName, setNickName] = useState(userInfo?.nickName || '')
   const [nickNameError, setNickNameError] = useState(t('required') || 'Field is required')
   const [isNickNameDirty, setIsNickNameDirty] = useState(false)
+
+  const sexArr: SexType[] = ['male', 'female', 'other']
 
   const handleSex = (s: SexType) => {
     setSex(s)
@@ -56,17 +60,18 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   }
 
   useEffect(() => {
-    if (!birthDateError && nickName.length) {
+    if (!birthDateError && nickName.length && avatarUrl.length) {
       setUserInfo({
+        avatarUrl,
         sex,
         nickName,
-        birthDate: birthDate,
+        birthDate,
         zodiac: calcZodiak(birthDate)
       })
     } else {
       setUserInfo(null)
     }
-  }, [birthDate, birthDateError, nickName, sex, setUserInfo])
+  }, [birthDate, birthDateError, nickName, sex, setUserInfo, avatarUrl])
 
   useEffect(() => {
     if (userInfo !== null) {
@@ -78,49 +83,31 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} px-2 py-16 h-screen`}>
+      <div>Avatar</div>
+      <UserAvatar
+        theme={theme}
+        userAvatar={avatarUrl}
+        canUpdate={true}
+        updateImage={setAvatarUrl}
+      />
+
       <div className='mb-3'>{t('sex')}</div>
       <div className='grid grid-cols-3 text-center font-medium mb-4'>
-        <div className={`
-          ${sex === 'male'
-            ? theme === 'dark'
-              ? 'bg-white text-zinc-900 border-white' : 'bg-yellow-400 text-zinc-800 border-yellow-400'
-            : theme === 'dark'
-              ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-zinc-300 text-zinc-700 border-zinc-300'
-          } 
-          rounded-l-xl border py-1 transition-colors duration-500
+        {sexArr.map(sexT => (
+          <div key={sexT} className={`
+          ${sex === sexT
+              ? theme === 'dark'
+                ? 'bg-white text-zinc-900 border-white' : 'bg-yellow-400 text-zinc-800 border-yellow-400'
+              : theme === 'dark'
+                ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-zinc-300 text-zinc-700 border-zinc-300'
+            } 
+          rounded-xl border py-1 transition-colors duration-500
         `}
-          onClick={() => handleSex('male')}
-        >
-          {t('male')}
-        </div>
-
-        <div className={`
-        ${sex === 'female'
-            ? theme === 'dark'
-              ? 'bg-white text-zinc-900 border-white' : 'bg-yellow-400 text-zinc-800 border-yellow-400'
-            : theme === 'dark'
-              ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-zinc-300 text-zinc-700 border-zinc-300'
-          } 
-        border-y py-1 transition-colors duration-500
-        `}
-          onClick={() => handleSex('female')}
-        >
-          {t('female')}
-        </div>
-
-        <div className={`
-        ${sex === 'other'
-            ? theme === 'dark'
-              ? 'bg-white text-zinc-900 border-white' : 'bg-yellow-400 text-zinc-800 border-yellow-400'
-            : theme === 'dark'
-              ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-zinc-300 text-zinc-700 border-zinc-300'
-          } 
-        rounded-r-xl border py-1 transition-colors duration-500
-        `}
-          onClick={() => handleSex('other')}
-        >
-          {t('other')}
-        </div>
+            onClick={() => handleSex(sexT)}
+          >
+            {t(sexT)}
+          </div>
+        ))}
       </div>
 
       <div className='mb-4'>

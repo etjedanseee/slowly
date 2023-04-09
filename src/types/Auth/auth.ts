@@ -9,9 +9,8 @@ export interface IUser {
   geo: IUserGeo
 }
 
-export type appLangType = 'en' | 'ua'
-
 export interface IUserInfo {
+  avatarUrl: string,
   sex: SexType,
   birthDate: string,
   nickName: string,

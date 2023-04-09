@@ -1,4 +1,4 @@
-import { appLangType } from '../Auth/auth';
+import { appLangType } from '../Theme/theme';
 import { themeType } from './theme';
 
 export interface ThemeState {

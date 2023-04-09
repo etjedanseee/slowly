@@ -21,7 +21,7 @@ const AuthPage = () => {
     ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
     min-h-screen flex flex-col justify-between items-center px-2 py-3`
     }>
-      {true && (
+      {user && (
         <div className='flex justify-start w-full'>
           <ArrowBackIcon
             className={`h-7 w-7 mb-5 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
