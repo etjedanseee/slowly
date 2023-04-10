@@ -1,22 +1,25 @@
 import React, { useState, MouseEvent } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector';
-import { ILang } from '../types/Auth/auth';
+import { ILang, IUser } from '../types/Auth/auth';
 import LangModal from '../UI/LangModal';
 import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import { useTranslation } from 'react-i18next';
 import { writingLangs } from '../utils/consts';
 import MyButton from '../UI/MyButton';
+import { useActions } from '../hooks/useActions';
 
 
 interface UserlangsProps {
   userLangs: ILang[],
   setUserLangs: (selectedLangs: ILang[]) => void,
+  user?: IUser
 }
 
 
-const UserLangs = ({ userLangs, setUserLangs }: UserlangsProps) => {
+const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
+  const { updateUserLangs } = useActions()
 
   const [selectedLang, setSelectedLang] = useState<null | ILang>(null)
   const [isModalLangChoiceVisible, setIsModalLangChoiceVisible] = useState(false)
@@ -49,8 +52,14 @@ const UserLangs = ({ userLangs, setUserLangs }: UserlangsProps) => {
     const isLangAdded = userLangs.find(l => l.code === lang.code)
     if (isLangAdded) {
       const otherLangs = userLangs.filter(l => l.code !== lang.code)
+      if (user) {
+        updateUserLangs(user, [...otherLangs, lang])
+      }
       setUserLangs([...otherLangs, lang])
     } else {
+      if (user) {
+        updateUserLangs(user, [...userLangs, lang])
+      }
       setUserLangs([...userLangs, lang])
     }
     handleModalLangVisible()
@@ -61,6 +70,9 @@ const UserLangs = ({ userLangs, setUserLangs }: UserlangsProps) => {
       setUserLangs([])
     } else {
       const otherLangs = userLangs.filter(l => l.code !== selectedLang.code)
+      if (user) {
+        updateUserLangs(user, otherLangs)
+      }
       setUserLangs([...otherLangs])
     }
   }

@@ -1,4 +1,4 @@
-import { ILang, SexType, interest } from "../types/Auth/auth"
+import { ILang, IUserProfile, LetterLengthType, ResponseTimeType, SexType } from "../types/Auth/auth"
 
 
 export const dictionary = {
@@ -371,6 +371,13 @@ export const writingLangs: ILang[] = [
   { name: 'Español', engName: 'Spanish', isSelected: false, level: 0, code: 'es' },
 ]
 
-export const letterLengths = ['any', 'short', 'shortMedium', 'medium', 'mediumLong', 'long']
-export const responseTimeArr = ['soonPossible', 'withinWeek', 'within2Week', 'within3Week', 'withinMonth', 'overMonth']
+export const letterLengths: LetterLengthType[] = ['any', 'short', 'shortMedium', 'medium', 'mediumLong', 'long']
+export const responseTimeArr: ResponseTimeType[] = ['soonPossible', 'withinWeek', 'within2Week', 'within3Week', 'withinMonth', 'overMonth']
 export const sexArr: SexType[] = ['male', 'female', "other"]
+
+export const initialUserProfile: IUserProfile = {
+  biography: '',
+  letterLength: 'any',
+  responseTime: 'soonPossible',
+  sexPreference: ['female', 'male', 'other']
+}

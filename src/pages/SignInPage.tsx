@@ -9,6 +9,7 @@ import supabase from '../supabaseClient'
 import { useActions } from '../hooks/useActions'
 import MyButton from '../UI/MyButton'
 import { IUser } from '../types/Auth/auth'
+import { initialUserProfile } from '../utils/consts'
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string | null>(null)
@@ -43,13 +44,14 @@ const SignInPage = () => {
         interests: data.user?.user_metadata?.interests || [],
         languages: data.user?.user_metadata?.languages || [],
         geo: data.user?.user_metadata?.geo || { ip: '', location: { country: '', city: '' } },
+        profile: data.user?.user_metadata?.profile || initialUserProfile
       }
       console.log('Get user', userObj)
       setUser(userObj)
 
       setTimeout(() => {
         navigate('/')
-      }, 1500);
+      }, 1000);
 
     } catch (e) {
       // setAuthError('Неправильная почта или пароль')

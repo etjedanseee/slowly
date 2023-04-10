@@ -2,6 +2,8 @@ import React, { ChangeEvent, useState, useEffect } from 'react'
 import { ReactComponent as DefaultUserIcon } from '../assets/navbarIcons/user.svg'
 import { themeType } from '../types/Theme/theme';
 import TextInput from '../UI/TextInput';
+import { useActions } from '../hooks/useActions';
+import { useTypedSelector } from '../hooks/useTypedSelector';
 
 interface UserAvatarProps {
   userAvatar: string,
@@ -13,6 +15,9 @@ interface UserAvatarProps {
 const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => { } }: UserAvatarProps) => {
   const [avatarUrl, setAvatarUrl] = useState(userAvatar);
   const [isUrlImage, setIsUrlImage] = useState(false)
+
+  const { user } = useTypedSelector(state => state.auth)
+  const { updateUserAvatar } = useActions()
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAvatarUrl(event.target.value);
@@ -29,6 +34,9 @@ const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => 
   const handleSaveImageURL = () => {
     if (isUrlImage) {
       updateImage(avatarUrl)
+      if (user) {
+        updateUserAvatar(user, avatarUrl)
+      }
     }
   }
 

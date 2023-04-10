@@ -20,28 +20,28 @@ import MyButton from '../UI/MyButton'
 import SelectMenu from '../UI/SelectMenu'
 import UserAvatar from '../components/UserAvatar'
 import { letterLengths, responseTimeArr, sexArr } from '../utils/consts'
-import { ILang, SexType, interest } from '../types/Auth/auth'
+import { ILang, LetterLengthType, ResponseTimeType, SexType, interest } from '../types/Auth/auth'
 import MultySelect from '../UI/MultySelect'
 import UserLangs from '../components/UserLangs'
+import { useActions } from '../hooks/useActions'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
   const { theme } = useTypedSelector(state => state.theme)
   const { interests } = useTypedSelector(state => state.data)
   const { t } = useTranslation()
-  //взять из юзера
-  const [selectedLetterLength, setSelectedLetterLength] = useState('any')
+  const { updateUserInterests, updateUserSexPreference, updateUserResponseTime, updateUserLetterLength } = useActions()
+
+  const [selectedLetterLength, setSelectedLetterLength] = useState<LetterLengthType>(user?.profile.letterLength || 'any')
   const [isLetterSizeMenuVisible, setIsLetterSizeMenuVisible] = useState(false)
 
-  //взять из юзера
-  const [responseTime, setResponseTime] = useState('soonPossible')
+  const [responseTime, setResponseTime] = useState<ResponseTimeType>(user?.profile.responseTime || 'soonPossible')
   const [isResponseTimeMenuVisible, setIsResponseTimeMenuVisible] = useState(false)
 
   const [isEditAvatarVisible, setIsEditAvatarVisible] = useState(false)
   const [isCopyedId, setIsCopyedId] = useState(false)
 
-  //взять из юзера
-  const [preferenceSex, setPreferenceSex] = useState<SexType[]>(['female', 'male', 'other'])
+  const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
   const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
 
   const [userInterests, setUserInterests] = useState<interest[]>(user?.interests || [])
@@ -49,14 +49,19 @@ const Profile = () => {
 
   const [userLangs, setUserLangs] = useState<ILang[]>(user?.languages || [])
 
-  const hangleLetterSizeMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
+  if (!user) {
+    return null
+  }
+
+  const hangleLetterLengthMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
     setIsLetterSizeMenuVisible(prev => !prev)
   }
 
-  const changeSelectedLetterLength = (e: MouseEvent<HTMLDivElement>, option: string) => {
+  const changeSelectedLetterLength = (e: MouseEvent<HTMLDivElement>, option: LetterLengthType) => {
     setSelectedLetterLength(option)
-    hangleLetterSizeMenuVisible(e)
+    updateUserLetterLength(user, option)
+    hangleLetterLengthMenuVisible(e)
   }
 
   const handleResponseTimeMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
@@ -64,8 +69,9 @@ const Profile = () => {
     setIsResponseTimeMenuVisible(prev => !prev)
   }
 
-  const changeSelectedResponseTime = (e: MouseEvent<HTMLDivElement>, option: string) => {
+  const changeSelectedResponseTime = (e: MouseEvent<HTMLDivElement>, option: ResponseTimeType) => {
     setResponseTime(option)
+    updateUserResponseTime(user, option)
     handleResponseTimeMenuVisible(e)
   }
 
@@ -74,6 +80,9 @@ const Profile = () => {
   }
 
   const handlePrefSexMenuVisible = () => {
+    if (isPrefSexMenuVisible) {
+      updateUserSexPreference(user, preferenceSex)
+    }
     setIsPrefSexMenuVisible(prev => !prev)
   }
 
@@ -101,6 +110,9 @@ const Profile = () => {
   }
 
   const handleInterestsMenuVisible = () => {
+    if (isInterestsMenuVisible) {
+      updateUserInterests(user, userInterests)
+    }
     setIsInterestMenuVisible(prev => !prev)
   }
 
@@ -112,10 +124,6 @@ const Profile = () => {
     } else if (userInterests.length < 30) {
       setUserInterests([...userInterests, option])
     }
-  }
-
-  if (!user) {
-    return null
   }
 
   return (
@@ -219,7 +227,7 @@ const Profile = () => {
 
             <div
               className='flex items-center gap-x-1'
-              onClick={hangleLetterSizeMenuVisible}
+              onClick={hangleLetterLengthMenuVisible}
             >
               <div>{t(selectedLetterLength)}</div>
               <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
@@ -334,6 +342,7 @@ const Profile = () => {
           <UserLangs
             setUserLangs={setUserLangs}
             userLangs={userLangs}
+            user={user}
           />
         </div>
 
