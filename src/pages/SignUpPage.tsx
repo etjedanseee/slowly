@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import SignUpNavigation from '../UI/SignUpNavigation'
 import UserInfo from '../components/UserInfo'
 import Interests from '../components/Interests'
-import Languages from '../components/Languages'
 import UserGeo from '../components/UserGeo'
 import UserEmail from '../components/UserEmail'
 import { ILang, IUserGeo, IUserInfo, interest } from '../types/Auth/auth'
 import ConfirmEmail from './ConfirmEmail'
+import UserLangs from '../components/UserLangs'
 
 const SignUpPage = () => {
   const [formStep, setFormStep] = useState(1)
@@ -43,6 +43,14 @@ const SignUpPage = () => {
   }
 
   useEffect(() => {
+    if (languages.length) {
+      setIsLanguagesValid(true)
+    } else {
+      setIsLanguagesValid(false)
+    }
+  }, [languages])
+
+  useEffect(() => {
     if (isUserInfoValid && isInterestsValid && isLanguagesValid && isUserGeoValid && isUserEmailValid) {
       setIsFormValid(true)
     } else {
@@ -73,11 +81,12 @@ const SignUpPage = () => {
         />
       )}
       {formStep === 3 && (
-        <Languages
-          languages={languages}
-          setLanguages={setLanguages}
-          setIsLanguagesValid={setIsLanguagesValid}
-        />
+        <div className='py-20 relative'>
+          <UserLangs
+            userLangs={languages}
+            setUserLangs={setLanguages}
+          />
+        </div>
       )}
       {formStep === 4 && (
         <UserGeo

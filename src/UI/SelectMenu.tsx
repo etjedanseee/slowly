@@ -6,11 +6,9 @@ interface SelectMenuProps<T> {
   onSelectOption: (e: MouseEvent<HTMLDivElement>, option: T | any) => void,
   isMenuVisible: boolean,
   options: T[],
-  isMultiSelect?: boolean,
-  selectedOptions?: T[],
 }
 
-const SelectMenu = <T,>({ onSelectOption, isMenuVisible, options, isMultiSelect, selectedOptions }: SelectMenuProps<T>) => {
+const SelectMenu = <T,>({ onSelectOption, isMenuVisible, options }: SelectMenuProps<T>) => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
 
@@ -24,7 +22,6 @@ const SelectMenu = <T,>({ onSelectOption, isMenuVisible, options, isMultiSelect,
           onClick={(e) => onSelectOption(e, option)}
           className='flex items-center gap-x-4'
         >
-          {isMultiSelect && <div className={`${selectedOptions?.find(item => item === option) ? 'bg-yellow-500' : ' border-white'} p-2 border-2`} />}
           <div>{t(`${option}`)}</div>
         </div>
       ))}

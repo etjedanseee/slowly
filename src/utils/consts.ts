@@ -362,7 +362,7 @@ export const dictionary = {
 
 export type langType = 'en' | 'ua' | 'de' | 'es' | 'it' | 'fr'
 
-export const writingLang: ILang[] = [
+export const writingLangs: ILang[] = [
   { name: 'English', engName: 'English', isSelected: false, level: 0, code: 'en' },
   { name: 'Українська', engName: 'Ukrainian', isSelected: false, level: 0, code: 'ua' },
   { name: 'Français', engName: 'French', isSelected: false, level: 0, code: 'fr' },

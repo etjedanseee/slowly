@@ -47,6 +47,8 @@ const Profile = () => {
   const [userInterests, setUserInterests] = useState<interest[]>(user?.interests || [])
   const [isInterestsMenuVisible, setIsInterestMenuVisible] = useState(false)
 
+  const [userLangs, setUserLangs] = useState<ILang[]>(user?.languages || [])
+
   const hangleLetterSizeMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
     setIsLetterSizeMenuVisible(prev => !prev)
@@ -121,7 +123,7 @@ const Profile = () => {
       <NavLink to='/profile/settings'>
         <div className={`fixed z-50 top-0 left-0 w-full grid grid-cols-3 items-center py-2 ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}`}>
           <div></div>
-          <div className='text-center text-xl'>{user && user.info.nickName}</div>
+          <div className='font-medium text-center text-xl'>{user && user.info.nickName}</div>
           <div className='flex justify-end pr-3'>
             <SettingsIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
           </div>
@@ -264,7 +266,7 @@ const Profile = () => {
                   className='flex items-center justify-between gap-x-1'
                   onClick={onCopyId}
                 >
-                  <div className='-mb-2'>*******</div>
+                  <div className='-mb-2 font-medium text-lg'>******</div>
                   <CopyIcon className={`h-7 w-7 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
                 </div>
               )
@@ -329,10 +331,11 @@ const Profile = () => {
         <div className='text-sm opacity-70 px-2 mb-2'>{t('langs')}</div>
 
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-32`}>
-          <UserLangs />
-
+          <UserLangs
+            setUserLangs={setUserLangs}
+            userLangs={userLangs}
+          />
         </div>
-
 
       </div>
       <Navbar />
