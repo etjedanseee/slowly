@@ -67,7 +67,7 @@ const SignUpPage = () => {
       )}
       {formStep === 2 && (
         <Interests
-          interests={interests}
+          userInterests={interests}
           setInterests={setInterests}
           setIsInterestsValid={setIsInterestsValid}
         />

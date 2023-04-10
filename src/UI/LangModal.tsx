@@ -28,7 +28,7 @@ const LangModal = ({ lang, handleModalLangVisible, onAddLang }: LangModalProps) 
   }
 
   return (
-    <div className={`absolute -top-16 left-0 h-screen z-50 w-full py-20
+    <div className={`fixed top-0 left-0 h-screen z-50 w-full py-3
       ${theme === 'dark' ? 'bg-zinc-900 text-white' : 'bg-white text-zinc-900'}`}
     >
       <div className='flex justify-between mb-8 px-2'>

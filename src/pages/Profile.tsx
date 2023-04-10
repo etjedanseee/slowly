@@ -20,11 +20,14 @@ import MyButton from '../UI/MyButton'
 import SelectMenu from '../UI/SelectMenu'
 import UserAvatar from '../components/UserAvatar'
 import { letterLengths, responseTimeArr, sexArr } from '../utils/consts'
-import { SexType } from '../types/Auth/auth'
+import { ILang, SexType, interest } from '../types/Auth/auth'
+import MultySelect from '../UI/MultySelect'
+import UserLangs from '../components/UserLangs'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
   const { theme } = useTypedSelector(state => state.theme)
+  const { interests } = useTypedSelector(state => state.data)
   const { t } = useTranslation()
   //взять из юзера
   const [selectedLetterLength, setSelectedLetterLength] = useState('any')
@@ -40,6 +43,9 @@ const Profile = () => {
   //взять из юзера
   const [preferenceSex, setPreferenceSex] = useState<SexType[]>(['female', 'male', 'other'])
   const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
+
+  const [userInterests, setUserInterests] = useState<interest[]>(user?.interests || [])
+  const [isInterestsMenuVisible, setIsInterestMenuVisible] = useState(false)
 
   const hangleLetterSizeMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
@@ -65,12 +71,11 @@ const Profile = () => {
     setIsEditAvatarVisible(prev => !prev)
   }
 
-  const handlePrefSexMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation()
+  const handlePrefSexMenuVisible = () => {
     setIsPrefSexMenuVisible(prev => !prev)
   }
 
-  const changePreferenceSex = (e: MouseEvent<HTMLDivElement>, option: SexType) => {
+  const handlePreferenceSex = (option: SexType) => {
     if (preferenceSex.find(prefS => prefS === option)) {
       if (preferenceSex.length !== 1) {
         setPreferenceSex(preferenceSex.filter(prefS => prefS !== option))
@@ -78,7 +83,6 @@ const Profile = () => {
     } else {
       setPreferenceSex([...preferenceSex, option])
     }
-    handlePrefSexMenuVisible(e)
   }
 
   const onCopyId = () => {
@@ -92,6 +96,20 @@ const Profile = () => {
       .catch(err => {
         console.log('Something went wrong', err);
       });
+  }
+
+  const handleInterestsMenuVisible = () => {
+    setIsInterestMenuVisible(prev => !prev)
+  }
+
+  const handleInterests = (option: interest) => {
+    if (userInterests.find(int => int === option)) {
+      if (userInterests.length > 3) {
+        setUserInterests(userInterests.filter(int => int !== option))
+      }
+    } else if (userInterests.length < 30) {
+      setUserInterests([...userInterests, option])
+    }
   }
 
   if (!user) {
@@ -135,19 +153,15 @@ const Profile = () => {
 
         <div className='text-sm opacity-70 px-2 mb-2'>{t('aboutMe')}</div>
 
-        <div className={`
-            ${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} 
-            px-2 py-3 mb-3
-          `}>
+        <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
           <div className='font-medium text-lg mb-1'>{user.info.nickName}</div>
 
           <div className='flex gap-x-2 mb-2 text-sm'>
-            <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
-                flex items-center gap-x-1 rounded-lg px-2 py-1
-              `}>
+            <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} flex items-center gap-x-1 rounded-lg px-2 py-1`}>
               {user.info.sex === 'male'
                 ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                : user.info.sex === 'female' ? <FemaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+                : user.info.sex === 'female'
+                  ? <FemaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
                   : <OtherGenderIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
               }
               <div>{t(user.info.sex)}</div>
@@ -164,7 +178,6 @@ const Profile = () => {
                 flex items-center gap-x-1 rounded-lg px-2 py-1
               `}>
               <ZodiacIcon zodiac={user.info.zodiac} theme={theme} />
-              {/* <ZodiacIcon zodiac={'Virgo'} theme={theme} /> */}
               <div>{t(user.info.zodiac)}</div>
             </div>
           </div>
@@ -241,7 +254,7 @@ const Profile = () => {
 
         <div className='text-sm opacity-70 px-2 mb-2'>{t('preferences')}</div>
 
-        <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3`}>
+        <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
           <div className='flex items-center justify-between mb-2'>
             <div>Slowly ID</div>
             {isCopyedId
@@ -258,34 +271,69 @@ const Profile = () => {
             }
           </div>
 
-          <div className='flex justify-between items-center relative mb-32'>
+          <div className='flex justify-between items-center relative'>
             <div>{t('selectGender')}</div>
 
-            <div
-              className='flex items-center gap-x-1'
-              onClick={handlePrefSexMenuVisible}
-            >
-              <div>
-                {preferenceSex.length === 3
-                  ? t('Any')
-                  : preferenceSex.length === 2
-                    ? t(preferenceSex[0]) + ', ' + t(preferenceSex[1])
-                    : t(preferenceSex[0])
-                }
-              </div>
-              <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-
-              <SelectMenu
+            <div>
+              <MultySelect
                 options={sexArr}
                 isMenuVisible={isPrefSexMenuVisible}
-                onSelectOption={changePreferenceSex}
-                isMultiSelect={true}
+                onSelectOption={handlePreferenceSex}
                 selectedOptions={preferenceSex}
+                onClose={handlePrefSexMenuVisible}
+                selectTitle='sex'
               />
+              <div
+                onClick={handlePrefSexMenuVisible}
+                className='flex items-center gap-x-1'
+              >
+                <div>
+                  {preferenceSex.length === 3
+                    ? t('Any')
+                    : preferenceSex.length === 2
+                      ? t(preferenceSex[0]) + ', ' + t(preferenceSex[1])
+                      : t(preferenceSex[0])
+                  }
+                </div>
+                <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+              </div>
+
             </div>
           </div>
+        </div>
+
+        <div className='text-sm opacity-70 px-2 mb-2'>{t('interests')}</div>
+
+        <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
+          <MultySelect
+            isMenuVisible={isInterestsMenuVisible}
+            onSelectOption={handleInterests}
+            options={[...interests].sort((a, b) => a.localeCompare(b))}
+            selectedOptions={userInterests}
+            onClose={handleInterestsMenuVisible}
+            selectTitle='interests'
+          />
+          <div
+            className='flex flex-wrap gap-x-2 gap-y-2'
+            onClick={handleInterestsMenuVisible}
+          >
+            {[...interests].slice(0, 3).map(int => (
+              <div className='border border-yellow-400 rounded-xl px-4 py-1' key={int}>
+                {t(int)}
+              </div>
+            ))}
+            <div className='border border-yellow-400 rounded-xl px-8 text-xl pb-1' key={'...'}>...</div>
+          </div>
+        </div>
+
+        <div className='text-sm opacity-70 px-2 mb-2'>{t('langs')}</div>
+
+        <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-32`}>
+          <UserLangs />
 
         </div>
+
+
       </div>
       <Navbar />
     </div>

@@ -19,7 +19,7 @@ import { useActions } from './hooks/useActions';
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
-  const { setUser } = useActions()
+  const { setUser, fetchInterests } = useActions()
 
   i18n.use(initReactI18next).init({
     resources: { en: { translation: dictionary.en }, ua: { translation: dictionary.ua } },
@@ -37,8 +37,12 @@ function App() {
     }
   }, [user, setUser])
 
+  useEffect(() => {
+    fetchInterests()
+  }, [])
+
   return (
-    <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} min-h-screen`}>
+    <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} max-w-[500px] mx-auto min-h-screen`}>
       <Routes>
         {user && (
           <>
