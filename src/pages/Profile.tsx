@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
@@ -24,13 +24,17 @@ import { ILang, LetterLengthType, ResponseTimeType, SexType, interest } from '..
 import MultySelect from '../UI/MultySelect'
 import UserLangs from '../components/UserLangs'
 import { useActions } from '../hooks/useActions'
+import Biography from '../components/Biography'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
   const { theme } = useTypedSelector(state => state.theme)
   const { interests } = useTypedSelector(state => state.data)
   const { t } = useTranslation()
-  const { updateUserInterests, updateUserSexPreference, updateUserResponseTime, updateUserLetterLength } = useActions()
+  const { updateUserInterests, updateUserSexPreference, updateUserResponseTime, updateUserLetterLength, updateUserBiography } = useActions()
+
+  const [biography, setBiography] = useState(user?.profile.biography || '')
+  const [isEditBiographyVisible, setIsEditBiographyVisible] = useState(false)
 
   const [selectedLetterLength, setSelectedLetterLength] = useState<LetterLengthType>(user?.profile.letterLength || 'any')
   const [isLetterSizeMenuVisible, setIsLetterSizeMenuVisible] = useState(false)
@@ -51,6 +55,16 @@ const Profile = () => {
 
   if (!user) {
     return null
+  }
+
+  const handleEditBiographyVisible = () => {
+    setIsEditBiographyVisible(prev => !prev)
+  }
+
+  const handleEditBiography = (text: string) => {
+    updateUserBiography(user, text)
+    setBiography(text)
+    handleEditBiographyVisible()
   }
 
   const hangleLetterLengthMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
@@ -166,7 +180,7 @@ const Profile = () => {
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
           <div className='font-medium text-lg mb-1'>{user.info.nickName}</div>
 
-          <div className='flex gap-x-2 mb-2 text-sm'>
+          <div className='flex gap-x-2 mb-3 text-sm'>
             <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} flex items-center gap-x-1 rounded-lg px-2 py-1`}>
               {user.info.sex === 'male'
                 ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
@@ -192,12 +206,23 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className='h-[1px] w-full bg-black mb-4'></div>
+          {!!biography.length && (
+            <div className='pb-2 truncate'>
+              {biography}
+            </div>
+          )}
+
+          <Biography
+            isBiographyVisible={isEditBiographyVisible}
+            onClose={handleEditBiographyVisible}
+            onSave={handleEditBiography}
+            userBiography={biography}
+          />
 
           <div className='flex flex-col gap-y-2'>
             <MyButton
               color='black'
-              onClick={() => { }}
+              onClick={handleEditBiographyVisible}
               title='writeBio'
               variant='roundedXl'
               p='py-1'

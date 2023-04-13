@@ -195,3 +195,35 @@ export const updateUserSexPreference = (user: IUser, updatedPS: SexType[]) => {
     }
   }
 }
+
+
+export const updateUserBiography = (user: IUser, updatedBiography: string) => {
+  const updatedMetadata = {
+    info: user.info,
+    interests: user.interests,
+    languages: user.languages,
+    geo: user.geo,
+    profile: {
+      ...user.profile,
+      biography: updatedBiography
+    }
+  }
+
+  const updatedUser = { ...user, ...updatedMetadata }
+
+  return async (dispatch: Dispatch<AuthAction>) => {
+    try {
+      const { data, error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+
+      if (error) {
+        throw new Error(error.message)
+      }
+      dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
+
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+      // console.log('success updateUserBiography', updatedUser)
+    } catch (e) {
+      console.log('updateUserBiography error', e)
+    }
+  }
+}

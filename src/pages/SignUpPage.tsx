@@ -7,6 +7,7 @@ import UserEmail from '../components/UserEmail'
 import { ILang, IUserGeo, IUserInfo, interest } from '../types/Auth/auth'
 import ConfirmEmail from './ConfirmEmail'
 import UserLangs from '../components/UserLangs'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpPage = () => {
   const [formStep, setFormStep] = useState(1)
@@ -30,6 +31,8 @@ const SignUpPage = () => {
 
   const [isFormValid, setIsFormValid] = useState(false)
 
+  const navigate = useNavigate()
+
   const onPrevStepClick = () => {
     if (formStep !== 1) {
       setFormStep(prev => prev - 1)
@@ -40,6 +43,10 @@ const SignUpPage = () => {
     if (formStep < 6) {
       setFormStep(prev => prev + 1)
     }
+  }
+
+  const onCloseClick = () => {
+    navigate('/auth', { replace: true })
   }
 
   useEffect(() => {
@@ -63,6 +70,7 @@ const SignUpPage = () => {
       <SignUpNavigation
         onPrevClick={onPrevStepClick}
         onNextClick={onNextStepClick}
+        onCloseClick={onCloseClick}
         step={formStep}
         isStepsValid={[isUserInfoValid, isInterestsValid, isLanguagesValid, isUserGeoValid, isUserEmailValid]}
       />

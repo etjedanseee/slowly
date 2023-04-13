@@ -82,7 +82,8 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   }, [userInfo, setIsUserInfoValid])
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} px-2 py-16 h-screen`}>
+    <div className={`fixed top-0 left-0 w-full h-screen py-20 px-2
+    ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} `}>
       <div>Avatar</div>
       <UserAvatar
         theme={theme}

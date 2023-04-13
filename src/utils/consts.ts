@@ -179,8 +179,12 @@ export const dictionary = {
     'langs': 'Langs',
     showAll: 'Show all',
     hide: 'Hide',
+    save: 'Save',
+    writeAboutYou: 'Write about yourself',
   },
   ua: {
+    writeAboutYou: 'Напишіть про себе',
+    save: 'Зберегти',
     hide: 'Сховати',
     showAll: 'Показати усі',
     'langs': 'Мови',

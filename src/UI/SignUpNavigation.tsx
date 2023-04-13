@@ -3,18 +3,18 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import { ReactComponent as ArrowBack } from '../assets/arrowBack.svg'
 import MyButton from './MyButton'
-import { useNavigate } from 'react-router-dom'
 
 interface NavigationProps {
   step: number,
   isStepsValid: boolean[],
   onPrevClick: () => void,
-  onNextClick: () => void
+  onNextClick: () => void,
+  onCloseClick: () => void,
+  buttonText?: string
 }
 
-const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid }: NavigationProps) => {
+const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid, onCloseClick, buttonText }: NavigationProps) => {
   const { theme } = useTypedSelector(state => state.theme)
-  const navigate = useNavigate()
   const isCurrentStepValid = isStepsValid[step - 1]
 
   return (
@@ -24,7 +24,7 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid }: Navi
     `}>
       <div>
         {step === 1
-          ? <CloseIcon className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} onClick={() => navigate('/auth')} />
+          ? <CloseIcon className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} onClick={onCloseClick} />
           : <ArrowBack className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} onClick={onPrevClick} />
         }
       </div>
@@ -34,7 +34,7 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid }: Navi
             color='yellow'
             disabled={!isCurrentStepValid}
             onClick={isCurrentStepValid ? onNextClick : () => { }}
-            title='next'
+            title={buttonText || 'next'}
             variant='roundedFull'
           />
         )}
