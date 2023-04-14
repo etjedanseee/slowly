@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
@@ -19,19 +19,24 @@ import ZodiacIcon from '../components/ZodiacIcon'
 import MyButton from '../UI/MyButton'
 import SelectMenu from '../UI/SelectMenu'
 import UserAvatar from '../components/UserAvatar'
-import { letterLengths, responseTimeArr, sexArr } from '../utils/consts'
-import { ILang, LetterLengthType, ResponseTimeType, SexType, interest } from '../types/Auth/auth'
+import { initialUserInfo, letterLengths, responseTimeArr, sexArr } from '../utils/consts'
+import { ILang, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../types/Auth/auth'
 import MultySelect from '../UI/MultySelect'
 import UserLangs from '../components/UserLangs'
 import { useActions } from '../hooks/useActions'
 import Biography from '../components/Biography'
+import UserInfo from '../components/UserInfo'
+import SignUpNavigation from '../UI/SignUpNavigation'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
   const { theme } = useTypedSelector(state => state.theme)
   const { interests } = useTypedSelector(state => state.data)
   const { t } = useTranslation()
-  const { updateUserInterests, updateUserSexPreference, updateUserResponseTime, updateUserLetterLength, updateUserBiography } = useActions()
+  const { updateUserInterests, updateUserSexPreference, updateUserResponseTime, updateUserLetterLength, updateUserBiography, updateUserInfo } = useActions()
+
+  const [userInfo, setUserInfo] = useState<IUserInfo>(user?.info || initialUserInfo)
+  const [isEditUserInfoVisible, setIsEditUserInfoVisible] = useState(false)
 
   const [biography, setBiography] = useState(user?.profile.biography || '')
   const [isEditBiographyVisible, setIsEditBiographyVisible] = useState(false)
@@ -42,7 +47,6 @@ const Profile = () => {
   const [responseTime, setResponseTime] = useState<ResponseTimeType>(user?.profile.responseTime || 'soonPossible')
   const [isResponseTimeMenuVisible, setIsResponseTimeMenuVisible] = useState(false)
 
-  const [isEditAvatarVisible, setIsEditAvatarVisible] = useState(false)
   const [isCopyedId, setIsCopyedId] = useState(false)
 
   const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
@@ -55,6 +59,22 @@ const Profile = () => {
 
   if (!user) {
     return null
+  }
+
+  const handleEditUserInfoVisible = () => {
+    setIsEditUserInfoVisible(prev => !prev)
+    setUserInfo(user.info)
+  }
+
+  const handleUpdateUserInfo = () => {
+    updateUserInfo(user, userInfo)
+    handleEditUserInfoVisible()
+  }
+
+  const handleSetUserInfo = (info: IUserInfo | null) => {
+    if (info) {
+      setUserInfo(info)
+    }
   }
 
   const handleEditBiographyVisible = () => {
@@ -89,10 +109,6 @@ const Profile = () => {
     handleResponseTimeMenuVisible(e)
   }
 
-  const handleEditAvatarVisible = () => {
-    setIsEditAvatarVisible(prev => !prev)
-  }
-
   const handlePrefSexMenuVisible = () => {
     if (isPrefSexMenuVisible) {
       updateUserSexPreference(user, preferenceSex)
@@ -111,16 +127,10 @@ const Profile = () => {
   }
 
   const onCopyId = () => {
-    navigator.clipboard.writeText(user?.id || '')
-      .then(() => {
-        setIsCopyedId(true)
-        setTimeout(() => {
-          setIsCopyedId(false)
-        }, 1500);
-      })
-      .catch(err => {
-        console.log('Something went wrong', err);
-      });
+    navigator.clipboard.writeText(user?.id || '').then(() => {
+      setIsCopyedId(true)
+      setTimeout(() => { setIsCopyedId(false) }, 1500);
+    })
   }
 
   const handleInterestsMenuVisible = () => {
@@ -153,64 +163,62 @@ const Profile = () => {
       </NavLink>
 
       <div className='py-10'>
-        <div className='px-2 relative mb-6'>
+        <div className='px-2 relative mb-3'>
           <UserAvatar
             userAvatar={user.info.avatarUrl}
             theme={theme}
-            canUpdate={isEditAvatarVisible}
+            canUpdate={false}
           />
-          <div
-            className={`absolute ${isEditAvatarVisible ? 'bottom-1/2 ' : 'bottom-0 '} right-2 bottom-0 px-8 rounded-xl border`}
-            onClick={handleEditAvatarVisible}
-          >
-            <PencilIcon className={`absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 
-              ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
-            />
-            <div className='text-sm'>Edit</div>
-          </div>
+        </div>
 
-          <div className={`absolute ${isEditAvatarVisible ? 'bottom-1/2' : 'bottom-0'} left-0 flex gap-x-1 items-center px-2`}>
+        <div className='flex items-center justify-between px-2 mb-2'>
+          <div className='text-sm opacity-70'>{t('aboutMe')}</div>
+          <div className={`flex gap-x-1 items-center`}>
             <GeoIcon className={`h-4 w-4 fill-yellow-400`} />
             <div>{user.geo.location.country}</div>
           </div>
         </div>
 
-        <div className='text-sm opacity-70 px-2 mb-2'>{t('aboutMe')}</div>
-
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
-          <div className='font-medium text-lg mb-1'>{user.info.nickName}</div>
-
-          <div className='flex gap-x-2 mb-3 text-sm'>
-            <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} flex items-center gap-x-1 rounded-lg px-2 py-1`}>
-              {user.info.sex === 'male'
-                ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                : user.info.sex === 'female'
-                  ? <FemaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                  : <OtherGenderIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-              }
-              <div>{t(user.info.sex)}</div>
+          <div onClick={handleEditUserInfoVisible}>
+            <div className='font-medium text-lg mb-1'>
+              {user.info.nickName}
             </div>
 
-            <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
-                flex items-center gap-x-1 rounded-lg px-2 py-1
-              `}>
-              <CakeIcon className={`h-4 w-4 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-              <div className='text-sm'>{ageToString(user.info.birthDate)}</div>
-            </div>
+            <div className='flex gap-x-2 mb-3 text-sm'>
+              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} flex items-center gap-x-1 rounded-lg px-2 py-1`}>
+                {user.info.sex === 'male'
+                  ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+                  : user.info.sex === 'female'
+                    ? <FemaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+                    : <OtherGenderIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+                }
+                <div>{t(user.info.sex)}</div>
+              </div>
 
-            <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
+              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
                 flex items-center gap-x-1 rounded-lg px-2 py-1
               `}>
-              <ZodiacIcon zodiac={user.info.zodiac} theme={theme} />
-              <div>{t(user.info.zodiac)}</div>
+                <CakeIcon className={`h-4 w-4 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+                <div className='text-sm'>{ageToString(user.info.birthDate)}</div>
+              </div>
+
+              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
+                flex items-center gap-x-1 rounded-lg px-2 py-1
+              `}>
+                <ZodiacIcon zodiac={user.info.zodiac} theme={theme} />
+                <div>{t(user.info.zodiac)}</div>
+              </div>
+
+              <div className='flex-1 flex justify-end items-center'>
+                <ArrowDownIcon className={`h-6 w-6 mr-1 -rotate-90
+              ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
+                />
+              </div>
             </div>
           </div>
 
-          {!!biography.length && (
-            <div className='pb-2 truncate'>
-              {biography}
-            </div>
-          )}
+          {!!biography.length && <div className='mb-2 truncate'>{biography}</div>}
 
           <Biography
             isBiographyVisible={isEditBiographyVisible}
@@ -236,6 +244,25 @@ const Profile = () => {
             />
           </div>
         </div>
+
+        {isEditUserInfoVisible && (
+          <>
+            <SignUpNavigation
+              isStepsValid={[true]}
+              onCloseClick={handleEditUserInfoVisible}
+              onNextClick={handleUpdateUserInfo}
+              onPrevClick={() => { }}
+              step={1}
+              buttonText='save'
+
+            />
+            <UserInfo
+              userInfo={userInfo}
+              setIsUserInfoValid={() => { }}
+              setUserInfo={handleSetUserInfo}
+            />
+          </>
+        )}
 
         <div className='text-sm opacity-70 px-2 mb-2'>{t('emailPreferences')}</div>
 
@@ -363,7 +390,7 @@ const Profile = () => {
 
         <div className='text-sm opacity-70 px-2 mb-2'>{t('langs')}</div>
 
-        <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-32`}>
+        <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3`}>
           <UserLangs
             setUserLangs={setUserLangs}
             userLangs={userLangs}
@@ -373,7 +400,7 @@ const Profile = () => {
 
       </div>
       <Navbar />
-    </div>
+    </div >
   )
 }
 

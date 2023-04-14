@@ -2,7 +2,7 @@
 
 import { Dispatch } from 'redux';
 import { AuthAction, AuthActionTypes } from '../../types/Auth/authReducer';
-import { ILang, IUser, LetterLengthType, ResponseTimeType, SexType, interest } from '../../types/Auth/auth';
+import { ILang, IUser, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../../types/Auth/auth';
 import supabase from '../../supabaseClient';
 
 
@@ -31,7 +31,7 @@ export const updateUserAvatar = (user: IUser, imageUrl: string) => {
 
   return async (dispatch: Dispatch<AuthAction>) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+      const { error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
 
       if (error) {
         throw new Error(error.message)
@@ -40,7 +40,7 @@ export const updateUserAvatar = (user: IUser, imageUrl: string) => {
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
 
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      // console.log('success update image', updatedUser)
+      console.log('success update image', updatedUser)
     } catch (e) {
       console.log('update user image error', e)
     }
@@ -60,7 +60,7 @@ export const updateUserInterests = (user: IUser, updatedInterests: interest[]) =
 
   return async (dispatch: Dispatch<AuthAction>) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+      const { error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
 
       if (error) {
         throw new Error(error.message)
@@ -69,7 +69,7 @@ export const updateUserInterests = (user: IUser, updatedInterests: interest[]) =
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
 
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      // console.log('success update interests', updatedUser)
+      console.log('success update interests', updatedUser)
     } catch (e) {
       console.log('update user interests error', e)
     }
@@ -88,7 +88,7 @@ export const updateUserLangs = (user: IUser, updatedLangs: ILang[]) => {
 
   return async (dispatch: Dispatch<AuthAction>) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+      const { error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
 
       if (error) {
         throw new Error(error.message)
@@ -97,7 +97,7 @@ export const updateUserLangs = (user: IUser, updatedLangs: ILang[]) => {
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
 
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      // console.log('success update langs', updatedUser)
+      console.log('success update langs', updatedUser)
     } catch (e) {
       console.log('update user langs error', e)
     }
@@ -119,7 +119,7 @@ export const updateUserLetterLength = (user: IUser, updatedLL: LetterLengthType)
 
   return async (dispatch: Dispatch<AuthAction>) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+      const { error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
 
       if (error) {
         throw new Error(error.message)
@@ -128,7 +128,7 @@ export const updateUserLetterLength = (user: IUser, updatedLL: LetterLengthType)
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
 
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      // console.log('success update letterLength', updatedUser)
+      console.log('success update letterLength', updatedUser)
     } catch (e) {
       console.log('update user letterLength error', e)
     }
@@ -150,7 +150,7 @@ export const updateUserResponseTime = (user: IUser, updatedRT: ResponseTimeType)
 
   return async (dispatch: Dispatch<AuthAction>) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+      const { error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
 
       if (error) {
         throw new Error(error.message)
@@ -158,7 +158,7 @@ export const updateUserResponseTime = (user: IUser, updatedRT: ResponseTimeType)
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
 
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      // console.log('success update responceTime', updatedUser)
+      console.log('success update responceTime', updatedUser)
     } catch (e) {
       console.log('update user responceTime error', e)
     }
@@ -181,7 +181,7 @@ export const updateUserSexPreference = (user: IUser, updatedPS: SexType[]) => {
 
   return async (dispatch: Dispatch<AuthAction>) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+      const { error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
 
       if (error) {
         throw new Error(error.message)
@@ -189,7 +189,7 @@ export const updateUserSexPreference = (user: IUser, updatedPS: SexType[]) => {
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
 
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      // console.log('success update sexPreference', updatedUser)
+      console.log('success update sexPreference', updatedUser)
     } catch (e) {
       console.log('update user sexPreference error', e)
     }
@@ -213,7 +213,7 @@ export const updateUserBiography = (user: IUser, updatedBiography: string) => {
 
   return async (dispatch: Dispatch<AuthAction>) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+      const { error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
 
       if (error) {
         throw new Error(error.message)
@@ -221,9 +221,37 @@ export const updateUserBiography = (user: IUser, updatedBiography: string) => {
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
 
       localStorage.setItem('user', JSON.stringify(updatedUser))
-      // console.log('success updateUserBiography', updatedUser)
+      console.log('success updateUserBiography', updatedUser)
     } catch (e) {
       console.log('updateUserBiography error', e)
+    }
+  }
+}
+
+export const updateUserInfo = (user: IUser, updatedInfo: IUserInfo) => {
+  const updatedMetadata = {
+    info: updatedInfo,
+    interests: user.interests,
+    languages: user.languages,
+    geo: user.geo,
+    profile: user.profile
+  }
+
+  const updatedUser = { ...user, ...updatedMetadata }
+
+  return async (dispatch: Dispatch<AuthAction>) => {
+    try {
+      const { error } = await supabase.auth.updateUser({ data: { ...updatedMetadata } })
+
+      if (error) {
+        throw new Error(error.message)
+      }
+      dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
+
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+      console.log('success updateUserInfo', updatedUser)
+    } catch (e) {
+      console.log('updateUserInfo error', e)
     }
   }
 }

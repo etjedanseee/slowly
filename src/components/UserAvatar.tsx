@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useEffect } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { ReactComponent as DefaultUserIcon } from '../assets/navbarIcons/user.svg'
 import { themeType } from '../types/Theme/theme';
 import TextInput from '../UI/TextInput';
@@ -14,7 +14,6 @@ interface UserAvatarProps {
 
 const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => { } }: UserAvatarProps) => {
   const [avatarUrl, setAvatarUrl] = useState(userAvatar);
-  const [isUrlImage, setIsUrlImage] = useState(false)
 
   const { user } = useTypedSelector(state => state.auth)
   const { updateUserAvatar } = useActions()
@@ -23,16 +22,8 @@ const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => 
     setAvatarUrl(event.target.value);
   };
 
-  useEffect(() => {
-    if (avatarUrl.match(/\.(jpeg|jpg|gif|png)$/)) {
-      setIsUrlImage(true)
-    } else {
-      setIsUrlImage(false)
-    }
-  }, [avatarUrl])
-
   const handleSaveImageURL = () => {
-    if (isUrlImage) {
+    if (!!avatarUrl.length) {
       updateImage(avatarUrl)
       if (user) {
         updateUserAvatar(user, avatarUrl)
@@ -43,7 +34,7 @@ const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => 
   return (
     <div className='w-full'>
       <div className='w-full flex justify-center'>
-        {isUrlImage
+        {!!avatarUrl.length
           ? <img src={avatarUrl} className='h-32 w-32 rounded-full object-cover' alt="User Avatar" />
           : <DefaultUserIcon className={`h-32 w-32 rounded-full object-cover ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
         }
@@ -54,7 +45,7 @@ const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => 
           <div className='flex items-center justify-between'>
             <div className='text-sm'>Update avatar URL:</div>
             <div className={`${theme === 'dark' ? 'text-white' : 'text-zinc-900'} 
-              ${isUrlImage ? 'opacity-100' : 'opacity-50'}
+              ${!!avatarUrl.length ? 'opacity-100' : 'opacity-50'}
               border-2 rounded-xl inline-block px-4 py-1 mt-1 text-sm`}
               onClick={handleSaveImageURL}
             >

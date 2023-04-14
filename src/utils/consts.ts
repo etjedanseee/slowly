@@ -1,4 +1,4 @@
-import { ILang, IUserProfile, LetterLengthType, ResponseTimeType, SexType } from "../types/Auth/auth"
+import { ILang, IUserInfo, IUserProfile, LetterLengthType, ResponseTimeType, SexType } from "../types/Auth/auth"
 
 
 export const dictionary = {
@@ -384,4 +384,12 @@ export const initialUserProfile: IUserProfile = {
   letterLength: 'any',
   responseTime: 'soonPossible',
   sexPreference: ['female', 'male', 'other']
+}
+
+export const initialUserInfo: IUserInfo = {
+  avatarUrl: '',
+  birthDate: '',
+  nickName: '',
+  sex: 'male',
+  zodiac: 'Aquarius'
 }

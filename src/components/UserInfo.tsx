@@ -6,6 +6,7 @@ import { isValidDate } from '../utils/validate'
 import { IUserInfo, SexType } from '../types/Auth/auth'
 import { calcZodiak } from '../utils/calcZodiak'
 import UserAvatar from './UserAvatar'
+import { sexArr } from '../utils/consts'
 
 interface UserInfoProps {
   setUserInfo: (data: IUserInfo | null) => void,
@@ -17,19 +18,20 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
 
+  const [isInfoUpdated, setIsInfoUpdated] = useState(false)
+
   const [avatarUrl, setAvatarUrl] = useState(userInfo?.avatarUrl || '')
   const [sex, setSex] = useState<SexType>(userInfo?.sex || 'male')
   const [birthDate, setBirthDate] = useState(userInfo?.birthDate || '')
   const [birthDateError, setBirthDateError] = useState('')
   const [isBirthDateDirty, setIsBirthDateDirty] = useState(false)
   const [nickName, setNickName] = useState(userInfo?.nickName || '')
-  const [nickNameError, setNickNameError] = useState(t('required') || 'Field is required')
+  const [nickNameError, setNickNameError] = useState('')
   const [isNickNameDirty, setIsNickNameDirty] = useState(false)
-
-  const sexArr: SexType[] = ['male', 'female', 'other']
 
   const handleSex = (s: SexType) => {
     setSex(s)
+    setIsInfoUpdated(true)
   }
 
   const onBirthDateChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +42,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
       setBirthDateError('')
     }
     setBirthDate(date)
+    setIsInfoUpdated(true)
   }
 
   const onBirthDateFocus = () => {
@@ -53,6 +56,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
       setNickNameError('')
     }
     setNickName(e.target.value)
+    setIsInfoUpdated(true)
   }
 
   const onNickNameFocus = () => {
@@ -60,18 +64,23 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   }
 
   useEffect(() => {
-    if (!birthDateError && nickName.length && avatarUrl.length) {
-      setUserInfo({
-        avatarUrl,
-        sex,
-        nickName,
-        birthDate,
-        zodiac: calcZodiak(birthDate)
-      })
-    } else {
-      setUserInfo(null)
+    if (isInfoUpdated) {
+      if (!birthDateError && nickName.length && avatarUrl.length) {
+        const userInfo: IUserInfo = {
+          avatarUrl,
+          sex,
+          nickName,
+          birthDate,
+          zodiac: calcZodiak(birthDate)
+        }
+        setUserInfo(userInfo)
+      } else {
+        setUserInfo(null)
+      }
+      setIsInfoUpdated(false)
     }
-  }, [birthDate, birthDateError, nickName, sex, setUserInfo, avatarUrl])
+
+  }, [birthDate, birthDateError, nickName, sex, setUserInfo, avatarUrl, isInfoUpdated])
 
   useEffect(() => {
     if (userInfo !== null) {
@@ -82,9 +91,8 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   }, [userInfo, setIsUserInfoValid])
 
   return (
-    <div className={`fixed top-0 left-0 w-full h-screen py-20 px-2
+    <div className={`fixed top-0 left-0 w-full h-screen py-20 px-2 z-20 overflow-hidden
     ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} `}>
-      <div>Avatar</div>
       <UserAvatar
         theme={theme}
         userAvatar={avatarUrl}
