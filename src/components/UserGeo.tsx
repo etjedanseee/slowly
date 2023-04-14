@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { fetchLocationByCoord, fetchLocationByIp } from '../utils/fetchLocation'
+import React, { useEffect } from 'react'
+import { fetchLocationByCoord } from '../utils/fetchLocation'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
 import GlobusIcon from '../assets/globus.gif'
 import MyButton from '../UI/MyButton'
 import { ReactComponent as UkraineFlag } from '../assets/ukraineFlag.svg'
-import { IUserGeo, IСoordinates } from '../types/Auth/auth'
+import { IUserGeo } from '../types/Auth/auth'
 
 interface UserGeoProps {
   setUserGeo: (data: IUserGeo | null) => void,
@@ -14,46 +14,39 @@ interface UserGeoProps {
 }
 
 const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
-  const { theme, lang } = useTypedSelector(state => state.theme)
-  const [coord, setCoord] = useState<IСoordinates | null>(null)
-  const [ipAddress, setIpAddress] = useState<string | null>(null)
-
+  const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
 
-  const getCurrentCoords = () => {
+  const onGetCoordsByGeo = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        position => {
-          console.log(position.coords);
-          setCoord({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          })
-        },
-        error => {
-          console.log("Error: ", error)
-        }, { enableHighAccuracy: true, maximumAge: 5000 });
+        position => fetchLocationByCoord({ coord: position.coords, setUserGeo }),
+        error => console.log("get geo error:", error),
+        { enableHighAccuracy: true, maximumAge: 5000 }
+      );
     } else {
       console.log('not support')
     }
   }
 
-  const fetchIpAddress = async () => {
+  const onFetchByIpAddress = async () => {
     try {
-      const response = await fetch("https://api.ipify.org?format=json");
+      const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
-      setIpAddress(data.ip);
-      fetchLocationByIp({ ip: data.ip, setUserGeo, lang: lang })
+      setUserGeo({
+        coord: {
+          latitude: data.latitude,
+          longitude: data.longitude
+        },
+        location: {
+          city: data.city,
+          country: data.country_name
+        }
+      })
     } catch (error) {
-      console.log(error);
+      console.error('fetch coords by ip error', error);
     }
   };
-
-  useEffect(() => {
-    if (coord !== null) {
-      fetchLocationByCoord({ coord, setUserGeo })
-    }
-  }, [coord, setUserGeo])
 
   useEffect(() => {
     if (userGeo) {
@@ -88,8 +81,8 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
       </div>
 
       <div className='justify-self-end w-full flex flex-col gap-y-2 mb-2'>
-        <MyButton color='yellow' onClick={getCurrentCoords} title='determineGeo' variant='roundedXl' />
-        <MyButton color='black' onClick={fetchIpAddress} title='determineIp' variant='roundedXl' />
+        <MyButton color='yellow' onClick={onGetCoordsByGeo} title='determineGeo' variant='roundedXl' />
+        <MyButton color='black' onClick={onFetchByIpAddress} title='determineIp' variant='roundedXl' />
       </div>
     </div>
   )

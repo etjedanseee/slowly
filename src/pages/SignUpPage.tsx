@@ -125,7 +125,7 @@ const SignUpPage = () => {
           isFormValid={isFormValid}
           languages={languages}
           email={userEmail || ''}
-          geo={userGeo || { coord: { latitude: 0, longitude: 0 }, ip: '', location: { city: '', country: '' } }}
+          geo={userGeo || { coord: { latitude: 0, longitude: 0 }, location: { city: '', country: '' } }}
           info={userInfo}
           password={userPassword || ''}
         />

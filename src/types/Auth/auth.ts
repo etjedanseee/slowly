@@ -60,7 +60,7 @@ export interface IUserGeoByIp {
   location: ILocation
 }
 
-export type IUserGeo = IUserGeoByCoords | IUserGeoByIp
+export type IUserGeo = IUserGeoByCoords
 
 export type SexType = 'male' | 'female' | 'other'
 

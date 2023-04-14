@@ -15,7 +15,6 @@ import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
 import { useActions } from './hooks/useActions';
 
-//сделать редирект на авторизацию если в куках нет юзера
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
@@ -39,7 +38,7 @@ function App() {
 
   useEffect(() => {
     fetchInterests()
-  }, [])
+  }, [fetchInterests])
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} max-w-[500px] mx-auto min-h-screen`}>

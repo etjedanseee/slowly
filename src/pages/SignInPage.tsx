@@ -43,7 +43,7 @@ const SignInPage = () => {
         info: data.user?.user_metadata?.info || { sex: 'male', birthDate: new Date(), nickName: '', zodiac: 'Libra' },
         interests: data.user?.user_metadata?.interests || [],
         languages: data.user?.user_metadata?.languages || [],
-        geo: data.user?.user_metadata?.geo || { ip: '', location: { country: '', city: '' } },
+        geo: data.user?.user_metadata?.geo || { coord: { latitude: 0, longitude: 0 }, location: { country: '', city: '' } },
         profile: data.user?.user_metadata?.profile || initialUserProfile
       }
       console.log('Get user', userObj)

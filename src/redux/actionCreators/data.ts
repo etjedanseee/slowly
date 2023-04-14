@@ -8,6 +8,7 @@ export const fetchInterests = () => {
       const { data, error } = await supabase.from('Interests').select('*')
 
       if (error) {
+        console.log(error);
         throw new Error(error.message)
       }
 

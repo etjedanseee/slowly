@@ -20,6 +20,11 @@ const Biography = ({ isBiographyVisible, onClose, onSave, userBiography }: Biogr
     setNewBiography(e.target.value)
   }
 
+  const onCloseClick = () => {
+    setNewBiography(userBiography)
+    onClose()
+  }
+
   useEffect(() => {
     if (newBiography.length > 0 && newBiography.length < 5000) {
       setIsBiographyValid(true)
@@ -35,7 +40,7 @@ const Biography = ({ isBiographyVisible, onClose, onSave, userBiography }: Biogr
       <SignUpNavigation
         isStepsValid={[isBiographyValid]}
         onNextClick={() => onSave(newBiography)}
-        onCloseClick={onClose}
+        onCloseClick={onCloseClick}
         onPrevClick={() => { }}
         step={1}
         buttonText='save'
