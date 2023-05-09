@@ -29,20 +29,32 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
 
   useEffect(() => {
     const singUp = async () => {
+      const userMetadata = {
+        info,
+        interests,
+        languages,
+        geo,
+        profile: initialUserProfile
+      }
+
       try {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            data: {
-              info,
-              interests,
-              languages,
-              geo,
-              profile: initialUserProfile
-            }
+            data: userMetadata
           }
         })
+
+        const upsertData = await supabase.from('Users')
+          .upsert({
+            id: data.user?.id,
+            ...userMetadata,
+          })
+
+        console.log('signUp upsertData', upsertData);
+
+
         if (error) {
           throw new Error(error.message)
         }

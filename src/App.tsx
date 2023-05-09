@@ -14,6 +14,7 @@ import AuthPage from './pages/AuthPage';
 import SignUpPage from './pages/SignUpPage';
 import SignInPage from './pages/SignInPage';
 import { useActions } from './hooks/useActions';
+import OtherProfile from './pages/OtherProfile';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
@@ -51,6 +52,7 @@ function App() {
             <Route path='/draft' element={<Draft />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/profile/settings' element={<Settings />} />
+            <Route path='/users/:id' element={<OtherProfile />} />
           </>
         )}
         <Route path='/auth' element={<AuthPage />} />

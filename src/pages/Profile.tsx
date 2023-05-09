@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
@@ -34,6 +34,7 @@ const Profile = () => {
   const { interests } = useTypedSelector(state => state.data)
   const { t } = useTranslation()
   const { updateUserInterests, updateUserSexPreference, updateUserResponseTime, updateUserLetterLength, updateUserBiography, updateUserInfo } = useActions()
+  const navigate = useNavigate()
 
   const [userInfo, setUserInfo] = useState<IUserInfo>(user?.info || initialUserInfo)
   const [isEditUserInfoVisible, setIsEditUserInfoVisible] = useState(false)
@@ -237,7 +238,7 @@ const Profile = () => {
             />
             <MyButton
               color='yellow'
-              onClick={() => { }}
+              onClick={() => navigate('/users/' + user.id)}
               title='profilePreview'
               variant='roundedXl'
               p='py-1'

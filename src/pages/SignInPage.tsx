@@ -32,10 +32,11 @@ const SignInPage = () => {
         email: email || '',
         password: password || '',
       })
+      console.log('singIn data', data)
+
       if (error) {
         throw new Error(error.message)
       }
-      console.log('singIn data', data)
 
       const userObj: IUser = {
         id: data.user?.id || '0',
@@ -46,7 +47,7 @@ const SignInPage = () => {
         geo: data.user?.user_metadata?.geo || { coord: { latitude: 0, longitude: 0 }, location: { country: '', city: '' } },
         profile: data.user?.user_metadata?.profile || initialUserProfile
       }
-      console.log('Get user', userObj)
+      // console.log('Get user', userObj)
       setUser(userObj)
 
       setTimeout(() => {

@@ -55,11 +55,6 @@ export interface IUserGeoByCoords {
   location: ILocation
 }
 
-export interface IUserGeoByIp {
-  ip: string,
-  location: ILocation
-}
-
 export type IUserGeo = IUserGeoByCoords
 
 export type SexType = 'male' | 'female' | 'other'
