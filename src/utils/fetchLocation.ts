@@ -9,8 +9,21 @@ export async function fetchLocationByCoord({ coord, setUserGeo }: fetchLocByCoor
   try {
     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coord.latitude}&lon=${coord.longitude}`)
     const data = await response.json()
+    console.log('successfull get geo by geo', {
+      coord: {
+        latitude: coord.latitude,
+        longitude: coord.longitude
+      },
+      location: {
+        country: data.address.state,
+        city: data.address.town
+      }
+    })
     setUserGeo({
-      coord,
+      coord: {
+        latitude: coord.latitude,
+        longitude: coord.longitude
+      },
       location: {
         country: data.address.state,
         city: data.address.town

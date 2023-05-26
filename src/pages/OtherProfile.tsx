@@ -18,9 +18,9 @@ import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
 import { ReactComponent as ArrowsLeftRightIcon } from '../assets/arrowsLeftRight.svg'
 import { coordsToDistance } from '../utils/calcDistance'
 
-//придумать как засунуть в состояние обьект пользователя
 const OtherProfile = () => {
   const { theme } = useTypedSelector(state => state.theme)
+  const { user } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { id } = useParams()
@@ -34,7 +34,10 @@ const OtherProfile = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data, error } = await supabase.from('Users').select('*').eq('id', id);
+      const { data, error } = await supabase
+        .from('Users')
+        .select('*')
+        .eq('id', id);
 
       console.log('other user fetch', data);
 
@@ -42,21 +45,21 @@ const OtherProfile = () => {
         console.error(error);
       } else {
         if (data && data.length > 0) {
-          const user = data[0] as IUser;
-          setOtherUser(user);
+          const otherUserData = data[0] as IUser;
+          setOtherUser(otherUserData);
         }
       }
     };
     fetchUser()
-  }, [id])
+  }, [])
 
   useEffect(() => {
     if (otherUser !== null && differenceDistance === 0) {
       //заменить первый аргумент на координаты текущего пользователя(пока они везде одинаковые)
-      const diffGeoDistance = coordsToDistance({ latitude: 35.131509, longitude: 9.190496 }, otherUser.geo.coord)
+      const diffGeoDistance = coordsToDistance(user?.geo.coord || { latitude: 0, longitude: 0 }, otherUser.geo.coord)
       setDifferenceDistance(diffGeoDistance)
     }
-  }, [otherUser])
+  }, [otherUser, differenceDistance])
 
   const handleOpenBiography = () => {
     setIsBiographyTruncated(false)
@@ -70,8 +73,8 @@ const OtherProfile = () => {
   if (!otherUser) return null
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} `}>
-      <div className={`${theme === 'dark' ? 'bg-zinc-900 text-white' : 'bg-slate-300 text-zinc-900'} py-3 px-3`}>
+    <div className={`${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'} `}>
+      <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} py-3 px-3`}>
         <div className='flex items-center gap-x-5 mb-4'>
           <ArrowBackIcon
             className={`h-7 w-7 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
@@ -96,7 +99,7 @@ const OtherProfile = () => {
             ? <div className='mb-2'>{otherUser.profile.biography.slice(0, 150)}...</div>
             : <div className='mb-2'>{otherUser.profile.biography}</div>
           }
-          {isBiographyTruncated && (
+          {isBiographyTruncated && !!otherUser.profile.biography.length && (
             <MyButton
               color='black'
               onClick={handleOpenBiography}

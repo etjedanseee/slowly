@@ -49,6 +49,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
         const upsertData = await supabase.from('Users')
           .upsert({
             id: data.user?.id,
+            email,
             ...userMetadata,
           })
 
