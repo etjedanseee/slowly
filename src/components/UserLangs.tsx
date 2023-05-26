@@ -157,8 +157,6 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
           color='black'
           onClick={handleOtherLangsVisible}
           title={isOtherLangsVisible ? 'hide' : 'showAll'}
-          variant='roundedXl'
-          p='py-1'
         />
       </>
     </>

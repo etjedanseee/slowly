@@ -39,7 +39,7 @@ function App() {
 
   useEffect(() => {
     fetchInterests()
-  }, [fetchInterests])
+  }, [])
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} max-w-[500px] mx-auto min-h-screen`}>

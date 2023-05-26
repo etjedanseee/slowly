@@ -49,9 +49,7 @@ const MultySelect = <T,>({ onSelectOption, isMenuVisible, options, selectedOptio
         <MyButton
           color='black'
           title='close'
-          variant='roundedXl'
           onClick={onClose}
-          p='py-1'
         />
       </div>
     </div>

@@ -81,8 +81,8 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
       </div>
 
       <div className='justify-self-end w-full flex flex-col gap-y-2 mb-2'>
-        <MyButton color='yellow' onClick={onGetCoordsByGeo} title='determineGeo' variant='roundedXl' />
-        <MyButton color='black' onClick={onFetchByIpAddress} title='determineIp' variant='roundedXl' />
+        <MyButton color='yellow' onClick={onGetCoordsByGeo} title='determineGeo' />
+        <MyButton color='black' onClick={onFetchByIpAddress} title='determineIp' />
       </div>
     </div>
   )

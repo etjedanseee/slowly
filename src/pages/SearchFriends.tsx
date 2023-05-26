@@ -6,8 +6,8 @@ const SearchFriends = () => {
   return (
     <div>
       <div>SearchFriends</div>
-      <MyButton color='black' onClick={() => { }} title='autoSearch' variant='roundedXl' />
-      <MyButton color='yellow' onClick={() => { }} title='manuallySearch' variant='roundedXl' />
+      <MyButton color='black' onClick={() => { }} title='autoSearch' />
+      <MyButton color='yellow' onClick={() => { }} title='manuallySearch' />
       <Navbar />
     </div>
   )

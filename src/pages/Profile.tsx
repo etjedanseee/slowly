@@ -233,15 +233,11 @@ const Profile = () => {
               color='black'
               onClick={handleEditBiographyVisible}
               title='writeBio'
-              variant='roundedXl'
-              p='py-1'
             />
             <MyButton
               color='yellow'
               onClick={() => navigate('/users/' + user.id)}
               title='profilePreview'
-              variant='roundedXl'
-              p='py-1'
             />
           </div>
         </div>

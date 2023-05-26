@@ -37,7 +37,7 @@ const LangModal = ({ lang, handleModalLangVisible, onAddLang }: LangModalProps) 
           onClick={handleModalLangVisible}
         />
         <div className='flex-initial'>
-          <MyButton color='yellow' title='add' variant='roundedXl' onClick={() => onAddLang({ ...lang, level: langLevel })} />
+          <MyButton color='yellow' title='add' onClick={() => onAddLang({ ...lang, level: langLevel })} />
         </div>
       </div>
 

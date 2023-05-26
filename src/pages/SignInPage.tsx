@@ -85,7 +85,6 @@ const SignInPage = () => {
           color='black'
           onClick={singIn}
           title='signIn'
-          variant='roundedXl'
           disabled={!isFormValid}
         />
       </div>

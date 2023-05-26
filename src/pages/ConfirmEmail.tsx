@@ -81,7 +81,6 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
         color='yellow'
         onClick={onGoToLoginClick}
         title='gotoLogin'
-        variant='roundedXl'
       />
     </div>
   )
