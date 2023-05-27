@@ -17,6 +17,7 @@ import { ReactComponent as GeoIcon } from '../assets/geo.svg'
 import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
 import { ReactComponent as ArrowsLeftRightIcon } from '../assets/arrowsLeftRight.svg'
 import { coordsToDistance } from '../utils/calcDistance'
+import { filterInterests } from '../utils/filterInterests'
 
 const OtherProfile = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -31,6 +32,8 @@ const OtherProfile = () => {
 
   //90 km - 1 min
   const deliveredTime = Math.round(differenceDistance / 90)
+
+  const [commonInterests, differentInterests] = filterInterests(otherUser?.interests || [], user?.interests || [])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -51,7 +54,7 @@ const OtherProfile = () => {
       }
     };
     fetchUser()
-  }, [])
+  }, [id])
 
   useEffect(() => {
     if (otherUser !== null && differenceDistance === 0) {
@@ -74,8 +77,8 @@ const OtherProfile = () => {
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'} `}>
-      <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} py-3 px-3`}>
-        <div className='flex items-center gap-x-5 mb-4'>
+      <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} pt-10 pb-3 px-3`}>
+        <div className={`flex items-center gap-x-5 mb-4 fixed z-10 top-0 py-2 w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-300 '}`}>
           <ArrowBackIcon
             className={`h-7 w-7 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
             onClick={onGoBackClick}
@@ -92,14 +95,17 @@ const OtherProfile = () => {
       </div>
 
       <div className='py-3 px-3'>
+        {/* добавить цвет при светлой теме */}
         <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('about')} {otherUser.info.nickName}</div>
 
         <div className='mb-4'>
           {isBiographyTruncated
-            ? <div className='mb-2'>{otherUser.profile.biography.slice(0, 150)}...</div>
+            ? otherUser.profile.biography.length > 150
+              ? <div className='mb-2'>{otherUser.profile.biography.slice(0, 150)}...</div>
+              : <div className='mb-2'>{otherUser.profile.biography}</div>
             : <div className='mb-2'>{otherUser.profile.biography}</div>
           }
-          {isBiographyTruncated && !!otherUser.profile.biography.length && (
+          {isBiographyTruncated && otherUser.profile.biography.length >= 150 && (
             <MyButton
               color='black'
               onClick={handleOpenBiography}
@@ -114,7 +120,7 @@ const OtherProfile = () => {
             <div className='text-sm'>{ageToString(otherUser.info.birthDate)}</div>
             <div className='flex gap-x-1 items-center'>
               <ZodiacIcon zodiac={otherUser.info.zodiac} theme={theme} />
-              <div>{t(otherUser.info.zodiac)}</div>
+              <div>{t(otherUser.info.zodiac.toLowerCase())}</div>
             </div>
           </div>
 
@@ -144,6 +150,30 @@ const OtherProfile = () => {
             </div>
           </div>
 
+        </div>
+      </div>
+
+      <div className='py-3 px-3'>
+        {/* добавить цвет при светлой теме */}
+        <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('interests')}</div>
+        <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-sm mb-3'>
+          {commonInterests.map(int => (
+            <div key={int} className='bg-yellow-500 text-zinc-900 font-medium rounded-2xl px-3 py-1'>{t(int)}</div>
+          ))}
+          {differentInterests.map(int => (
+            <div key={int} className='font-medium rounded-2xl px-3 py-1 border-yellow-500 border-2'>{t(int)}</div>
+          ))}
+        </div>
+
+        <div className='flex items-center gap-x-2 text-sm'>
+          <div className='flex items-center gap-x-1'>
+            <div className='bg-yellow-500 w-4 h-4 rounded-sm'></div>
+            <div>{t('common')}</div>
+          </div>
+          <div className='flex items-center gap-x-1'>
+            <div className='border-2 border-yellow-500 w-4 h-4 rounded-sm'></div>
+            <div>{t('different')}</div>
+          </div>
         </div>
       </div>
 

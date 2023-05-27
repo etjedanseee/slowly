@@ -187,8 +187,12 @@ export const dictionary = {
     letterDelivered: 'Letter delivers in',
     hours: 'hours',
     minutes: 'minutes',
+    common: 'Common',
+    different: 'Different',
   },
   ua: {
+    different: 'Різні',
+    common: 'Спільні',
     minutes: 'хвилин',
     hours: 'години',
     letterDelivered: 'Лист дійде за',
