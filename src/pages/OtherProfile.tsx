@@ -5,6 +5,8 @@ import UserAvatar from '../components/UserAvatar'
 import supabase from '../supabaseClient'
 import { IUser } from '../types/Auth/auth'
 import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
+import { ReactComponent as ClockIcon } from '../assets/clock.svg'
+import { ReactComponent as PencilIcon } from '../assets/navbarIcons/pencil.svg'
 import { useTranslation } from 'react-i18next'
 import MyButton from '../UI/MyButton'
 import { ReactComponent as CakeIcon } from '../assets/cake.svg'
@@ -42,7 +44,7 @@ const OtherProfile = () => {
         .select('*')
         .eq('id', id);
 
-      console.log('other user fetch', data);
+      console.log('other user fetch', data && data[0]);
 
       if (error) {
         console.error(error);
@@ -77,8 +79,8 @@ const OtherProfile = () => {
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'} `}>
-      <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} pt-10 pb-3 px-3`}>
-        <div className={`flex items-center gap-x-5 mb-4 fixed z-10 top-0 py-2 w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-300 '}`}>
+      <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} pt-12 pb-3`}>
+        <div className={`flex items-center gap-x-5 fixed z-10 top-0 py-2 px-3 w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-300 '}`}>
           <ArrowBackIcon
             className={`h-7 w-7 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
             onClick={onGoBackClick}
@@ -114,7 +116,7 @@ const OtherProfile = () => {
           )}
         </div>
 
-        <div className='mb-4 flex flex-col gap-y-2'>
+        <div className='flex flex-col gap-y-2 mb-2'>
           <div className='flex gap-x-2 items-center'>
             <CakeIcon className={`h-5 w-5 fill-yellow-500`} />
             <div className='text-sm'>{ageToString(otherUser.info.birthDate)}</div>
@@ -153,7 +155,7 @@ const OtherProfile = () => {
         </div>
       </div>
 
-      <div className='py-3 px-3'>
+      <div className='py-3 px-3 mb-2'>
         {/* добавить цвет при светлой теме */}
         <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('interests')}</div>
         <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-sm mb-3'>
@@ -177,6 +179,50 @@ const OtherProfile = () => {
         </div>
       </div>
 
+      <div className='py-3 px-3 mb-2'>
+        {/* добавить цвет при светлой теме */}
+        <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('langs')}</div>
+        <div className='flex flex-col gap-y-3'>
+          {otherUser.languages.map(lang => (
+            <div key={lang.code} className='flex flex-col'>
+              {/* <div className={`font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-black'} leading-none`}>{lang.name}</div>
+              <div className={`text-sm mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{lang.engName}</div> */}
+              <div className='flex items-center gap-x-1 mb-1'>
+                <div className={`font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-black'} leading-none`}>{lang.name}</div>
+                <div className={`text-sm  ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>({lang.engName})</div>
+              </div >
+              <div className='flex gap-x-1'>
+                {[1, 2, 3, 4, 5].map(ind => (
+                  <div
+                    key={ind}
+                    className={`${lang.level >= ind
+                      ? 'border-yellow-400 bg-yellow-400'
+                      : theme === 'dark'
+                        ? 'border-white bg-transparent'
+                        : 'border-gray-400'
+                      } 
+                        rounded-full border-2 h-3 w-3`
+                    }
+                  ></div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+
+      <div className='py-3 px-3 mb-2'>
+        <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('emailPreferences')}</div>
+        <div className='flex items-center gap-x-2 mb-1'>
+          <PencilIcon className={`h-4 w-5 fill-yellow-500`} />
+          <div>{t('letterLength')}: {t(otherUser.profile.letterLength)}</div>
+        </div>
+        <div className='flex items-center gap-x-2'>
+          <ClockIcon className={`h-5 w-5 fill-yellow-500`} />
+          <div>{t('responseTime')}: {t(otherUser.profile.responseTime)}</div>
+        </div>
+      </div>
     </div>
   )
 }
