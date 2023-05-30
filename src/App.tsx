@@ -19,6 +19,7 @@ import OtherProfile from './pages/OtherProfile';
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
+  const { interests } = useTypedSelector(state => state.data)
   const { setUser, fetchInterests } = useActions()
 
   i18n.use(initReactI18next).init({
@@ -38,7 +39,9 @@ function App() {
   }, [user, setUser])
 
   useEffect(() => {
-    fetchInterests()
+    if (!interests.length) {
+      fetchInterests()
+    }
   }, [])
 
   return (

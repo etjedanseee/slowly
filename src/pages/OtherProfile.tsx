@@ -60,7 +60,6 @@ const OtherProfile = () => {
 
   useEffect(() => {
     if (otherUser !== null && differenceDistance === 0) {
-      //заменить первый аргумент на координаты текущего пользователя(пока они везде одинаковые)
       const diffGeoDistance = coordsToDistance(user?.geo.coord || { latitude: 0, longitude: 0 }, otherUser.geo.coord)
       setDifferenceDistance(diffGeoDistance)
     }
@@ -96,18 +95,19 @@ const OtherProfile = () => {
         </div>
       </div>
 
-      <div className='py-3 px-3'>
-        {/* добавить цвет при светлой теме */}
-        <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('about')} {otherUser.info.nickName}</div>
+      <div className='px-3 mb-6'>
+        <div className={`pt-3 text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+          {t('about')} {otherUser.info.nickName}
+        </div>
 
-        <div className='mb-4'>
+        <div className='mb-6'>
           {isBiographyTruncated
-            ? otherUser.profile.biography.length > 150
-              ? <div className='mb-2'>{otherUser.profile.biography.slice(0, 150)}...</div>
+            ? otherUser.profile.biography.length > 100
+              ? <div className='mb-2'>{otherUser.profile.biography.slice(0, 100)}...</div>
               : <div className='mb-2'>{otherUser.profile.biography}</div>
             : <div className='mb-2'>{otherUser.profile.biography}</div>
           }
-          {isBiographyTruncated && otherUser.profile.biography.length >= 150 && (
+          {isBiographyTruncated && otherUser.profile.biography.length >= 100 && (
             <MyButton
               color='black'
               onClick={handleOpenBiography}
@@ -116,7 +116,7 @@ const OtherProfile = () => {
           )}
         </div>
 
-        <div className='flex flex-col gap-y-2 mb-2'>
+        <div className='flex flex-col gap-y-2'>
           <div className='flex gap-x-2 items-center'>
             <CakeIcon className={`h-5 w-5 fill-yellow-500`} />
             <div className='text-sm'>{ageToString(otherUser.info.birthDate)}</div>
@@ -151,13 +151,11 @@ const OtherProfile = () => {
             <div>{t('letterDelivered')} {deliveredTime < 60 ? `${deliveredTime} ${t('minutes')}` : `${Math.round(deliveredTime / 60)} ${t('hours')}`}
             </div>
           </div>
-
         </div>
       </div>
 
-      <div className='py-3 px-3 mb-2'>
-        {/* добавить цвет при светлой теме */}
-        <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('interests')}</div>
+      <div className='px-3 mb-6'>
+        <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{t('interests')}</div>
         <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-sm mb-3'>
           {commonInterests.map(int => (
             <div key={int} className='bg-yellow-500 text-zinc-900 font-medium rounded-2xl px-3 py-1'>{t(int)}</div>
@@ -179,17 +177,14 @@ const OtherProfile = () => {
         </div>
       </div>
 
-      <div className='py-3 px-3 mb-2'>
-        {/* добавить цвет при светлой теме */}
-        <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('langs')}</div>
-        <div className='flex flex-col gap-y-3'>
+      <div className='px-3 mb-6'>
+        <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{t('langs')}</div>
+        <div className='grid grid-cols-2 gap-y-4'>
           {otherUser.languages.map(lang => (
             <div key={lang.code} className='flex flex-col'>
-              {/* <div className={`font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-black'} leading-none`}>{lang.name}</div>
-              <div className={`text-sm mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{lang.engName}</div> */}
-              <div className='flex items-center gap-x-1 mb-1'>
+              <div className='mb-1'>
                 <div className={`font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-black'} leading-none`}>{lang.name}</div>
-                <div className={`text-sm  ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>({lang.engName})</div>
+                <div className={`text-sm  ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{lang.engName}</div>
               </div >
               <div className='flex gap-x-1'>
                 {[1, 2, 3, 4, 5].map(ind => (
@@ -212,7 +207,7 @@ const OtherProfile = () => {
       </div>
 
 
-      <div className='py-3 px-3 mb-2'>
+      <div className='px-3 pb-6'>
         <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('emailPreferences')}</div>
         <div className='flex items-center gap-x-2 mb-1'>
           <PencilIcon className={`h-4 w-5 fill-yellow-500`} />

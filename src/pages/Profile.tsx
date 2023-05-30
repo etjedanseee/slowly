@@ -187,7 +187,7 @@ const Profile = () => {
             </div>
 
             <div className='flex gap-x-2 mb-3 text-sm'>
-              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} flex items-center gap-x-1 rounded-lg px-2 py-1`}>
+              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-slate-400'} flex items-center gap-x-1 rounded-lg px-2 py-1`}>
                 {user.info.sex === 'male'
                   ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
                   : user.info.sex === 'female'
@@ -197,14 +197,14 @@ const Profile = () => {
                 <div>{t(user.info.sex)}</div>
               </div>
 
-              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
+              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-slate-400'} 
                 flex items-center gap-x-1 rounded-lg px-2 py-1
               `}>
                 <CakeIcon className={`h-4 w-4 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
                 <div className='text-sm'>{ageToString(user.info.birthDate)}</div>
               </div>
 
-              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} 
+              <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-slate-400'} 
                 flex items-center gap-x-1 rounded-lg px-2 py-1
               `}>
                 <ZodiacIcon zodiac={user.info.zodiac} theme={theme} />
