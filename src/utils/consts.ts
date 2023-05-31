@@ -194,8 +194,12 @@ export const dictionary = {
     adddFriendById: 'Add friend by',
     enter: 'Enter',
     search: 'Search',
+    startTyping: 'Click here to start typing',
+    send: 'Send',
   },
   ua: {
+    send: 'Відправити',
+    startTyping: 'Натисніть тут, щоб почати друкувати',
     search: 'Пошук',
     enter: 'Введіть',
     adddFriendById: 'Додати друга по',

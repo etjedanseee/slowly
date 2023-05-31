@@ -20,6 +20,7 @@ import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
 import { ReactComponent as ArrowsLeftRightIcon } from '../assets/arrowsLeftRight.svg'
 import { coordsToDistance } from '../utils/calcDistance'
 import { filterInterests } from '../utils/filterInterests'
+import WriteLetter from '../components/WriteLetter'
 
 const OtherProfile = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -28,6 +29,7 @@ const OtherProfile = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
+  const [isWriteLetterVisible, setWriteLetterVisible] = useState(true)
 
   const [isBiographyTruncated, setIsBiographyTruncated] = useState(true)
   const [differenceDistance, setDifferenceDistance] = useState(0)
@@ -73,13 +75,19 @@ const OtherProfile = () => {
     navigate(-1)
   }
 
+  const handleIsWriteLetterVisible = () => {
+    setWriteLetterVisible(prev => !prev)
+  }
+
   //заменить на лоадер
   if (!otherUser) return null
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'} `}>
+    <div className={`${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'}`}>
       <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} pt-12 pb-3`}>
-        <div className={`flex items-center gap-x-5 fixed z-10 top-0 py-2 px-3 w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-300 '}`}>
+        <div className={`flex items-center gap-x-5 fixed z-10 top-0 py-2 px-3 w-full 
+          ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-300 '}
+        `}>
           <ArrowBackIcon
             className={`h-7 w-7 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
             onClick={onGoBackClick}
@@ -218,6 +226,23 @@ const OtherProfile = () => {
           <div>{t('responseTime')}: {t(otherUser.profile.responseTime)}</div>
         </div>
       </div>
+
+      <div className={`fixed bottom-3 right-3 z-10 rounded-full border-2 bg-gray-300
+        ${theme === 'dark' ? 'border-black' : ' border-zinc-500'} 
+      `}>
+        <PlaneIcon
+          className={`h-12 w-12 p-2 rounded-full fill-black bg-gray-300`}
+          onClick={handleIsWriteLetterVisible}
+        />
+      </div>
+
+      {isWriteLetterVisible && (
+        <WriteLetter
+          deliveredTime={deliveredTime}
+          otherUser={otherUser}
+          onClose={handleIsWriteLetterVisible}
+        />
+      )}
     </div>
   )
 }
