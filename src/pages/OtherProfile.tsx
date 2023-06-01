@@ -29,7 +29,7 @@ const OtherProfile = () => {
   const navigate = useNavigate()
   const { id } = useParams()
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
-  const [isWriteLetterVisible, setWriteLetterVisible] = useState(true)
+  const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
 
   const [isBiographyTruncated, setIsBiographyTruncated] = useState(true)
   const [differenceDistance, setDifferenceDistance] = useState(0)

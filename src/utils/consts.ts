@@ -196,8 +196,12 @@ export const dictionary = {
     search: 'Search',
     startTyping: 'Click here to start typing',
     send: 'Send',
+    words: 'Words',
+    signs: 'Signs',
   },
   ua: {
+    signs: 'Знаки',
+    words: 'Слова',
     send: 'Відправити',
     startTyping: 'Натисніть тут, щоб почати друкувати',
     search: 'Пошук',

@@ -6,12 +6,14 @@ import { useTranslation } from 'react-i18next'
 import TextInput from '../UI/TextInput'
 import { fetchUserById } from '../utils/fetchUserById'
 import { IUser } from '../types/Auth/auth'
+import { useNavigate } from 'react-router-dom'
 
 //придумать как добавлять друзей и где это хранить(возможно просто в юзере создать массив id)
 //решить проблему с отображением профиля или ошибки при лоадинге от запроса
 const SearchFriends = () => {
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const [otherUserId, setOtherUserId] = useState('')
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
@@ -26,6 +28,10 @@ const SearchFriends = () => {
   const onSearchOtherUser = () => {
     setIsHideSearchButton(true)
     fetchUserById(otherUserId, setOtherUser, setUserSearchError)
+  }
+
+  const onUserProfileClick = () => {
+    navigate('/users/' + otherUserId)
   }
 
   //add to friends
@@ -52,7 +58,10 @@ const SearchFriends = () => {
 
         {otherUser !== null && !userSearchError && isHideSearchButton && (
           <div className='flex justify-between items-center py-3'>
-            <div className='flex items-center gap-x-4'>
+            <div
+              className='flex items-center gap-x-4'
+              onClick={onUserProfileClick}
+            >
               <img src={otherUser.info.avatarUrl} className='rounded-full h-12 w-12' alt="other user avatar" />
               <div>
                 <div className='font-medium'>{otherUser.info.nickName}</div>
