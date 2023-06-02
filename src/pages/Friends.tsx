@@ -6,6 +6,7 @@ import { useActions } from '../hooks/useActions'
 import { ReactComponent as FriendsIcon } from '../assets/addFriend.svg'
 import { fetchUsersById } from '../utils/fetchUserById'
 import { IUser } from '../types/Auth/auth'
+import { msInDay } from '../utils/consts'
 
 const Friends = () => {
   const { t } = useTranslation()
@@ -15,7 +16,6 @@ const Friends = () => {
 
   const [users, setUsers] = useState<IUser[]>([])
 
-  const msInDay = 86400000
 
   useEffect(() => {
     if (user && !chatList.length) {

@@ -7,11 +7,15 @@ import TextInput from '../UI/TextInput'
 import { fetchUserById } from '../utils/fetchUserById'
 import { IUser } from '../types/Auth/auth'
 import { useNavigate } from 'react-router-dom'
+import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
+import WriteLetter from '../components/WriteLetter'
+import { coordsToDistance } from '../utils/calcDistance'
 
 //придумать как добавлять друзей и где это хранить(возможно просто в юзере создать массив id)
 //решить проблему с отображением профиля или ошибки при лоадинге от запроса
 const SearchFriends = () => {
   const { theme } = useTypedSelector(state => state.theme)
+  const { user } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
   const navigate = useNavigate()
 
@@ -19,6 +23,12 @@ const SearchFriends = () => {
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
   const [isHideSearchButton, setIsHideSearchButton] = useState(false)
   const [userSearchError, setUserSearchError] = useState('')
+  const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
+
+  const differenceDistance = coordsToDistance(user?.geo.coord || { latitude: 0, longitude: 0 }, otherUser?.geo.coord || { latitude: 0, longitude: 0 })
+
+  //90 km - 1 min
+  const deliveredTime = Math.round(differenceDistance / 90)
 
   const handleOtherUserIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     setOtherUserId(e.target.value)
@@ -34,9 +44,8 @@ const SearchFriends = () => {
     navigate('/users/' + otherUserId)
   }
 
-  //add to friends
-  const onAddOtherUser = () => {
-
+  const handleIsWriteLetterVisible = () => {
+    setWriteLetterVisible(prev => !prev)
   }
 
   return (
@@ -68,7 +77,12 @@ const SearchFriends = () => {
                 <div className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} `}>{otherUser.geo.location.country}</div>
               </div>
             </div>
-            <div><MyButton color='black' onClick={onAddOtherUser} title='add' /></div>
+            <div >
+              <PlaneIcon
+                className={`h-10 w-10 p-2 rounded-full fill-black bg-gray-300`}
+                onClick={handleIsWriteLetterVisible}
+              />
+            </div>
           </div>
         )}
         {userSearchError && isHideSearchButton && <div className='text-red-500 font-medium'>{userSearchError}</div>}
@@ -79,6 +93,14 @@ const SearchFriends = () => {
         <MyButton color='black' onClick={() => { }} title='autoSearch' p='py-2' />
         <MyButton color='yellow' onClick={() => { }} title='manuallySearch' p='py-2' />
       </div>
+
+      {isWriteLetterVisible && otherUser && (
+        <WriteLetter
+          deliveredTime={deliveredTime}
+          otherUser={otherUser}
+          onClose={handleIsWriteLetterVisible}
+        />
+      )}
       <Navbar />
     </div>
   )

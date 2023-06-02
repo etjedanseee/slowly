@@ -427,3 +427,5 @@ export const initialUserInfo: IUserInfo = {
   sex: 'male',
   zodiac: 'Aquarius'
 }
+
+export const msInDay = 86400000
