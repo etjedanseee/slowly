@@ -1,8 +1,7 @@
 
-
 import { Dispatch } from 'redux';
 import { AuthAction, AuthActionTypes } from '../../types/Auth/authReducer';
-import { ILang, IUser, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../../types/Auth/auth';
+import { IChatList, ILang, IMessage, IUser, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../../types/Auth/auth';
 import supabase from '../../supabaseClient';
 
 
@@ -152,4 +151,50 @@ export const updateUserInfo = (user: IUser, updatedInfo: IUserInfo) => {
   }
 
   return updateUser(user, updatedMetadata)
+}
+
+export const fetchUserChatList = (id: string) => {
+  return async (dispatch: Dispatch<AuthAction>) => {
+    try {
+      const { data, error } = await supabase
+        .from('Messages')
+        .select('*')
+        .or('senderId.eq.' + id + ',receiverId.eq.' + id)
+        .order('createdAt', { ascending: false })
+
+      if (error) {
+        throw new Error(error.message)
+      }
+
+      // console.log('successfull get messages', data)
+      if (data && data.length > 0) {
+        const messages = data as IMessage[]
+
+        const messagesMap = new Map();
+        messages.forEach(message => {
+          const chatId = message.senderId === id ? message.receiverId : message.senderId;
+          if (!messagesMap.has(chatId)) {
+            messagesMap.set(chatId, {
+              chatId,
+              messages: [message]
+            });
+          } else {
+            const prevMessages: IChatList = messagesMap.get(chatId)
+            messagesMap.set(chatId, {
+              chatId,
+              messages: [...prevMessages.messages, message]
+            })
+          }
+        });
+
+        const chatList = Array.from(messagesMap.values())
+
+        console.log('ChatList res', chatList)
+
+        dispatch({ type: AuthActionTypes.SET_CHAT_LIST, payload: chatList })
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }

@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
+import { useActions } from '../hooks/useActions'
 
 const Friends = () => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
+  const { user } = useTypedSelector(state => state.auth)
+  const { fetchUserChatList } = useActions()
+
+  useEffect(() => {
+    if (user) {
+      fetchUserChatList(user.id)
+    }
+  }, [])
 
   return (
     <div className='flex flex-col'>

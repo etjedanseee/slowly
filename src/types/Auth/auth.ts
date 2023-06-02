@@ -65,3 +65,17 @@ export type ZodiakType = 'Aries' | 'Taurus' | 'Gemini' | 'Cancer' | 'Leo' | 'Vir
 
 export type LetterLengthType = 'any' | 'short' | 'shortMedium' | 'medium' | 'mediumLong' | 'long'
 export type ResponseTimeType = 'soonPossible' | 'withinWeek' | 'within2Week' | 'within3Week' | 'withinMonth' | 'overMonth'
+
+export interface IMessage {
+  id: string,
+  senderId: string,
+  receiverId: string,
+  message: string,
+  createdAt: string,
+  deliveredDate: string,
+}
+
+export interface IChatList {
+  chatId: string,
+  messages: IMessage[]
+}
