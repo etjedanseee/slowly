@@ -198,8 +198,10 @@ export const dictionary = {
     send: 'Send',
     words: 'Words',
     signs: 'Signs',
+    deliveredThrought: 'Delivered through',
   },
   ua: {
+    deliveredThrought: 'Доставиться через',
     signs: 'Знаки',
     words: 'Слова',
     send: 'Відправити',

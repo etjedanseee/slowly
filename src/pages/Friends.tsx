@@ -2,26 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
-import { useActions } from '../hooks/useActions'
 import { ReactComponent as FriendsIcon } from '../assets/addFriend.svg'
 import { fetchUsersById } from '../utils/fetchUserById'
 import { IUser } from '../types/Auth/auth'
 import { msInDay } from '../utils/consts'
+import { useNavigate } from 'react-router-dom'
 
 const Friends = () => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
-  const { user, chatList } = useTypedSelector(state => state.auth)
-  const { fetchUserChatList } = useActions()
+  const { chatList } = useTypedSelector(state => state.auth)
+  const navigate = useNavigate()
 
   const [users, setUsers] = useState<IUser[]>([])
 
-
-  useEffect(() => {
-    if (user && !chatList.length) {
-      fetchUserChatList(user.id)
-    }
-  }, [user, chatList.length])
+  const onFriendClick = (id: string) => {
+    navigate('/friends/' + id)
+  }
 
   useEffect(() => {
     if (!!chatList.length) {
@@ -32,9 +29,13 @@ const Friends = () => {
 
   return (
     <div className='flex flex-col h-screen'>
-      <div className={`${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} font-medium text-2xl px-4 py-3`}>
+      <div className={`
+        ${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} 
+          font-medium text-2xl px-4 py-3`
+      }>
         {t('penpals')}
       </div>
+
       <div className={`px-2 py-2 flex-1 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
         <div className='flex justify-end'>
           <div className={`flex items-center gap-x-2 px-3 py-1 rounded-lg ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
@@ -48,6 +49,7 @@ const Friends = () => {
             <div
               key={chat.chatId}
               className='flex items-center gap-x-3'
+              onClick={() => onFriendClick(chat.chatId)}
             >
               <img src={users.find(u => u.id === chat.chatId)?.info.avatarUrl} className='rounded-full h-12 w-12' alt="user avatar" />
               <div className='flex-1'>
