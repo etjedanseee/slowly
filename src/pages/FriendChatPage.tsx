@@ -3,26 +3,60 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
 import { fetchUserById } from '../utils/fetchUserById'
 import { useNavigate, useParams } from 'react-router-dom'
-import { IUser } from '../types/Auth/auth'
+import { ILetter, IUser } from '../types/Auth/auth'
 import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
+import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { ReactComponent as SearchIcon } from '../assets/navbarIcons/search.svg'
 import { ReactComponent as GeoIcon } from '../assets/geo.svg'
+import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import { ageToString } from '../utils/calcAge'
 import ZodiacIcon from '../components/ZodiacIcon'
 import { msInDay } from '../utils/consts'
+import Letter from '../components/Letter'
 
 const FriendChatPage = () => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
   const { user, chatList } = useTypedSelector(state => state.auth)
   const navigate = useNavigate()
-
   const { id } = useParams()
 
   const [otherUser, setOtherUser] = useState<IUser>()
 
+  const [openedLetter, setOpenedLetter] = useState<ILetter | null>(null)
+  const [letterIndex, setLetterIndex] = useState(0)
+
+  const [isPrevLetterArrowDisabled, setPrevLetterArrowDisabled] = useState(true)
+  const [isNextLetterArrowDisabled, setNextLetterArrowDisabled] = useState(true)
+
   const onGoBackClick = () => {
     navigate(-1)
+  }
+
+  const onCloseLetter = () => {
+    setOpenedLetter(null)
+  }
+
+  const onOpenLetter = (letterIdx: number) => {
+    const letters = chatList.find(chat => chat.chatId === id)?.messages || []
+    const letter = letters[letterIdx]
+
+    if (!!letters.length) {
+      if (letterIdx === 0) {
+        setPrevLetterArrowDisabled(true)
+      } else {
+        setPrevLetterArrowDisabled(false)
+      }
+      if (letterIdx === letters.length - 1) {
+        setNextLetterArrowDisabled(true)
+      } else {
+        setNextLetterArrowDisabled(false)
+      }
+    }
+    if (letter) {
+      setLetterIndex(letterIdx)
+      setOpenedLetter(letter)
+    }
   }
 
   useEffect(() => {
@@ -37,7 +71,7 @@ const FriendChatPage = () => {
   }
 
   return (
-    <div className={`px-3 py-3 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
+    <div className={`px-3 py-3 min-h-screen ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
       <div className='flex items-center justify-between mb-4'>
         <ArrowBackIcon
           className={`h-8 w-8 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
@@ -91,44 +125,71 @@ const FriendChatPage = () => {
       </div>
 
       <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
-        {chatList && chatList.find(chat => chat.chatId === id)?.messages.map(message => (
-          <div
+        {chatList && chatList.find(chat => chat.chatId === id)?.messages.map((message, index) => (
+          <Letter
+            letter={message}
+            otherUser={otherUser}
+            index={index}
+            onOpenLetter={onOpenLetter}
             key={message.createdAt}
-            className={`px-2 py-2 flex flex-col justify-end ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}
-          >
-            {Date.now() < +new Date(message.deliveredDate)
-              ? message.senderId === otherUser.id
-                ? null
-                : <div className='flex-1 leading-tight text-xs py-4'>{message.message.slice(0, 50)}</div>
-              : <div className='flex-1 leading-tight text-xs py-4'>{message.message.slice(0, 50)}</div>
-            }
-            {Date.now() < +new Date(message.deliveredDate) ? (
-              <div>
-                <div className='mb-1'>{message.senderId === id ? otherUser.info.nickName : user?.info.nickName}</div>
-                <div className={`flex text-sm leading-tight ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                  {`${t('deliveredThrought')} ${(Math.round(+new Date(message.deliveredDate) - Date.now()) / 60000) < 60
-                    ? `${Math.round((+new Date(message.deliveredDate) - Date.now()) / 60000)} ${t('minutes')}`
-                    : `${Math.round(Math.round((+new Date(message.deliveredDate) - Date.now()) / 60000 / 60))} ${t('hours')}`}`}
-                </div>
-              </div>
-            )
-              : (
-                <div>
-                  <div className='mb-1'>{message.senderId === id ? otherUser.info.nickName : user?.info.nickName}</div>
-                  <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {(Date.now() - +new Date(message.deliveredDate) <= msInDay) && (
-                      new Date(message.deliveredDate).getDate() === new Date().getDate()
-                    )
-                      ? new Date(message.deliveredDate).toLocaleTimeString().slice(0, -3)
-                      : new Date(message.deliveredDate).toDateString()
-                    }
-                  </div>
-                </div>
-              )
-            }
-          </div>
+            isOpened={false}
+          />
         ))}
       </div>
+
+      {openedLetter !== null && (
+        <div
+          className={`absolute top-0 left-0 w-full min-h-screen z-10 bg-inherit px-2`}
+        >
+          <div className='py-2 relative mb-4'>
+            <CloseIcon
+              className={`absolute top-2 left-0 h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+              onClick={onCloseLetter}
+            />
+            <div className='text-center text-lg font-medium'>
+              {openedLetter.senderId === id ? otherUser.info.nickName : user?.info.nickName}
+            </div>
+            <div className='absolute top-2 right-0 flex items-center'>
+              <ArrowDownIcon
+                onClick={isPrevLetterArrowDisabled ? () => { } : () => onOpenLetter(letterIndex - 1)}
+                className={`h-7 w-7 rotate-90 
+                  ${theme === 'dark'
+                    ? isPrevLetterArrowDisabled
+                      ? 'fill-gray-500'
+                      : 'fill-white'
+                    : isPrevLetterArrowDisabled
+                      ? 'fill-zinc-700'
+                      : 'fill-black'
+                  }
+                `}
+              />
+              <ArrowDownIcon
+                onClick={isNextLetterArrowDisabled ? () => { } : () => onOpenLetter(letterIndex + 1)}
+                className={`h-7 w-7 -rotate-90 
+                  ${theme === 'dark'
+                    ? isNextLetterArrowDisabled
+                      ? 'fill-gray-500'
+                      : 'fill-white'
+                    : isNextLetterArrowDisabled
+                      ? 'fill-zinc-700'
+                      : 'fill-black'
+                  }
+                `}
+              />
+            </div>
+          </div>
+
+          <div className={`px-3 py-3 flex flex-col justify-end ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
+            <Letter
+              letter={openedLetter}
+              otherUser={otherUser}
+              index={0}
+              onOpenLetter={() => { }}
+              isOpened={true}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 
 import { Dispatch } from 'redux';
 import { AuthAction, AuthActionTypes } from '../../types/Auth/authReducer';
-import { IChatList, ILang, IMessage, IUser, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../../types/Auth/auth';
+import { IChatList, ILang, ILetter, IUser, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../../types/Auth/auth';
 import supabase from '../../supabaseClient';
 
 
@@ -168,7 +168,7 @@ export const fetchUserChatList = (id: string) => {
 
       // console.log('successfull get messages', data)
       if (data && data.length > 0) {
-        const messages = data as IMessage[]
+        const messages = data as ILetter[]
 
         const messagesMap = new Map();
         messages.forEach(message => {
