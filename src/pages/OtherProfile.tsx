@@ -21,6 +21,7 @@ import { ReactComponent as ArrowsLeftRightIcon } from '../assets/arrowsLeftRight
 import { coordsToDistance } from '../utils/calcDistance'
 import { filterInterests } from '../utils/filterInterests'
 import WriteLetter from '../components/WriteLetter'
+import WriteLetterButton from '../UI/WriteLetterButton'
 
 const OtherProfile = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -227,14 +228,7 @@ const OtherProfile = () => {
         </div>
       </div>
 
-      <div className={`fixed bottom-3 right-3 z-10 rounded-full border-2 bg-gray-300
-        ${theme === 'dark' ? 'border-black' : ' border-zinc-500'} 
-      `}>
-        <PlaneIcon
-          className={`h-12 w-12 p-2 rounded-full fill-black bg-gray-300`}
-          onClick={handleIsWriteLetterVisible}
-        />
-      </div>
+      <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />
 
       {isWriteLetterVisible && (
         <WriteLetter

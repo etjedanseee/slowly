@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import MyButton from '../UI/MyButton'
 import { calcWordsCount } from '../utils/calcWordsCount'
 import { sendLetter } from '../utils/sendLetter'
+import { checkCommonLanguages } from '../utils/checkCommonLanguages'
 
 interface WriteLetterProps {
   otherUser: IUser,
@@ -109,6 +110,10 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
         />
         <div className='text-sm'>{otherUser.info.nickName}</div>
       </div>
+
+      {!checkCommonLanguages(user?.languages || [], otherUser.languages) && (
+        <div className='text-red-500 text-sm mb-2'>{t('understood')}</div>
+      )}
 
       <div className='bg-black h-[1px] w-full mb-4'></div>
 

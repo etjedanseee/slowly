@@ -49,14 +49,14 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
   }
 
   const handleAddLang = (lang: ILang) => {
-    const isLangAdded = userLangs.find(l => l.code === lang.code)
-    if (isLangAdded) {
+    const prevLang = userLangs.find(l => l.code === lang.code)
+    if (prevLang && prevLang.level !== lang.level) {
       const otherLangs = userLangs.filter(l => l.code !== lang.code)
       if (user) {
         updateUserLangs(user, [...otherLangs, lang])
       }
       setUserLangs([...otherLangs, lang])
-    } else {
+    } else if (!prevLang) {
       if (user) {
         updateUserLangs(user, [...userLangs, lang])
       }
@@ -70,7 +70,7 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
       setUserLangs([])
     } else {
       const otherLangs = userLangs.filter(l => l.code !== selectedLang.code)
-      if (user) {
+      if (user && userLangs.length > 1) {
         updateUserLangs(user, otherLangs)
       }
       setUserLangs([...otherLangs])

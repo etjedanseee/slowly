@@ -199,8 +199,10 @@ export const dictionary = {
     words: 'Words',
     signs: 'Signs',
     deliveredThrought: 'Delivered through',
+    understood: 'Perhaps you will not be understood',
   },
   ua: {
+    understood: 'Можливо, вас не зрозуміють',
     deliveredThrought: 'Доставиться через',
     signs: 'Знаки',
     words: 'Слова',
