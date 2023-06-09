@@ -3,7 +3,6 @@ import supabase from "../supabaseClient"
 export const sendLetter = async (senderId: string, receiverId: string, message: string, deliveryTime: number) => {
   const createdAt = new Date()
   const deliveredDate = new Date(+createdAt + (deliveryTime * 60000))
-  console.log(createdAt, deliveredDate)
 
   try {
     const { error } = await supabase.from('Messages').insert([{

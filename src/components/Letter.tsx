@@ -17,7 +17,6 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
   const { user } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
 
-
   useEffect(() => {
     if (isOpened) {
       window.scrollTo({ top: 0 })

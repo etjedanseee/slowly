@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
-import { useTranslation } from 'react-i18next'
 import { fetchUserById } from '../utils/fetchUserById'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ILetter, IUser } from '../types/Auth/auth'
@@ -11,17 +10,19 @@ import { ReactComponent as GeoIcon } from '../assets/geo.svg'
 import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import { ageToString } from '../utils/calcAge'
 import ZodiacIcon from '../components/ZodiacIcon'
-import { msInDay } from '../utils/consts'
 import Letter from '../components/Letter'
+import WriteLetterButton from '../UI/WriteLetterButton'
+import WriteLetter from '../components/WriteLetter'
+import { useDeliveryTime } from '../hooks/useDeliveryTime'
 
 const FriendChatPage = () => {
-  const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
   const { user, chatList } = useTypedSelector(state => state.auth)
   const navigate = useNavigate()
   const { id } = useParams()
 
-  const [otherUser, setOtherUser] = useState<IUser>()
+  const [otherUser, setOtherUser] = useState<IUser | null>(null)
+  const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
 
   const [openedLetter, setOpenedLetter] = useState<ILetter | null>(null)
   const [letterIndex, setLetterIndex] = useState(0)
@@ -29,12 +30,22 @@ const FriendChatPage = () => {
   const [isPrevLetterArrowDisabled, setPrevLetterArrowDisabled] = useState(true)
   const [isNextLetterArrowDisabled, setNextLetterArrowDisabled] = useState(true)
 
+  const { deliveredTime } = useDeliveryTime(user, otherUser)
+
   const onGoBackClick = () => {
     navigate(-1)
   }
 
   const onCloseLetter = () => {
     setOpenedLetter(null)
+  }
+
+  const onOtherUserClick = () => {
+    navigate('/users/' + otherUser?.id)
+  }
+
+  const handleIsWriteLetterVisible = () => {
+    setWriteLetterVisible(prev => !prev)
   }
 
   const onOpenLetter = (letterIdx: number) => {
@@ -80,7 +91,10 @@ const FriendChatPage = () => {
         <SearchIcon className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
       </div>
 
-      <div className='flex items-center justify-between mb-4'>
+      <div
+        className='flex items-center justify-between mb-4'
+        onClick={onOtherUserClick}
+      >
         <div>
           <div className='font-medium text-lg'>{otherUser.info.nickName}</div>
           <div className='flex gap-x-4 items-center'>
@@ -188,6 +202,16 @@ const FriendChatPage = () => {
               isOpened={true}
             />
           </div>
+
+          <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />
+
+          {isWriteLetterVisible && (
+            <WriteLetter
+              deliveredTime={deliveredTime}
+              otherUser={otherUser}
+              onClose={handleIsWriteLetterVisible}
+            />
+          )}
         </div>
       )}
     </div>

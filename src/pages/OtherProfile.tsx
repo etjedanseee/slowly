@@ -18,10 +18,11 @@ import { ReactComponent as OtherGenderIcon } from '../assets/otherGender.svg'
 import { ReactComponent as GeoIcon } from '../assets/geo.svg'
 import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
 import { ReactComponent as ArrowsLeftRightIcon } from '../assets/arrowsLeftRight.svg'
-import { coordsToDistance } from '../utils/calcDistance'
 import { filterInterests } from '../utils/filterInterests'
 import WriteLetter from '../components/WriteLetter'
 import WriteLetterButton from '../UI/WriteLetterButton'
+import { useDeliveryTime } from '../hooks/useDeliveryTime'
+import { fetchUserById } from '../utils/fetchUserById'
 
 const OtherProfile = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -33,40 +34,15 @@ const OtherProfile = () => {
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
 
   const [isBiographyTruncated, setIsBiographyTruncated] = useState(true)
-  const [differenceDistance, setDifferenceDistance] = useState(0)
-
-  //90 km - 1 min
-  const deliveredTime = Math.round(differenceDistance / 90)
+  const { differenceDistance, deliveredTime } = useDeliveryTime(user, otherUser)
 
   const [commonInterests, differentInterests] = filterInterests(otherUser?.interests || [], user?.interests || [])
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data, error } = await supabase
-        .from('Users')
-        .select('*')
-        .eq('id', id);
-
-      console.log('other user fetch', data && data[0]);
-
-      if (error) {
-        console.error(error);
-      } else {
-        if (data && data.length > 0) {
-          const otherUserData = data[0] as IUser;
-          setOtherUser(otherUserData);
-        }
-      }
-    };
-    fetchUser()
-  }, [id])
-
-  useEffect(() => {
-    if (otherUser !== null && differenceDistance === 0) {
-      const diffGeoDistance = coordsToDistance(user?.geo.coord || { latitude: 0, longitude: 0 }, otherUser.geo.coord)
-      setDifferenceDistance(diffGeoDistance)
+    if (id) {
+      fetchUserById(id, setOtherUser, () => { })
     }
-  }, [otherUser, differenceDistance])
+  }, [id])
 
   const handleOpenBiography = () => {
     setIsBiographyTruncated(false)

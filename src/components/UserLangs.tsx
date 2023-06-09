@@ -15,7 +15,6 @@ interface UserlangsProps {
   user?: IUser
 }
 
-
 const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
@@ -112,8 +111,12 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
             className={`${theme === 'dark' ? 'border-zinc-900' : ''} mb-3 border-b-2 pb-3 flex items-center justify-between`}
           >
             <div className='flex flex-col'>
-              <div className={`font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-black'} leading-none`}>{addedLang.name}</div>
-              <div className={`text-sm mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{addedLang.engName}</div>
+              <div className={`font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-black'} leading-none`}>
+                {addedLang.name}
+              </div>
+              <div className={`text-sm mb-1 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                {addedLang.engName}
+              </div>
 
               <div className='flex gap-x-1'>
                 {[1, 2, 3, 4, 5].map(ind => (

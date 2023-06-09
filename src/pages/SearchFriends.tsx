@@ -9,9 +9,8 @@ import { IUser } from '../types/Auth/auth'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
 import WriteLetter from '../components/WriteLetter'
-import { coordsToDistance } from '../utils/calcDistance'
+import { useDeliveryTime } from '../hooks/useDeliveryTime'
 
-//придумать как добавлять друзей и где это хранить(возможно просто в юзере создать массив id)
 //решить проблему с отображением профиля или ошибки при лоадинге от запроса
 const SearchFriends = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -25,10 +24,7 @@ const SearchFriends = () => {
   const [userSearchError, setUserSearchError] = useState('')
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
 
-  const differenceDistance = coordsToDistance(user?.geo.coord || { latitude: 0, longitude: 0 }, otherUser?.geo.coord || { latitude: 0, longitude: 0 })
-
-  //90 km - 1 min
-  const deliveredTime = Math.round(differenceDistance / 90)
+  const { deliveredTime } = useDeliveryTime(user, otherUser)
 
   const handleOtherUserIdChange = (e: ChangeEvent<HTMLInputElement>) => {
     setOtherUserId(e.target.value)
