@@ -3,9 +3,9 @@ import { IUser } from "../types/Auth/auth"
 import { coordsToDistance } from "../utils/calcDistance"
 
 export const useDeliveryTime = (otherUser: IUser | null, user: IUser | null) => {
-  const [differenceDistance, setDifferenceDistance] = useState(0)
   //90 km - 1 min
   const [deliveredTime, setDeliveredTime] = useState(0)
+  const [differenceDistance, setDifferenceDistance] = useState(0)
 
   useEffect(() => {
     if (otherUser && user && differenceDistance === 0) {

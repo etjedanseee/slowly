@@ -3,21 +3,31 @@ import { useTranslation } from 'react-i18next'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as FriendsIcon } from '../assets/addFriend.svg'
+import { ReactComponent as ReloadIcon } from '../assets/reload.svg'
 import { fetchUsersById } from '../utils/fetchUserById'
 import { IUser } from '../types/Auth/auth'
 import { msInDay } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
+import { useActions } from '../hooks/useActions'
 
 const Friends = () => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
+  const { user } = useTypedSelector(state => state.auth)
   const { chatList } = useTypedSelector(state => state.auth)
   const navigate = useNavigate()
+  const { fetchUserChatList } = useActions()
 
   const [users, setUsers] = useState<IUser[]>([])
 
   const onFriendClick = (id: string) => {
     navigate('/friends/' + id)
+  }
+
+  const onReloadChatListClick = () => {
+    if (user) {
+      fetchUserChatList(user.id)
+    }
   }
 
   useEffect(() => {
@@ -31,9 +41,13 @@ const Friends = () => {
     <div className='flex flex-col h-screen'>
       <div className={`
         ${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} 
-          font-medium text-2xl px-4 py-3`
-      }>
-        {t('penpals')}
+          font-medium text-2xl px-4 py-3 flex items-center justify-between`}
+      >
+        <div>{t('penpals')}</div>
+        <ReloadIcon
+          className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+          onClick={onReloadChatListClick}
+        />
       </div>
 
       <div className={`px-2 py-2 flex-1 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>

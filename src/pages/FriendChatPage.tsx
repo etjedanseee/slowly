@@ -139,7 +139,7 @@ const FriendChatPage = () => {
       </div>
 
       <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
-        {chatList && chatList.find(chat => chat.chatId === id)?.messages.map((message, index) => (
+        {!openedLetter && chatList && chatList.find(chat => chat.chatId === id)?.messages.map((message, index) => (
           <Letter
             letter={message}
             otherUser={otherUser}
@@ -153,11 +153,11 @@ const FriendChatPage = () => {
 
       {openedLetter !== null && (
         <div
-          className={`absolute top-0 left-0 w-full min-h-screen z-10 bg-inherit px-2`}
+          className={`absolute top-0 left-0 w-full min-h-screen z-10 bg-inherit px-2 py-1`}
         >
           <div className='py-2 relative mb-4'>
             <CloseIcon
-              className={`absolute top-2 left-0 h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+              className={`absolute top-2 left-0 h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
               onClick={onCloseLetter}
             />
             <div className='text-center text-lg font-medium'>

@@ -72,7 +72,9 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
       if (user && userLangs.length > 1) {
         updateUserLangs(user, otherLangs)
       }
-      setUserLangs([...otherLangs])
+      if (!user) {
+        setUserLangs([...otherLangs])
+      }
     }
   }
 
