@@ -27,6 +27,7 @@ import { useActions } from '../hooks/useActions'
 import Biography from '../components/Biography'
 import UserInfo from '../components/UserInfo'
 import SignUpNavigation from '../UI/SignUpNavigation'
+import Loader from '../UI/Loader'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
@@ -59,7 +60,7 @@ const Profile = () => {
   const [userLangs, setUserLangs] = useState<ILang[]>(user?.languages || [])
 
   if (!user) {
-    return null
+    return <div className='flex justify-center py-20'><Loader size='16' /></div>
   }
 
   const handleEditUserInfoVisible = () => {

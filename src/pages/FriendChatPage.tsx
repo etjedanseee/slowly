@@ -14,6 +14,7 @@ import Letter from '../components/Letter'
 import WriteLetterButton from '../UI/WriteLetterButton'
 import WriteLetter from '../components/WriteLetter'
 import { useDeliveryTime } from '../hooks/useDeliveryTime'
+import Loader from '../UI/Loader'
 
 const FriendChatPage = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -78,7 +79,7 @@ const FriendChatPage = () => {
   }, [id])
 
   if (!otherUser) {
-    return null
+    return <div className='flex justify-center py-20'><Loader size='16' /></div>
   }
 
   return (

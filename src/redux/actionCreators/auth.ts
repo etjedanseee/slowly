@@ -153,9 +153,11 @@ export const updateUserInfo = (user: IUser, updatedInfo: IUserInfo) => {
   return updateUser(user, updatedMetadata)
 }
 
-export const fetchUserChatList = (id: string) => {
+export const fetchUserChatList = (id: string, setLoadingChatList: (b: boolean) => void) => {
   return async (dispatch: Dispatch<AuthAction>) => {
     try {
+      setLoadingChatList(true)
+
       const { data, error } = await supabase
         .from('Messages')
         .select('*')
@@ -195,6 +197,8 @@ export const fetchUserChatList = (id: string) => {
       }
     } catch (e) {
       console.log(e)
+    } finally {
+      setLoadingChatList(false)
     }
   }
 }

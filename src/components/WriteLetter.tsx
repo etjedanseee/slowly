@@ -37,12 +37,27 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
     setIsHelpMenuVisible(prev => !prev)
   }
 
+  const handleCloseWriteLetter = () => {
+    if (letterText.length) {
+      localStorage.setItem(`WriteLetterTo ${otherUser.id}`, letterText)
+    }
+    onClose()
+  }
+
   const onSendLetter = () => {
     if (user && !!letterText.length) {
       sendLetter(user.id, otherUser.id, letterText, deliveredTime)
+      localStorage.removeItem(`WriteLetterTo ${otherUser.id}`)
       onClose()
     }
   }
+
+  useEffect(() => {
+    const localStorageLetterText = localStorage.getItem(`WriteLetterTo ${otherUser.id}`)
+    if (localStorageLetterText) {
+      setLetterText(localStorageLetterText)
+    }
+  }, [otherUser.id])
 
   useEffect(() => {
     setSignsCount(letterText.length)
@@ -67,7 +82,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
         <div className='flex-1'>
           <CloseIcon
             className={`w-6 h-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
-            onClick={onClose}
+            onClick={handleCloseWriteLetter}
           />
         </div>
         <div>

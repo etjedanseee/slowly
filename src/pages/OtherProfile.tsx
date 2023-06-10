@@ -23,6 +23,7 @@ import WriteLetter from '../components/WriteLetter'
 import WriteLetterButton from '../UI/WriteLetterButton'
 import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import { fetchUserById } from '../utils/fetchUserById'
+import Loader from '../UI/Loader'
 
 const OtherProfile = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -56,9 +57,9 @@ const OtherProfile = () => {
     setWriteLetterVisible(prev => !prev)
   }
 
-  //заменить на лоадер
-  if (!otherUser) return null
-
+  if (!otherUser) {
+    return <div className='flex justify-center py-20'><Loader size='16' /></div>
+  }
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'}`}>
       <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} pt-12 pb-3`}>
