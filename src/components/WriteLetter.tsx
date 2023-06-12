@@ -21,6 +21,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [letterText, setLetterText] = useState('')
+  const [letterError, setLetterError] = useState('')
   const [signsCount, setSignsCount] = useState(0)
   const [wordsCount, setWordsCount] = useState(0)
   const [isHelpMenuVisible, setIsHelpMenuVisible] = useState(false)
@@ -31,6 +32,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
 
   const handleLetterText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setLetterText(e.target.value)
+    setLetterError('')
   }
 
   const handleHelpMenuVisible = () => {
@@ -49,6 +51,8 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
       sendLetter(user.id, otherUser.id, letterText, deliveredTime)
       localStorage.removeItem(`WriteLetterTo ${otherUser.id}`)
       onClose()
+    } else {
+      setLetterError('emptyLetter')
     }
   }
 
@@ -129,6 +133,8 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
       {!checkCommonLanguages(user?.languages || [], otherUser.languages) && (
         <div className='text-red-500 text-sm mb-2'>{t('understood')}</div>
       )}
+
+      {letterError && <div className='text-red-500 text-sm mb-2'>{t(letterError)}</div>}
 
       <div className='bg-black h-[1px] w-full mb-4'></div>
 

@@ -22,10 +22,9 @@ const MultySelect = <T,>({ onSelectOption, isMenuVisible, options, selectedOptio
     `}>
       <div className='w-full overflow-y-auto flex flex-col gap-y-3 text-xl py-20'>
 
-        <div className={`w-full fixed top-2 left-0 z-50 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
-          <div className='text-3xl font-medium px-5'>{t(selectTitle)}</div>
-          <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-200'} px-5 flex items-center gap-x-3 first-line:mb-2`}>
-            <div>{t(selectTitle)}:</div>
+        <div className={`w-full fixed top-0 left-0 z-50 py-3 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
+          <div className='flex items-center justify-between px-5'>
+            <div className='text-3xl font-medium'>{t(selectTitle)}</div>
             <div>{selectedOptions.length} / {options.length}</div>
           </div>
         </div>

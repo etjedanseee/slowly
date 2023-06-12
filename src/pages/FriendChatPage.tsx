@@ -86,10 +86,10 @@ const FriendChatPage = () => {
     <div className={`px-3 py-3 min-h-screen ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
       <div className='flex items-center justify-between mb-4'>
         <ArrowBackIcon
-          className={`h-8 w-8 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+          className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
         />
-        <SearchIcon className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
+        <SearchIcon className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
       </div>
 
       <div

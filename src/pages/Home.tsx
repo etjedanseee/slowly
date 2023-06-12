@@ -7,7 +7,6 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 
 const Home = () => {
   const { theme } = useTypedSelector(state => state.theme)
-
   const { switchTheme } = useActions()
 
   const onSwitchTheme = () => {
@@ -19,7 +18,7 @@ const Home = () => {
       <div className='flex justify-end mb-4'>
         {theme === 'white'
           ? <SunIcon className='h-10 w-10 fill-black' onClick={onSwitchTheme} />
-          : <MoonIcon className='h-10 w-10 fill-white' onClick={onSwitchTheme} />}
+          : <MoonIcon className='h-9 w-9 fill-white' onClick={onSwitchTheme} />}
       </div>
 
       <div>Home</div>

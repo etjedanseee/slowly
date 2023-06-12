@@ -19,9 +19,9 @@ import FriendChatPage from './pages/FriendChatPage';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
-  const { user } = useTypedSelector(state => state.auth)
+  const { user, chatList } = useTypedSelector(state => state.auth)
   const { interests } = useTypedSelector(state => state.data)
-  const { setUser, fetchInterests } = useActions()
+  const { setUser, fetchInterests, fetchUserChatList } = useActions()
 
   i18n.use(initReactI18next).init({
     resources: { en: { translation: dictionary.en }, ua: { translation: dictionary.ua } },
@@ -44,6 +44,12 @@ function App() {
       fetchInterests()
     }
   }, [])
+
+  useEffect(() => {
+    if (user && !chatList.length) {
+      fetchUserChatList(user.id, () => { })
+    }
+  }, [user, chatList])
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} max-w-[500px] mx-auto min-h-screen`}>

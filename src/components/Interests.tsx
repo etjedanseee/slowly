@@ -39,7 +39,7 @@ const Interests = ({ userInterests, setInterests, setIsInterestsValid }: Interes
           <div className='text-3xl mb-2'>{t('selectInterests')}</div>
           <div className='text-sm'>{t('interestsHelp')}</div>
         </div>
-        <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-300'} rounded-lg px-2`}>
+        <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'} rounded-lg px-2`}>
           {userInterests.length} / {interests.length}
         </div>
       </div>
