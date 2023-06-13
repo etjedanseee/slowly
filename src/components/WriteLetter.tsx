@@ -40,14 +40,16 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   }
 
   const handleCloseWriteLetter = () => {
-    if (letterText.length) {
+    if (letterText?.trim().length) {
       localStorage.setItem(`WriteLetterTo ${otherUser.id}`, letterText)
+    } else {
+      localStorage.removeItem(`WriteLetterTo ${otherUser.id}`)
     }
     onClose()
   }
 
   const onSendLetter = () => {
-    if (user && !!letterText.length) {
+    if (user && letterText?.trim().length) {
       sendLetter(user.id, otherUser.id, letterText, deliveredTime)
       localStorage.removeItem(`WriteLetterTo ${otherUser.id}`)
       onClose()
@@ -76,7 +78,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   }, [])
 
   return (
-    <div className={`fixed min-h-full h-full w-full top-0 left-0 z-20 px-3 pt-20
+    <div className={`fixed min-h-full h-full w-full top-0 left-0 z-20 px-3 pt-20 
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}
     `}>
       <div className={`absolute top-0 left-0 w-full py-3 px-3 flex items-center gap-x-7

@@ -125,7 +125,6 @@ export const updateUserSexPreference = (user: IUser, updatedPS: SexType[]) => {
   return updateUser(user, updatedMetadata)
 }
 
-
 export const updateUserBiography = (user: IUser, updatedBiography: string) => {
   const updatedMetadata = {
     info: user.info,

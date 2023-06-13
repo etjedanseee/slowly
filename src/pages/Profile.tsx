@@ -154,15 +154,17 @@ const Profile = () => {
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} py-3`}>
-      <NavLink to='/profile/settings'>
-        <div className={`fixed z-50 top-0 left-0 w-full grid grid-cols-3 items-center py-2 ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}`}>
-          <div></div>
-          <div className='font-medium text-center text-xl'>{user && user.info.nickName}</div>
-          <div className='flex justify-end pr-3'>
+
+      <div className={`fixed z-50 top-0 left-0 w-full grid grid-cols-3 items-center py-2 ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}`}>
+        <div></div>
+        <div className='font-medium text-center text-xl'>{user && user.info.nickName}</div>
+        <div className='flex justify-end pr-3'>
+          <NavLink to='/profile/settings'>
             <SettingsIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-          </div>
+          </NavLink>
         </div>
-      </NavLink>
+      </div>
+
 
       <div className='py-10'>
         <div className='px-2 relative mb-3'>
@@ -183,11 +185,11 @@ const Profile = () => {
 
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
           <div onClick={handleEditUserInfoVisible}>
-            <div className='font-medium text-lg mb-1'>
+            <div className='font-medium text-lg mb-2'>
               {user.info.nickName}
             </div>
 
-            <div className='flex gap-x-2 mb-3 text-sm'>
+            <div className='flex gap-x-2 gap-y-2 mb-4 text-sm flex-wrap relative pr-6'>
               <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-slate-400'} flex items-center gap-x-1 rounded-lg px-2 py-1`}>
                 {user.info.sex === 'male'
                   ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
@@ -202,7 +204,7 @@ const Profile = () => {
                 flex items-center gap-x-1 rounded-lg px-2 py-1
               `}>
                 <CakeIcon className={`h-4 w-4 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-                <div className='text-sm'>{ageToString(user.info.birthDate)}</div>
+                <div>{ageToString(user.info.birthDate)}</div>
               </div>
 
               <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-slate-400'} 
@@ -212,11 +214,11 @@ const Profile = () => {
                 <div>{t(user.info.zodiac)}</div>
               </div>
 
-              <div className='flex-1 flex justify-end items-center'>
-                <ArrowDownIcon className={`h-6 w-6 mr-1 -rotate-90
-              ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
-                />
-              </div>
+              <ArrowDownIcon
+                className={`absolute right-0 top-1/2 -translate-y-1/2 h-6 w-6 -rotate-90
+                  ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}
+                `}
+              />
             </div>
           </div>
 

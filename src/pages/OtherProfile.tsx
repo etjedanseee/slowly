@@ -57,11 +57,11 @@ const OtherProfile = () => {
     setWriteLetterVisible(prev => !prev)
   }
 
-  if (!otherUser) {
+  if (!otherUser || !user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
   }
   return (
-    <div className={`${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'}`}>
+    <div className={`pb-10 ${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'}`}>
       <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} pt-12 pb-3`}>
         <div className={`flex items-center gap-x-5 fixed z-10 top-0 py-2 px-3 w-full 
           ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-300 '}
@@ -205,7 +205,7 @@ const OtherProfile = () => {
         </div>
       </div>
 
-      <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />
+      {user.id !== otherUser.id && <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />}
 
       {isWriteLetterVisible && (
         <WriteLetter

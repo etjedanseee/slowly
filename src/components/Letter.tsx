@@ -25,7 +25,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
 
   return (
     <div
-      className={`${isOpened ? 'py-4' : 'px-2 py-2'} flex flex-col justify-end ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}
+      className={`${isOpened ? 'py-4 pb-16' : 'px-2 py-2'} flex flex-col justify-end ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}
       onClick={() => onOpenLetter(index)}
     >
       {Date.now() < +new Date(letter.deliveredDate)

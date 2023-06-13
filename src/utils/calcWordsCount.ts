@@ -1,5 +1,5 @@
 export const calcWordsCount = (str: string) => {
-  const separators = [' ', ',', '.', '!', '?', '']
+  const separators = [' ', ',', '.', '!', '?']
   let res = 0
   const strArr = str.split('')
 

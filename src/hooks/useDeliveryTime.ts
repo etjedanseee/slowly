@@ -8,7 +8,7 @@ export const useDeliveryTime = (otherUser: IUser | null, user: IUser | null) => 
   const [differenceDistance, setDifferenceDistance] = useState(0)
 
   useEffect(() => {
-    if (otherUser && user && differenceDistance === 0) {
+    if (otherUser && user) {
       const diffGeoDistance = coordsToDistance(user.geo.coord, otherUser.geo.coord)
       setDifferenceDistance(diffGeoDistance)
       setDeliveredTime(Math.round(diffGeoDistance / 90))

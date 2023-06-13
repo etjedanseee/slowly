@@ -15,11 +15,13 @@ import WriteLetterButton from '../UI/WriteLetterButton'
 import WriteLetter from '../components/WriteLetter'
 import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import Loader from '../UI/Loader'
+import { useTranslation } from 'react-i18next'
 
 const FriendChatPage = () => {
   const { theme } = useTypedSelector(state => state.theme)
   const { user, chatList } = useTypedSelector(state => state.auth)
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { id } = useParams()
 
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
@@ -130,7 +132,7 @@ const FriendChatPage = () => {
             key={intr}
             className='border-2 border-yellow-500 py-1 px-3 rounded-full text-sm'
           >
-            {intr}
+            {t(intr)}
           </div>
 
         ))}
