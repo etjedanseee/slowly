@@ -1,8 +1,9 @@
+import { getUserSystemLanguage, getUserSystemTheme } from '../../utils/getUserSystemSettings';
 import { ThemeState, ThemeAction, ThemeActionsTypes } from './../../types/Theme/themeReducer';
 
 const initialState: ThemeState = {
-  theme: 'dark',
-  lang: 'en'
+  theme: getUserSystemTheme(),
+  lang: getUserSystemLanguage()
 }
 
 export const themeReducer = (state = initialState, action: ThemeAction): ThemeState => {

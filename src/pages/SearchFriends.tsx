@@ -48,6 +48,14 @@ const SearchFriends = () => {
     setWriteLetterVisible(prev => !prev)
   }
 
+  const goToAutoSearch = () => {
+    navigate('/search/autoSearch')
+  }
+
+  const goToManuallySearch = () => {
+    navigate('/search/manuallySearch')
+  }
+
   return (
     <div className='flex flex-col justify-around h-screen text-center pb-10 px-3'>
       <div>
@@ -97,8 +105,8 @@ const SearchFriends = () => {
       </div>
 
       <div className='flex flex-col gap-y-2'>
-        <MyButton color='black' onClick={() => { }} title='autoSearch' p='py-2' />
-        <MyButton color='yellow' onClick={() => { }} title='manuallySearch' p='py-2' />
+        <MyButton color='black' onClick={goToAutoSearch} title='autoSearch' p='py-2' />
+        <MyButton color='yellow' onClick={goToManuallySearch} title='manuallySearch' p='py-2' />
       </div>
 
       {isWriteLetterVisible && otherUser && (

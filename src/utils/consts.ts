@@ -1,6 +1,5 @@
 import { ILang, IUserInfo, IUserProfile, LetterLengthType, ResponseTimeType, SexType } from "../types/Auth/auth"
 
-
 export const dictionary = {
   en: {
     autoSearch: 'Auto-match',
@@ -205,8 +204,12 @@ export const dictionary = {
     switchTheme: 'Change app theme',
     change: 'Change',
     signOut: 'Sign out',
+    target: 'Target',
+    includeMyCountryInSearch: 'Include my country in search',
   },
   ua: {
+    includeMyCountryInSearch: 'Включити мою країну до пошуку',
+    target: 'Мета',
     signOut: 'Вийти з акаунту',
     change: 'Змінити',
     switchTheme: 'Змінити тему програми',
