@@ -22,11 +22,9 @@ const MyButton = ({ color, title, variant, disabled, onClick, p }: MyButtonProps
     buttonColor = disabled ? 'bg-yellow-400 bg-opacity-50 text-zinc-900' : 'bg-yellow-400 text-zinc-900'
   }
 
-  const variantStyle = variant === 'roundedLg' ? 'rounded-lg' : variant === 'roundedFull' ? 'rounded-full' : 'rounded-xl'
-
   return (
     <div
-      className={`${buttonColor} ${variantStyle} w-full px-4 ${p ? p : 'py-1'} text-center font-medium select-none`}
+      className={`${buttonColor} ${variant || 'rounded-xl'} w-full px-4 ${p ? p : 'py-1'} text-center font-medium select-none`}
       onClick={onClick}
     >
       {t(title)}

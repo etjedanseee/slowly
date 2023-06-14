@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import MultySelect from '../UI/MultySelect'
 import { sexArr } from '../utils/consts'
 import { SexType } from '../types/Auth/auth'
+import Select from '../UI/Select'
 
 
 const AutoSearch = () => {
@@ -18,8 +19,27 @@ const AutoSearch = () => {
   const navigate = useNavigate()
 
   const [isIncludeUserCountryToSearch, setIsIncludeUserCountryToSearch] = useState(true)
+
   const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
   const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
+
+  const [numOfRecipients, setNumOfRecipients] = useState<1 | 2 | 3>(1)
+  const [selectedNumOfRecipients, setSelectedNumOfRecipients] = useState<1 | 2 | 3>(1)
+
+  const [isNumOfRecipientsSelectVisible, setIsNumOfRecipientsSelectVisible] = useState(false)
+
+  const handleNumOfRecipientsSelectVisible = () => {
+    setIsNumOfRecipientsSelectVisible(prev => !prev)
+  }
+
+  const changeNumOfRecipients = (num: 1 | 2 | 3) => {
+    setNumOfRecipients(num)
+  }
+
+  const onSaveNumOfRecipients = () => {
+    setSelectedNumOfRecipients(numOfRecipients)
+    handleNumOfRecipientsSelectVisible()
+  }
 
   const onGoBackClick = () => {
     navigate('/search')
@@ -101,6 +121,29 @@ const AutoSearch = () => {
             </div>
 
           </div>
+        </div>
+
+        <div className='flex items-center justify-between mb-3 relative'>
+          <div className='text-sm'>{t('numOfRecipients')}</div>
+
+          <div
+            onClick={handleNumOfRecipientsSelectVisible}
+            className='flex items-center gap-x-1'
+          >
+            <div>{selectedNumOfRecipients}</div>
+            <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+          </div>
+
+          {isNumOfRecipientsSelectVisible && (
+            <Select
+              onSelectOption={changeNumOfRecipients}
+              options={[1, 2, 3]}
+              selectedOption={numOfRecipients}
+              title='numOfRecipients'
+              onClose={handleNumOfRecipientsSelectVisible}
+              onSave={onSaveNumOfRecipients}
+            />
+          )}
         </div>
       </div>
 

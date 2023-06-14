@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next'
 import { ageToString } from '../utils/calcAge'
 import ZodiacIcon from '../components/ZodiacIcon'
 import MyButton from '../UI/MyButton'
-import SelectMenu from '../UI/SelectMenu'
 import UserAvatar from '../components/UserAvatar'
 import { initialUserInfo, letterLengths, responseTimeArr, sexArr } from '../utils/consts'
 import { ILang, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../types/Auth/auth'
@@ -28,6 +27,7 @@ import Biography from '../components/Biography'
 import UserInfo from '../components/UserInfo'
 import SignUpNavigation from '../UI/SignUpNavigation'
 import Loader from '../UI/Loader'
+import Select from '../UI/Select'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
@@ -43,7 +43,7 @@ const Profile = () => {
   const [biography, setBiography] = useState(user?.profile.biography || '')
   const [isEditBiographyVisible, setIsEditBiographyVisible] = useState(false)
 
-  const [selectedLetterLength, setSelectedLetterLength] = useState<LetterLengthType>(user?.profile.letterLength || 'any')
+  const [letterLength, setLetterLength] = useState<LetterLengthType>(user?.profile.letterLength || 'any')
   const [isLetterSizeMenuVisible, setIsLetterSizeMenuVisible] = useState(false)
 
   const [responseTime, setResponseTime] = useState<ResponseTimeType>(user?.profile.responseTime || 'soonPossible')
@@ -58,6 +58,17 @@ const Profile = () => {
   const [isInterestsMenuVisible, setIsInterestMenuVisible] = useState(false)
 
   const [userLangs, setUserLangs] = useState<ILang[]>(user?.languages || [])
+
+  useEffect(() => {
+    if (isLetterSizeMenuVisible || isResponseTimeMenuVisible) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isLetterSizeMenuVisible, isResponseTimeMenuVisible])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
@@ -89,26 +100,40 @@ const Profile = () => {
     handleEditBiographyVisible()
   }
 
-  const hangleLetterLengthMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation()
+  const handleLetterLengthSelectVisible = () => {
     setIsLetterSizeMenuVisible(prev => !prev)
   }
 
-  const changeSelectedLetterLength = (e: MouseEvent<HTMLDivElement>, option: LetterLengthType) => {
-    setSelectedLetterLength(option)
-    updateUserLetterLength(user, option)
-    hangleLetterLengthMenuVisible(e)
+  const changeSelectedLetterLength = (option: LetterLengthType) => {
+    setLetterLength(option)
   }
 
-  const handleResponseTimeMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation()
+  const onSaveSelectedLetterLength = () => {
+    updateUserLetterLength(user, letterLength)
+    handleLetterLengthSelectVisible()
+  }
+
+  const onCloseLetterLengthSelect = () => {
+    changeSelectedLetterLength(user?.profile.letterLength || 'any')
+    handleLetterLengthSelectVisible()
+  }
+
+  const handleResponseTimeMenuVisible = () => {
     setIsResponseTimeMenuVisible(prev => !prev)
   }
 
-  const changeSelectedResponseTime = (e: MouseEvent<HTMLDivElement>, option: ResponseTimeType) => {
+  const changeSelectedResponseTime = (option: ResponseTimeType) => {
     setResponseTime(option)
-    updateUserResponseTime(user, option)
-    handleResponseTimeMenuVisible(e)
+  }
+
+  const onSaveSelectedResponseTime = () => {
+    updateUserResponseTime(user, responseTime)
+    handleResponseTimeMenuVisible()
+  }
+
+  const onCloseResponseTimeSelect = () => {
+    setResponseTime(user?.profile.responseTime || 'soonPossible')
+    handleResponseTimeMenuVisible()
   }
 
   const handlePrefSexMenuVisible = () => {
@@ -155,7 +180,7 @@ const Profile = () => {
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} py-3`}>
 
-      <div className={`fixed z-50 top-0 left-0 w-full grid grid-cols-3 items-center py-2 ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}`}>
+      <div className={`fixed z-20 top-0 left-0 w-full grid grid-cols-3 items-center py-2 ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}`}>
         <div></div>
         <div className='font-medium text-center text-xl'>{user && user.info.nickName}</div>
         <div className='flex justify-end pr-3'>
@@ -279,17 +304,23 @@ const Profile = () => {
 
             <div
               className='flex items-center gap-x-1'
-              onClick={hangleLetterLengthMenuVisible}
+              onClick={handleLetterLengthSelectVisible}
             >
-              <div>{t(selectedLetterLength)}</div>
+              <div>{t(letterLength)}</div>
               <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-
-              <SelectMenu
-                options={letterLengths}
-                onSelectOption={changeSelectedLetterLength}
-                isMenuVisible={isLetterSizeMenuVisible}
-              />
             </div>
+
+            {isLetterSizeMenuVisible && (
+              <Select
+                options={letterLengths}
+                title='letterLength'
+                onSelectOption={changeSelectedLetterLength}
+                selectedOption={letterLength}
+                onClose={onCloseLetterLengthSelect}
+                onSave={onSaveSelectedLetterLength}
+              />
+            )}
+
           </div>
 
           <div className='flex justify-between items-center relative'>
@@ -304,13 +335,18 @@ const Profile = () => {
             >
               <div>{t(responseTime)}</div>
               <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-
-              <SelectMenu
-                options={responseTimeArr}
-                isMenuVisible={isResponseTimeMenuVisible}
-                onSelectOption={changeSelectedResponseTime}
-              />
             </div>
+
+            {isResponseTimeMenuVisible && (
+              <Select
+                options={responseTimeArr}
+                title='responseTime'
+                onSelectOption={changeSelectedResponseTime}
+                selectedOption={responseTime}
+                onClose={onCloseResponseTimeSelect}
+                onSave={onSaveSelectedResponseTime}
+              />
+            )}
           </div>
         </div>
 
