@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import MyButton from './MyButton'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ILang } from '../types/Auth/auth'
+import { levelLangNames } from '../utils/consts'
 
 interface LangModalProps {
   lang: ILang | null,
@@ -14,8 +15,6 @@ interface LangModalProps {
 const LangModal = ({ lang, handleModalLangVisible, onAddLang }: LangModalProps) => {
   const [langLevel, setLangLevel] = useState(lang?.level || 0)
   const { theme } = useTypedSelector(state => state.theme)
-
-  const levelLangNames = ['Interested', 'Beginning', 'Average', 'Advanced', 'Fluency', 'Native language']
 
   const { t } = useTranslation()
 

@@ -78,6 +78,7 @@ const Settings = () => {
 
         {isAppLanguageSelectVisible && (
           <Select
+            isSelectVisible={isAppLanguageSelectVisible}
             options={appLangsArr}
             selectedOption={appLanguage}
             title='appLang'

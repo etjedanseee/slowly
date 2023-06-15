@@ -1,5 +1,5 @@
 import { ILang, IUserInfo, IUserProfile, LetterLengthType, ResponseTimeType, SexType } from "../types/Auth/auth"
-import { IAppLangs, appLangType } from "../types/Theme/theme"
+import { appLangType } from "../types/Theme/theme"
 
 export const dictionary = {
   en: {
@@ -208,8 +208,14 @@ export const dictionary = {
     target: 'Target',
     includeMyCountryInSearch: 'Include my country in search',
     numOfRecipients: 'Number of recipients',
+    aboutLetter: 'About this letter',
+    learningLangs: 'Learning languages',
+    topic: 'Topic',
   },
   ua: {
+    topic: 'Тема',
+    learningLangs: 'Вивчення мов',
+    aboutLetter: 'Про цей лист',
     numOfRecipients: 'Кількість одержувачів',
     includeMyCountryInSearch: 'Включити мою країну до пошуку',
     target: 'Мета',
@@ -451,3 +457,5 @@ export const initialUserInfo: IUserInfo = {
 export const msInDay = 86400000
 
 export const appLangsArr: appLangType[] = ['en', 'ua']
+
+export const levelLangNames = ['Interested', 'Beginning', 'Average', 'Advanced', 'Fluency', 'Native language']

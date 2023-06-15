@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -58,17 +58,6 @@ const Profile = () => {
   const [isInterestsMenuVisible, setIsInterestMenuVisible] = useState(false)
 
   const [userLangs, setUserLangs] = useState<ILang[]>(user?.languages || [])
-
-  useEffect(() => {
-    if (isLetterSizeMenuVisible || isResponseTimeMenuVisible) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
-  }, [isLetterSizeMenuVisible, isResponseTimeMenuVisible])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
@@ -312,6 +301,7 @@ const Profile = () => {
 
             {isLetterSizeMenuVisible && (
               <Select
+                isSelectVisible={isLetterSizeMenuVisible}
                 options={letterLengths}
                 title='letterLength'
                 onSelectOption={changeSelectedLetterLength}
@@ -339,6 +329,7 @@ const Profile = () => {
 
             {isResponseTimeMenuVisible && (
               <Select
+                isSelectVisible={isResponseTimeMenuVisible}
                 options={responseTimeArr}
                 title='responseTime'
                 onSelectOption={changeSelectedResponseTime}

@@ -1,9 +1,10 @@
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, useEffect } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
 import MyButton from './MyButton'
 
 interface SelectProps<T> {
+  isSelectVisible: boolean,
   title: string,
   onSelectOption: (option: T | any) => void,
   options: T[],
@@ -12,22 +13,33 @@ interface SelectProps<T> {
   onClose: () => void,
 }
 
-const Select = <T,>({ title, options, onSelectOption, selectedOption, onSave, onClose }: SelectProps<T>) => {
+const Select = <T,>({ isSelectVisible, title, options, onSelectOption, selectedOption, onSave, onClose }: SelectProps<T>) => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
+
+  useEffect(() => {
+    if (isSelectVisible) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isSelectVisible])
 
   const handleCancelCloseSelect = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
   }
 
   return (
-    <div className={`fixed top-0 left-0 w-full h-screen z-30 overflow-hidden flex justify-center items-center px-10
+    <div className={`fixed top-0 left-0 w-full h-screen z-30 flex justify-center items-center px-10 py-10
       ${theme === 'dark' ? 'bg-opacity-70' : ''} bg-black`}
       onClick={onClose}
     >
       <div className={`
         ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
-        w-full min-h-[400px] rounded-md flex flex-col
+        w-full min-h-[400px] max-h-full rounded-md flex flex-col
       `}
         onClick={handleCancelCloseSelect}
       >
@@ -36,7 +48,7 @@ const Select = <T,>({ title, options, onSelectOption, selectedOption, onSave, on
           <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-500'} w-full h-[1px]`} />
         </>
 
-        <div className='flex-1 px-2 flex flex-col gap-y-2 py-3'>
+        <div className='flex-1 px-2 flex flex-col gap-y-2 py-3 overflow-y-auto'>
           {options.map((option, indx) => (
             <div
               key={indx}

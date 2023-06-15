@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import Loader from '../UI/Loader'
 import { useTranslation } from 'react-i18next'
@@ -7,8 +7,8 @@ import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
 import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { useNavigate } from 'react-router-dom'
 import MultySelect from '../UI/MultySelect'
-import { sexArr } from '../utils/consts'
-import { SexType } from '../types/Auth/auth'
+import { levelLangNames, sexArr } from '../utils/consts'
+import { SexType, interest } from '../types/Auth/auth'
 import Select from '../UI/Select'
 
 
@@ -24,21 +24,103 @@ const AutoSearch = () => {
   const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
 
   const [numOfRecipients, setNumOfRecipients] = useState<1 | 2 | 3>(1)
-  const [selectedNumOfRecipients, setSelectedNumOfRecipients] = useState<1 | 2 | 3>(1)
-
+  const [selectedNumOfRecipients, setSelectedNumOfRecipients] = useState<1 | 2 | 3>(numOfRecipients)
   const [isNumOfRecipientsSelectVisible, setIsNumOfRecipientsSelectVisible] = useState(false)
+
+  const [learningLang, setLearningLang] = useState(user?.languages[0])
+  const [selectedLearningLang, setSelectedLearningLang] = useState(user?.languages[0])
+  const [isLearningLangSelectVisible, setIsLearningLangVisible] = useState(false)
+
+  const [langProficiency, setLangProficiency] = useState(selectedLearningLang?.level || 0)
+  const [selectedLangProficiency, setSelectedLangProficiency] = useState(langProficiency)
+  const [isLangProficiencySelectVisible, setIsLangProficiencyVisible] = useState(false)
+
+
+  const [topic, setTopic] = useState(user?.interests.sort((a, b) => a.localeCompare(b))[0])
+  const [selectedTopic, setSelectedTopic] = useState(topic)
+  const [isTopicSelectVisible, setIsTopicSelectVisible] = useState(false)
+
+  useEffect(() => {
+    setLangProficiency(selectedLearningLang?.level || 0)
+    setSelectedLangProficiency(selectedLearningLang?.level || 0)
+  }, [selectedLearningLang])
 
   const handleNumOfRecipientsSelectVisible = () => {
     setIsNumOfRecipientsSelectVisible(prev => !prev)
   }
 
-  const changeNumOfRecipients = (num: 1 | 2 | 3) => {
+  const onChangeNumOfRecipients = (num: 1 | 2 | 3) => {
     setNumOfRecipients(num)
   }
 
   const onSaveNumOfRecipients = () => {
     setSelectedNumOfRecipients(numOfRecipients)
     handleNumOfRecipientsSelectVisible()
+  }
+
+  const onCloseNumOfRecipientsSelect = () => {
+    setNumOfRecipients(selectedNumOfRecipients)
+    handleNumOfRecipientsSelectVisible()
+  }
+
+  const handleLearningLangSelectVisible = () => {
+    setIsLearningLangVisible(prev => !prev)
+  }
+
+  const onChangeLearningLang = (langName: string) => {
+    const changedLang = user?.languages.find(l => l.name === langName)
+    if (changedLang) {
+      setLearningLang(changedLang)
+    }
+  }
+
+  const onSaveLearningLang = () => {
+    setSelectedLearningLang(learningLang)
+    handleLearningLangSelectVisible()
+  }
+
+  const onCloseLearningLangSelect = () => {
+    setLearningLang(selectedLearningLang)
+    handleLearningLangSelectVisible()
+  }
+
+  const handleLangProficiencySelectVisible = () => {
+    setIsLangProficiencyVisible(prev => !prev)
+  }
+
+  const onChangeLangProficiency = (name: string) => {
+    const position = levelLangNames.indexOf(name)
+    if (position !== -1) {
+      setLangProficiency(position)
+    }
+  }
+
+  const onSaveLangProficiency = () => {
+    setSelectedLangProficiency(langProficiency)
+    handleLangProficiencySelectVisible()
+  }
+
+  const onCloseLangProficiencySelect = () => {
+    setLangProficiency(selectedLangProficiency)
+    handleLangProficiencySelectVisible()
+  }
+
+  const handleTopicSelectVisible = () => {
+    setIsTopicSelectVisible(prev => !prev)
+  }
+
+  const onChangeTopic = (changedTopic: interest) => {
+    setTopic(changedTopic)
+  }
+
+  const onSaveTopic = () => {
+    setSelectedTopic(topic)
+    handleTopicSelectVisible()
+  }
+
+  const onCloseTopicSelect = () => {
+    setTopic(selectedTopic)
+    handleTopicSelectVisible()
   }
 
   const onGoBackClick = () => {
@@ -82,7 +164,7 @@ const AutoSearch = () => {
       </div>
 
       <div className={`text-xs px-2 mb-1`}>{t('target')}</div>
-      <div className={`py-3 px-2 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
+      <div className={`py-3 px-2 mb-4 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
         <div className='flex items-center justify-between mb-3'>
           <div className='text-sm'>{t('includeMyCountryInSearch')}</div>
           <div
@@ -109,7 +191,7 @@ const AutoSearch = () => {
               onClick={handlePrefSexMenuVisible}
               className='flex items-center gap-x-1'
             >
-              <div>
+              <div className='text-sm'>
                 {preferenceSex.length === 3
                   ? t('Any')
                   : preferenceSex.length === 2
@@ -123,7 +205,7 @@ const AutoSearch = () => {
           </div>
         </div>
 
-        <div className='flex items-center justify-between mb-3 relative'>
+        <div className='flex items-center justify-between relative'>
           <div className='text-sm'>{t('numOfRecipients')}</div>
 
           <div
@@ -136,12 +218,88 @@ const AutoSearch = () => {
 
           {isNumOfRecipientsSelectVisible && (
             <Select
-              onSelectOption={changeNumOfRecipients}
+              isSelectVisible={isNumOfRecipientsSelectVisible}
+              onSelectOption={onChangeNumOfRecipients}
               options={[1, 2, 3]}
               selectedOption={numOfRecipients}
               title='numOfRecipients'
-              onClose={handleNumOfRecipientsSelectVisible}
+              onClose={onCloseNumOfRecipientsSelect}
               onSave={onSaveNumOfRecipients}
+            />
+          )}
+        </div>
+      </div>
+
+      <div className={`text-xs px-2 mb-1`}>{t('aboutLetter')}</div>
+      <div className={`py-3 px-2 mb-4 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
+        <div className='flex items-center justify-between mb-3'>
+          <div className='text-sm'>{t('learningLangs')}</div>
+
+          <div
+            onClick={handleLearningLangSelectVisible}
+            className='flex items-center gap-x-1'
+          >
+            <div className='text-sm'>{selectedLearningLang?.name}</div>
+            <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+          </div>
+
+          {isLearningLangSelectVisible && (
+            <Select
+              isSelectVisible={isLearningLangSelectVisible}
+              onSelectOption={onChangeLearningLang}
+              options={user.languages.map(l => l.name)}
+              onClose={onCloseLearningLangSelect}
+              onSave={onSaveLearningLang}
+              selectedOption={learningLang?.name}
+              title='aboutLetter'
+            />
+          )}
+        </div>
+
+        <div className='flex items-center justify-between mb-3'>
+          <div className='text-sm'>{t('Language Proficiency')}</div>
+
+          <div
+            onClick={handleLangProficiencySelectVisible}
+            className='flex items-center gap-x-1'
+          >
+            <div className='text-xs'>{t(levelLangNames[selectedLangProficiency])}</div>
+            <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+          </div>
+
+          {isLangProficiencySelectVisible && (
+            <Select
+              isSelectVisible={isLangProficiencySelectVisible}
+              onSelectOption={onChangeLangProficiency}
+              options={levelLangNames}
+              onClose={onCloseLangProficiencySelect}
+              onSave={onSaveLangProficiency}
+              selectedOption={levelLangNames[langProficiency]}
+              title='Language Proficiency'
+            />
+          )}
+        </div>
+
+        <div className='flex items-center justify-between mb-3'>
+          <div className='text-sm'>{t('topic')}</div>
+
+          <div
+            onClick={handleTopicSelectVisible}
+            className='flex items-center gap-x-1'
+          >
+            <div className='text-xs'>{t(selectedTopic || '')}</div>
+            <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+          </div>
+
+          {isTopicSelectVisible && (
+            <Select
+              isSelectVisible={isTopicSelectVisible}
+              onSelectOption={onChangeTopic}
+              options={user.interests}
+              onClose={onCloseTopicSelect}
+              onSave={onSaveTopic}
+              selectedOption={topic}
+              title='topic'
             />
           )}
         </div>
