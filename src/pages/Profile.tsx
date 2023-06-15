@@ -301,7 +301,6 @@ const Profile = () => {
 
             {isLetterSizeMenuVisible && (
               <Select
-                isSelectVisible={isLetterSizeMenuVisible}
                 options={letterLengths}
                 title='letterLength'
                 onSelectOption={changeSelectedLetterLength}
@@ -329,7 +328,6 @@ const Profile = () => {
 
             {isResponseTimeMenuVisible && (
               <Select
-                isSelectVisible={isResponseTimeMenuVisible}
                 options={responseTimeArr}
                 title='responseTime'
                 onSelectOption={changeSelectedResponseTime}

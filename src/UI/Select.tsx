@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import MyButton from './MyButton'
 
 interface SelectProps<T> {
-  isSelectVisible: boolean,
   title: string,
   onSelectOption: (option: T | any) => void,
   options: T[],
@@ -13,20 +12,16 @@ interface SelectProps<T> {
   onClose: () => void,
 }
 
-const Select = <T,>({ isSelectVisible, title, options, onSelectOption, selectedOption, onSave, onClose }: SelectProps<T>) => {
+const Select = <T,>({ title, options, onSelectOption, selectedOption, onSave, onClose }: SelectProps<T>) => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
 
   useEffect(() => {
-    if (isSelectVisible) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
+    document.body.style.overflow = 'hidden'
     return () => {
       document.body.style.overflow = 'auto'
     }
-  }, [isSelectVisible])
+  }, [])
 
   const handleCancelCloseSelect = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()

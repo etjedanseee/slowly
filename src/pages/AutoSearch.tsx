@@ -10,6 +10,8 @@ import MultySelect from '../UI/MultySelect'
 import { levelLangNames, sexArr } from '../utils/consts'
 import { SexType, interest } from '../types/Auth/auth'
 import Select from '../UI/Select'
+import MyButton from '../UI/MyButton'
+import WriteTextModal from '../UI/WriteTextModal'
 
 
 const AutoSearch = () => {
@@ -39,6 +41,9 @@ const AutoSearch = () => {
   const [topic, setTopic] = useState(user?.interests.sort((a, b) => a.localeCompare(b))[0])
   const [selectedTopic, setSelectedTopic] = useState(topic)
   const [isTopicSelectVisible, setIsTopicSelectVisible] = useState(false)
+
+  const [letterText, setLetterText] = useState('')
+  const [isLetterTextModalVisible, setIsLetterTextModalVisible] = useState(false)
 
   useEffect(() => {
     setLangProficiency(selectedLearningLang?.level || 0)
@@ -123,6 +128,15 @@ const AutoSearch = () => {
     handleTopicSelectVisible()
   }
 
+  const handleLetterTextModalVisible = () => {
+    setIsLetterTextModalVisible(prev => !prev)
+  }
+
+  const onSaveLetterText = (text: string) => {
+    setLetterText(text)
+    handleLetterTextModalVisible()
+  }
+
   const onGoBackClick = () => {
     navigate('/search')
   }
@@ -143,6 +157,22 @@ const AutoSearch = () => {
     } else {
       setPreferenceSex([...preferenceSex, option])
     }
+  }
+
+  const onSendLetter = () => {
+    if (!letterText.length) {
+      return false
+    }
+    const letterProps = {
+      isIncludeUserCountryToSearch,
+      preferenceSex,
+      selectedLangProficiency,
+      selectedLearningLang,
+      selectedNumOfRecipients,
+      selectedTopic,
+      letterText
+    }
+    console.log('send letter', letterProps)
   }
 
   if (!user) {
@@ -218,7 +248,6 @@ const AutoSearch = () => {
 
           {isNumOfRecipientsSelectVisible && (
             <Select
-              isSelectVisible={isNumOfRecipientsSelectVisible}
               onSelectOption={onChangeNumOfRecipients}
               options={[1, 2, 3]}
               selectedOption={numOfRecipients}
@@ -231,7 +260,7 @@ const AutoSearch = () => {
       </div>
 
       <div className={`text-xs px-2 mb-1`}>{t('aboutLetter')}</div>
-      <div className={`py-3 px-2 mb-4 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
+      <div className={`py-3 px-2 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
         <div className='flex items-center justify-between mb-3'>
           <div className='text-sm'>{t('learningLangs')}</div>
 
@@ -245,7 +274,6 @@ const AutoSearch = () => {
 
           {isLearningLangSelectVisible && (
             <Select
-              isSelectVisible={isLearningLangSelectVisible}
               onSelectOption={onChangeLearningLang}
               options={user.languages.map(l => l.name)}
               onClose={onCloseLearningLangSelect}
@@ -263,13 +291,12 @@ const AutoSearch = () => {
             onClick={handleLangProficiencySelectVisible}
             className='flex items-center gap-x-1'
           >
-            <div className='text-xs'>{t(levelLangNames[selectedLangProficiency])}</div>
+            <div className='text-sm'>{t(levelLangNames[selectedLangProficiency])}</div>
             <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
           </div>
 
           {isLangProficiencySelectVisible && (
             <Select
-              isSelectVisible={isLangProficiencySelectVisible}
               onSelectOption={onChangeLangProficiency}
               options={levelLangNames}
               onClose={onCloseLangProficiencySelect}
@@ -280,20 +307,19 @@ const AutoSearch = () => {
           )}
         </div>
 
-        <div className='flex items-center justify-between mb-3'>
+        <div className='flex items-center justify-between mb-4'>
           <div className='text-sm'>{t('topic')}</div>
 
           <div
             onClick={handleTopicSelectVisible}
             className='flex items-center gap-x-1'
           >
-            <div className='text-xs'>{t(selectedTopic || '')}</div>
+            <div className='text-sm'>{t(selectedTopic || '')}</div>
             <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
           </div>
 
           {isTopicSelectVisible && (
             <Select
-              isSelectVisible={isTopicSelectVisible}
               onSelectOption={onChangeTopic}
               options={user.interests}
               onClose={onCloseTopicSelect}
@@ -303,6 +329,39 @@ const AutoSearch = () => {
             />
           )}
         </div>
+
+        <div className='min-h-[200px] flex flex-col justify-between'>
+          <div>
+            <div className='mb-1'>{t('letterText')}</div>
+            <div className='text-sm'>{letterText.slice(0, 100)}</div>
+          </div>
+
+          <MyButton
+            color='black'
+            onClick={handleLetterTextModalVisible}
+            title='write'
+            variant='rounded-lg'
+            p='py-2'
+          />
+
+          {isLetterTextModalVisible && (
+            <WriteTextModal
+              defaultText={letterText}
+              onClose={handleLetterTextModalVisible}
+              onSave={onSaveLetterText}
+            />
+          )}
+        </div>
+      </div>
+
+      <div className='py-5 px-3'>
+        <MyButton
+          color='yellow'
+          onClick={onSendLetter}
+          title='send'
+          variant='rounded-lg'
+          p='py-2'
+        />
       </div>
 
     </div>
