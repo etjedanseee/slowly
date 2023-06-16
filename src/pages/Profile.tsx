@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import Navbar from '../components/Navbar'
+import Navbar from '../UI/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
 import { ReactComponent as GeoIcon } from '../assets/geo.svg'

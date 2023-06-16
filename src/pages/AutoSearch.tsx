@@ -330,7 +330,7 @@ const AutoSearch = () => {
           )}
         </div>
 
-        <div className='min-h-[200px] flex flex-col justify-between'>
+        <div className='min-h-[150px] flex flex-col justify-between'>
           <div>
             <div className='mb-1'>{t('letterText')}</div>
             <div className='text-sm'>{letterText.slice(0, 100)}</div>

@@ -198,7 +198,7 @@ export const dictionary = {
     send: 'Send',
     words: 'Words',
     signs: 'Signs',
-    deliveredThrought: 'Delivered through',
+    deliveredThrought: 'Delivered in',
     understood: 'Perhaps you will not be understood',
     emptyLetter: 'Letter must not be empty',
     settings: 'Settings',

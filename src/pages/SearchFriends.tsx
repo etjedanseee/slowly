@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../UI/Navbar'
 import MyButton from '../UI/MyButton'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'

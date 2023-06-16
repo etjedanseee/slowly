@@ -8,6 +8,7 @@ import MyButton from '../UI/MyButton'
 import { calcWordsCount } from '../utils/calcWordsCount'
 import { sendLetter } from '../utils/sendLetter'
 import { checkCommonLanguages } from '../utils/checkCommonLanguages'
+import { useActions } from '../hooks/useActions'
 
 interface WriteLetterProps {
   otherUser: IUser,
@@ -18,6 +19,7 @@ interface WriteLetterProps {
 const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) => {
   const { theme } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
+  const { fetchUserChatList } = useActions()
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [letterText, setLetterText] = useState('')
@@ -51,6 +53,9 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   const onSendLetter = () => {
     if (user && letterText?.trim().length) {
       sendLetter(user.id, otherUser.id, letterText, deliveredTime)
+      setTimeout(() =>
+        fetchUserChatList(user.id, () => { })
+        , 500)
       localStorage.removeItem(`WriteLetterTo ${otherUser.id}`)
       onClose()
     } else {

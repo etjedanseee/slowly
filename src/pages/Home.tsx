@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../UI/Navbar'
 import { useActions } from '../hooks/useActions'
 import { ReactComponent as MoonIcon } from '../assets/moon.svg'
 import { ReactComponent as SunIcon } from '../assets/sun.svg'

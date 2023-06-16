@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Navbar from '../components/Navbar'
+import Navbar from '../UI/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as FriendsIcon } from '../assets/addFriend.svg'
 import { ReactComponent as ReloadIcon } from '../assets/reload.svg'
