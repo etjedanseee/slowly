@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ILetter, IUser } from '../types/Auth/auth'
 import { msInDay } from '../utils/consts'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -16,6 +16,19 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
   const { theme } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
+
+  const [deliveredDateInMin, setDeliveredDateInMin] = useState(0)
+
+  useEffect(() => {
+    const deliveryDateInterval = setInterval(() => {
+      const res = Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000)
+      setDeliveredDateInMin(res)
+    }, 60000)
+
+    return () => {
+      clearInterval(deliveryDateInterval)
+    }
+  }, [])
 
   useEffect(() => {
     if (isOpened) {
@@ -56,9 +69,9 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
 
                 {Date.now() < +new Date(letter.deliveredDate) ? (
                   <div className={`flex ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {`${t('deliveredThrought')} ${(Math.round(+new Date(letter.deliveredDate) - Date.now()) / 60000) < 60
-                      ? `${Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000)} ${t('minutes')}`
-                      : `${Math.round(Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000 / 60))} ${t('hours')}`}`}
+                    {`${t('deliveredThrought')} ${deliveredDateInMin < 60
+                      ? `${deliveredDateInMin} ${t('minutes')}`
+                      : `${Math.round(deliveredDateInMin / 60)} ${t('hours')}`}`}
                   </div>
                 )
                   : (
@@ -76,9 +89,9 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
                 <div>
                   <div className='mb-1'>{letter.senderId === otherUser.id ? otherUser.info.nickName : user?.info.nickName}</div>
                   <div className={`flex text-sm leading-tight ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {`${t('deliveredThrought')} ${(Math.round(+new Date(letter.deliveredDate) - Date.now()) / 60000) < 60
-                      ? `${Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000)} ${t('minutes')}`
-                      : `${Math.round(Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000 / 60))} ${t('hours')}`}`}
+                    {`${t('deliveredThrought')} ${deliveredDateInMin < 60
+                      ? `${deliveredDateInMin} ${t('minutes')}`
+                      : `${Math.round(deliveredDateInMin / 60)} ${t('hours')}`}`}
                   </div>
                 </div>
               )
