@@ -8,14 +8,17 @@ import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { useNavigate } from 'react-router-dom'
 import MultySelect from '../UI/MultySelect'
 import { levelLangNames, sexArr } from '../utils/consts'
-import { SexType, interest } from '../types/Auth/auth'
+import { ILang, IUser, SexType, interest } from '../types/Auth/auth'
 import Select from '../UI/Select'
 import MyButton from '../UI/MyButton'
 import WriteTextModal from '../UI/WriteTextModal'
+import { getUsersForMailing } from '../utils/getUsersForMailing'
+import { sendLetter } from '../utils/sendLetter'
+import { coordsToDistance } from '../utils/calcDistance'
 
 
 const AutoSearch = () => {
-  const { user } = useTypedSelector(state => state.auth)
+  const { user, chatList } = useTypedSelector(state => state.auth)
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -29,21 +32,22 @@ const AutoSearch = () => {
   const [selectedNumOfRecipients, setSelectedNumOfRecipients] = useState<1 | 2 | 3>(numOfRecipients)
   const [isNumOfRecipientsSelectVisible, setIsNumOfRecipientsSelectVisible] = useState(false)
 
-  const [learningLang, setLearningLang] = useState(user?.languages[0])
-  const [selectedLearningLang, setSelectedLearningLang] = useState(user?.languages[0])
+  const [learningLang, setLearningLang] = useState<ILang>(user?.languages[0] || { code: 'en', engName: 'English', isSelected: false, level: 0, name: 'English' })
+  const [selectedLearningLang, setSelectedLearningLang] = useState<ILang>(user?.languages[0] || { code: 'en', engName: 'English', isSelected: false, level: 0, name: 'English' })
   const [isLearningLangSelectVisible, setIsLearningLangVisible] = useState(false)
 
   const [langProficiency, setLangProficiency] = useState(selectedLearningLang?.level || 0)
   const [selectedLangProficiency, setSelectedLangProficiency] = useState(langProficiency)
   const [isLangProficiencySelectVisible, setIsLangProficiencyVisible] = useState(false)
 
-
-  const [topic, setTopic] = useState(user?.interests.sort((a, b) => a.localeCompare(b))[0])
+  const [topic, setTopic] = useState<interest>(user?.interests.sort((a, b) => a.localeCompare(b))[0] || 'Life')
   const [selectedTopic, setSelectedTopic] = useState(topic)
   const [isTopicSelectVisible, setIsTopicSelectVisible] = useState(false)
 
   const [letterText, setLetterText] = useState('')
   const [isLetterTextModalVisible, setIsLetterTextModalVisible] = useState(false)
+
+  const [usersForMailing, setUsersForMailing] = useState<IUser[]>([])
 
   useEffect(() => {
     setLangProficiency(selectedLearningLang?.level || 0)
@@ -159,21 +163,39 @@ const AutoSearch = () => {
     }
   }
 
-  const onSendLetter = () => {
-    if (!letterText.length) {
-      return false
+  const onSendMailingLetter = () => {
+    if (user) {
+      if (!letterText.trim().length) {
+        return false
+      }
+      const letterParams = {
+        userCountry: user.geo.location.country,
+        // excludeIds: [user.id,...chatList.map(chat => chat.chatId)],
+        excludeIds: [user.id],
+        isIncludeUserCountryToSearch,
+        preferenceSex,
+        selectedLangProficiency,
+        selectedLearningLang,
+        selectedNumOfRecipients,
+        selectedTopic,
+        setUsersForMailing,
+      }
+      // console.log('send MailingLetter', letterParams)
+
+      getUsersForMailing(letterParams)
     }
-    const letterProps = {
-      isIncludeUserCountryToSearch,
-      preferenceSex,
-      selectedLangProficiency,
-      selectedLearningLang,
-      selectedNumOfRecipients,
-      selectedTopic,
-      letterText
-    }
-    console.log('send letter', letterProps)
   }
+
+  useEffect(() => {
+    if (!!usersForMailing.length && user) {
+      for (let receiverUser of usersForMailing) {
+        const diffGeoDistance = coordsToDistance(user.geo.coord, receiverUser.geo.coord)
+        const deliveredTime = Math.round(diffGeoDistance / 90)
+        sendLetter(user.id, receiverUser.id, letterText, deliveredTime)
+      }
+      setUsersForMailing([])
+    }
+  }, [usersForMailing, user])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
@@ -357,7 +379,7 @@ const AutoSearch = () => {
       <div className='py-5 px-3'>
         <MyButton
           color='yellow'
-          onClick={onSendLetter}
+          onClick={onSendMailingLetter}
           title='send'
           variant='rounded-lg'
           p='py-2'

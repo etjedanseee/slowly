@@ -17,7 +17,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
   const { user } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
 
-  const [deliveredDateInMin, setDeliveredDateInMin] = useState(0)
+  const [deliveredDateInMin, setDeliveredDateInMin] = useState(Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000))
 
   useEffect(() => {
     const deliveryDateInterval = setInterval(() => {
@@ -28,7 +28,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
     return () => {
       clearInterval(deliveryDateInterval)
     }
-  }, [])
+  }, [letter.deliveredDate, deliveredDateInMin])
 
   useEffect(() => {
     if (isOpened) {
