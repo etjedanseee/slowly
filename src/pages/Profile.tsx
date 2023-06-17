@@ -18,7 +18,7 @@ import { ageToString } from '../utils/calcAge'
 import ZodiacIcon from '../components/ZodiacIcon'
 import MyButton from '../UI/MyButton'
 import UserAvatar from '../components/UserAvatar'
-import { initialUserInfo, letterLengths, responseTimeArr, sexArr } from '../utils/consts'
+import { initialUserInfo, letterLengths, responseTimeArr } from '../utils/consts'
 import { ILang, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../types/Auth/auth'
 import MultySelect from '../UI/MultySelect'
 import UserLangs from '../components/UserLangs'
@@ -93,7 +93,7 @@ const Profile = () => {
     setIsLetterSizeMenuVisible(prev => !prev)
   }
 
-  const changeSelectedLetterLength = (option: LetterLengthType) => {
+  const onChangeSelectedLetterLength = (option: LetterLengthType) => {
     setLetterLength(option)
   }
 
@@ -103,7 +103,7 @@ const Profile = () => {
   }
 
   const onCloseLetterLengthSelect = () => {
-    changeSelectedLetterLength(user.profile.letterLength || 'any')
+    setLetterLength(user.profile.letterLength)
     handleLetterLengthSelectVisible()
   }
 
@@ -111,7 +111,7 @@ const Profile = () => {
     setIsResponseTimeMenuVisible(prev => !prev)
   }
 
-  const changeSelectedResponseTime = (option: ResponseTimeType) => {
+  const onChangeSelectedResponseTime = (option: ResponseTimeType) => {
     setResponseTime(option)
   }
 
@@ -194,12 +194,15 @@ const Profile = () => {
         </div>
 
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
-          <div onClick={handleEditUserInfoVisible}>
+          <div
+            onClick={handleEditUserInfoVisible}
+            className='relative'
+          >
             <div className='font-medium text-lg mb-2'>
               {user.info.nickName}
             </div>
 
-            <div className='flex gap-x-2 gap-y-2 mb-4 text-sm flex-wrap relative pr-6'>
+            <div className='flex gap-x-2 gap-y-2 mb-4 text-sm flex-wrap pr-6'>
               <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-slate-400'} flex items-center gap-x-1 rounded-lg px-2 py-1`}>
                 {user.info.sex === 'male'
                   ? <MaleIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
@@ -300,7 +303,7 @@ const Profile = () => {
               <Select
                 options={letterLengths}
                 title='letterLength'
-                onSelectOption={changeSelectedLetterLength}
+                onSelectOption={onChangeSelectedLetterLength}
                 selectedOption={letterLength}
                 onClose={onCloseLetterLengthSelect}
                 onSave={onSaveSelectedLetterLength}
@@ -327,7 +330,7 @@ const Profile = () => {
               <Select
                 options={responseTimeArr}
                 title='responseTime'
-                onSelectOption={changeSelectedResponseTime}
+                onSelectOption={onChangeSelectedResponseTime}
                 selectedOption={responseTime}
                 onClose={onCloseResponseTimeSelect}
                 onSave={onSaveSelectedResponseTime}
@@ -364,15 +367,16 @@ const Profile = () => {
         <div className='text-sm opacity-70 px-2 mb-2'>{t('interests')}</div>
 
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
-          <MultySelect
-            isMenuVisible={isInterestsMenuVisible}
-            onSelectOption={handleInterests}
-            options={[...interests].sort((a, b) => a.localeCompare(b))}
-            selectedOptions={userInterests}
-            onClose={onCloseInterests}
-            onSave={onSaveUserInterests}
-            selectTitle='interests'
-          />
+          {isInterestsMenuVisible && (
+            <MultySelect
+              onSelectOption={handleInterests}
+              options={[...interests].sort((a, b) => a.localeCompare(b))}
+              selectedOptions={userInterests}
+              onClose={onCloseInterests}
+              onSave={onSaveUserInterests}
+              selectTitle='interests'
+            />
+          )}
           <div
             className='flex flex-wrap gap-x-2 gap-y-2'
             onClick={handleInterestsMenuVisible}

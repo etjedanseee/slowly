@@ -47,15 +47,16 @@ const SelectGender = ({ userPreferenceSex, onSave }: SelectGenderProps) => {
       <div>{t('selectGender')}</div>
 
       <div>
-        <MultySelect
-          options={sexArr}
-          isMenuVisible={isPrefSexMultySelectVisible}
-          onSelectOption={handlePreferenceSex}
-          selectedOptions={preferenceSex}
-          onClose={onClosePreferenceSexMultySelect}
-          selectTitle='sex'
-          onSave={onSavePreferenceSex}
-        />
+        {isPrefSexMultySelectVisible && (
+          <MultySelect
+            options={sexArr}
+            onSelectOption={handlePreferenceSex}
+            selectedOptions={preferenceSex}
+            onClose={onClosePreferenceSexMultySelect}
+            selectTitle='sex'
+            onSave={onSavePreferenceSex}
+          />
+        )}
         <div
           onClick={handlePrefSexMultySelectVisible}
           className='flex items-center gap-x-1'

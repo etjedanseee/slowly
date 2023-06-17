@@ -6,8 +6,7 @@ import { ReactComponent as SearchFriendsIcon } from '../assets/searchFriends.svg
 import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
 import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { useNavigate } from 'react-router-dom'
-import MultySelect from '../UI/MultySelect'
-import { levelLangNames, sexArr } from '../utils/consts'
+import { levelLangNames } from '../utils/consts'
 import { ILang, IUser, SexType, interest } from '../types/Auth/auth'
 import Select from '../UI/Select'
 import MyButton from '../UI/MyButton'
@@ -27,14 +26,13 @@ const AutoSearch = () => {
   const [isIncludeUserCountryToSearch, setIsIncludeUserCountryToSearch] = useState(true)
 
   const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
-  const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
 
   const [numOfRecipients, setNumOfRecipients] = useState<1 | 2 | 3>(1)
   const [selectedNumOfRecipients, setSelectedNumOfRecipients] = useState<1 | 2 | 3>(numOfRecipients)
   const [isNumOfRecipientsSelectVisible, setIsNumOfRecipientsSelectVisible] = useState(false)
 
   const [learningLang, setLearningLang] = useState<ILang>(user?.languages[0] || { code: 'en', engName: 'English', isSelected: false, level: 0, name: 'English' })
-  const [selectedLearningLang, setSelectedLearningLang] = useState<ILang>(user?.languages[0] || { code: 'en', engName: 'English', isSelected: false, level: 0, name: 'English' })
+  const [selectedLearningLang, setSelectedLearningLang] = useState<ILang>(learningLang)
   const [isLearningLangSelectVisible, setIsLearningLangVisible] = useState(false)
 
   const [langProficiency, setLangProficiency] = useState(selectedLearningLang?.level || 0)

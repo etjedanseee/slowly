@@ -42,7 +42,7 @@ export const getUsersForMailing = async ({ isIncludeUserCountryToSearch, setUser
     } else if (selectedNumOfRecipients > filteredByLang.length) {
       setUsersForMailing(filteredByLang)
     } else {
-      setUsersForMailing(filteredByLang.slice(0, selectedNumOfRecipients + 1))
+      setUsersForMailing(filteredByLang.slice(0, selectedNumOfRecipients))
     }
   } catch (e) {
     console.log('getUsersForMailing error', e)

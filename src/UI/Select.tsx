@@ -39,11 +39,11 @@ const Select = <T,>({ title, options, onSelectOption, selectedOption, onSave, on
         onClick={handleCancelCloseSelect}
       >
         <>
-          <div className='px-2 py-2 text-lg'>{t(title)}</div>
+          <div className='px-3 py-2 text-lg'>{t(title)}</div>
           <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-500'} w-full h-[1px]`} />
         </>
 
-        <div className='flex-1 px-2 flex flex-col gap-y-2 py-3 overflow-y-auto'>
+        <div className='flex-1 px-3 flex flex-col gap-y-2 py-3 overflow-y-auto'>
           {options.map((option, indx) => (
             <div
               key={indx}
