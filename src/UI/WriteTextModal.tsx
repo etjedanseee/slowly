@@ -31,7 +31,7 @@ const WriteTextModal = ({ onClose, onSave, defaultText }: WriteTextModalProps) =
   }, [])
 
   return (
-    <div className={`fixed min-h-full h-full w-full top-0 left-0 z-20 px-3 pt-20 
+    <div className={`fixed min-h-full h-full w-full top-0 left-0 z-20 px-3 py-20 
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}
     `}>
       <div className={`absolute top-0 left-0 w-full py-3 px-3 flex items-center gap-x-7
@@ -53,9 +53,8 @@ const WriteTextModal = ({ onClose, onSave, defaultText }: WriteTextModalProps) =
         </div>
       </div>
 
-      {/* проверить паддинг снизу(можно без него) */}
       <textarea
-        className='resize-none w-full min-h-full h-full flex flex-col outline-none bg-transparent overflow-y-auto pb-28 break-words  overflow-x-hidden'
+        className='resize-none w-full min-h-full h-full flex flex-col outline-none bg-transparent overflow-y-auto break-words  overflow-x-hidden'
         placeholder={t('startTyping') || 'Click here to start typing'}
         value={letterText}
         onChange={handleLetterText}

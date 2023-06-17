@@ -23,11 +23,12 @@ import { ILang, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest
 import MultySelect from '../UI/MultySelect'
 import UserLangs from '../components/UserLangs'
 import { useActions } from '../hooks/useActions'
-import Biography from '../components/Biography'
 import UserInfo from '../components/UserInfo'
 import SignUpNavigation from '../UI/SignUpNavigation'
 import Loader from '../UI/Loader'
 import Select from '../UI/Select'
+import WriteTextModal from '../UI/WriteTextModal'
+import SelectGender from '../UI/SelectGender'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
@@ -52,7 +53,7 @@ const Profile = () => {
   const [isCopyedId, setIsCopyedId] = useState(false)
 
   const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
-  const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
+  // const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
 
   const [userInterests, setUserInterests] = useState<interest[]>(user?.interests || [])
   const [isInterestsMenuVisible, setIsInterestMenuVisible] = useState(false)
@@ -125,21 +126,26 @@ const Profile = () => {
     handleResponseTimeMenuVisible()
   }
 
-  const handlePrefSexMenuVisible = () => {
-    if (isPrefSexMenuVisible) {
-      updateUserSexPreference(user, preferenceSex)
-    }
-    setIsPrefSexMenuVisible(prev => !prev)
-  }
+  // const handlePrefSexMenuVisible = () => {
+  //   if (isPrefSexMenuVisible) {
+  //     updateUserSexPreference(user, preferenceSex)
+  //   }
+  //   setIsPrefSexMenuVisible(prev => !prev)
+  // }
 
-  const handlePreferenceSex = (option: SexType) => {
-    if (preferenceSex.find(prefS => prefS === option)) {
-      if (preferenceSex.length !== 1) {
-        setPreferenceSex(preferenceSex.filter(prefS => prefS !== option))
-      }
-    } else {
-      setPreferenceSex([...preferenceSex, option])
-    }
+  // const handlePreferenceSex = (option: SexType) => {
+  //   if (preferenceSex.find(prefS => prefS === option)) {
+  //     if (preferenceSex.length !== 1) {
+  //       setPreferenceSex(preferenceSex.filter(prefS => prefS !== option))
+  //     }
+  //   } else {
+  //     setPreferenceSex([...preferenceSex, option])
+  //   }
+  // }
+
+  const onSavePreferenceSex = (editedPreferenceSex: SexType[]) => {
+    updateUserSexPreference(user, editedPreferenceSex)
+    setPreferenceSex(editedPreferenceSex)
   }
 
   const onCopyId = () => {
@@ -238,12 +244,13 @@ const Profile = () => {
 
           {!!biography.length && <div className='mb-2 truncate'>{biography}</div>}
 
-          <Biography
-            isBiographyVisible={isEditBiographyVisible}
-            onClose={handleEditBiographyVisible}
-            onSave={handleEditBiography}
-            userBiography={biography}
-          />
+          {isEditBiographyVisible && (
+            <WriteTextModal
+              defaultText={biography}
+              onClose={handleEditBiographyVisible}
+              onSave={handleEditBiography}
+            />
+          )}
 
           <div className='flex flex-col gap-y-2'>
             <MyButton
@@ -358,7 +365,7 @@ const Profile = () => {
             }
           </div>
 
-          <div className='flex justify-between items-center relative'>
+          {/* <div className='flex justify-between items-center relative'>
             <div>{t('selectGender')}</div>
 
             <div>
@@ -386,7 +393,12 @@ const Profile = () => {
               </div>
 
             </div>
-          </div>
+          </div> */}
+
+          <SelectGender
+            userPreferenceSex={preferenceSex}
+            onSave={onSavePreferenceSex}
+          />
         </div>
 
         <div className='text-sm opacity-70 px-2 mb-2'>{t('interests')}</div>

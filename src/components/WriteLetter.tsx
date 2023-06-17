@@ -83,7 +83,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   }, [])
 
   return (
-    <div className={`fixed min-h-full h-full w-full top-0 left-0 z-20 px-3 pt-20 
+    <div className={`fixed min-h-full h-full w-full top-0 left-0 z-20 px-3 py-20 
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}
     `}>
       <div className={`absolute top-0 left-0 w-full py-3 px-3 flex items-center gap-x-7
@@ -107,13 +107,13 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
           className='flex flex-col justify-center gap-y-[1px] mr-1'
           onClick={handleHelpMenuVisible}
         >
-          {[0, 1, 2].map((_, i) => <div key={i} className='w-1 h-1 rounded-full bg-white'></div>)}
+          {[0, 1, 2].map((_, i) => <div key={i} className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} w-1 h-1 rounded-full`} />)}
         </div>
       </div>
 
       {/* дописать закрытие по фону */}
       {isHelpMenuVisible && (
-        <div className={`absolute top-16 right-2 py-2 rounded-md px-2 ${theme === 'dark' ? 'bg-zinc-900' : ''}`}>
+        <div className={`absolute top-16 right-2 py-2 rounded-md px-2 ${theme === 'dark' ? 'bg-zinc-900' : 'border-2 border-gray-400'}`}>
           <div className='flex items-center justify-between gap-x-2'>
             <div>{t('words')}:</div>
             <div className='font-medium'>{wordsCount}</div>
@@ -143,11 +143,10 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
 
       {letterError && <div className='text-red-500 text-sm mb-2'>{t(letterError)}</div>}
 
-      <div className='bg-black h-[1px] w-full mb-4'></div>
+      <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-400'} h-[1px] w-full mb-4`} />
 
-      {/* проверить паддинг снизу(можно без него) */}
       <textarea
-        className='resize-none w-full min-h-full h-full flex flex-col outline-none bg-transparent overflow-y-auto pb-28 break-words  overflow-x-hidden'
+        className='resize-none w-full min-h-full h-full flex flex-col outline-none bg-transparent pb-7 overflow-y-auto break-words  overflow-x-hidden'
         placeholder={t('startTyping') || 'Click here to start typing'}
         value={letterText}
         onChange={handleLetterText}
