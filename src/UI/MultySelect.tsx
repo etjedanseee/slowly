@@ -9,12 +9,17 @@ interface MultySelectProps<T> {
   options: T[],
   selectedOptions: T[],
   onClose: () => void,
+  onSave: (editedOptions: T[]) => void,
   selectTitle: string
 }
 
-const MultySelect = <T,>({ onSelectOption, isMenuVisible, options, selectedOptions, onClose, selectTitle }: MultySelectProps<T>) => {
+const MultySelect = <T,>({ onSelectOption, isMenuVisible, options, selectedOptions, onClose, onSave, selectTitle }: MultySelectProps<T>) => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
+
+  const onSaveClick = () => {
+    onSave(selectedOptions)
+  }
 
   return (
     <div className={`fixed left-0 top-0 w-full h-full z-50 flex flex-col justify-between gap-y-4 overflow-hidden py-3
@@ -44,11 +49,20 @@ const MultySelect = <T,>({ onSelectOption, isMenuVisible, options, selectedOptio
         ))}
       </div>
 
-      <div className='w-full fixed bottom-3 left-0'>
+      <div className='w-full fixed bottom-3 left-0 flex items-center gap-x-2'>
         <MyButton
           color='black'
           title='close'
           onClick={onClose}
+          p='py-2'
+          variant='rounded-lg'
+        />
+        <MyButton
+          color='yellow'
+          title='save'
+          onClick={onSaveClick}
+          p='py-2'
+          variant='rounded-lg'
         />
       </div>
     </div>

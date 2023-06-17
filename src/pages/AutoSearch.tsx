@@ -15,6 +15,7 @@ import WriteTextModal from '../UI/WriteTextModal'
 import { getUsersForMailing } from '../utils/getUsersForMailing'
 import { sendLetter } from '../utils/sendLetter'
 import { coordsToDistance } from '../utils/calcDistance'
+import SelectGender from '../UI/SelectGender'
 
 
 const AutoSearch = () => {
@@ -149,18 +150,8 @@ const AutoSearch = () => {
     setIsIncludeUserCountryToSearch(prev => !prev)
   }
 
-  const handlePrefSexMenuVisible = () => {
-    setIsPrefSexMenuVisible(prev => !prev)
-  }
-
-  const handlePreferenceSex = (option: SexType) => {
-    if (preferenceSex.find(prefS => prefS === option)) {
-      if (preferenceSex.length !== 1) {
-        setPreferenceSex(preferenceSex.filter(prefS => prefS !== option))
-      }
-    } else {
-      setPreferenceSex([...preferenceSex, option])
-    }
+  const onSavePreferenceSex = (editedPreferenceSex: SexType[]) => {
+    setPreferenceSex(editedPreferenceSex)
   }
 
   const onSendMailingLetter = () => {
@@ -227,35 +218,10 @@ const AutoSearch = () => {
           </div>
         </div>
 
-        <div className='flex items-center justify-between mb-3 relative'>
-          <div className='text-sm'>{t('sex')}</div>
-
-          <div>
-            <MultySelect
-              options={sexArr}
-              isMenuVisible={isPrefSexMenuVisible}
-              onSelectOption={handlePreferenceSex}
-              selectedOptions={preferenceSex}
-              onClose={handlePrefSexMenuVisible}
-              selectTitle='sex'
-            />
-            <div
-              onClick={handlePrefSexMenuVisible}
-              className='flex items-center gap-x-1'
-            >
-              <div className='text-sm'>
-                {preferenceSex.length === 3
-                  ? t('Any')
-                  : preferenceSex.length === 2
-                    ? t(preferenceSex[0]) + ', ' + t(preferenceSex[1])
-                    : t(preferenceSex[0])
-                }
-              </div>
-              <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-            </div>
-
-          </div>
-        </div>
+        <SelectGender
+          userPreferenceSex={preferenceSex}
+          onSave={onSavePreferenceSex}
+        />
 
         <div className='flex items-center justify-between relative'>
           <div className='text-sm'>{t('numOfRecipients')}</div>

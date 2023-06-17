@@ -53,7 +53,6 @@ const Profile = () => {
   const [isCopyedId, setIsCopyedId] = useState(false)
 
   const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
-  // const [isPrefSexMenuVisible, setIsPrefSexMenuVisible] = useState(false)
 
   const [userInterests, setUserInterests] = useState<interest[]>(user?.interests || [])
   const [isInterestsMenuVisible, setIsInterestMenuVisible] = useState(false)
@@ -104,7 +103,7 @@ const Profile = () => {
   }
 
   const onCloseLetterLengthSelect = () => {
-    changeSelectedLetterLength(user?.profile.letterLength || 'any')
+    changeSelectedLetterLength(user.profile.letterLength || 'any')
     handleLetterLengthSelectVisible()
   }
 
@@ -122,26 +121,9 @@ const Profile = () => {
   }
 
   const onCloseResponseTimeSelect = () => {
-    setResponseTime(user?.profile.responseTime || 'soonPossible')
+    setResponseTime(user.profile.responseTime || 'soonPossible')
     handleResponseTimeMenuVisible()
   }
-
-  // const handlePrefSexMenuVisible = () => {
-  //   if (isPrefSexMenuVisible) {
-  //     updateUserSexPreference(user, preferenceSex)
-  //   }
-  //   setIsPrefSexMenuVisible(prev => !prev)
-  // }
-
-  // const handlePreferenceSex = (option: SexType) => {
-  //   if (preferenceSex.find(prefS => prefS === option)) {
-  //     if (preferenceSex.length !== 1) {
-  //       setPreferenceSex(preferenceSex.filter(prefS => prefS !== option))
-  //     }
-  //   } else {
-  //     setPreferenceSex([...preferenceSex, option])
-  //   }
-  // }
 
   const onSavePreferenceSex = (editedPreferenceSex: SexType[]) => {
     updateUserSexPreference(user, editedPreferenceSex)
@@ -149,16 +131,13 @@ const Profile = () => {
   }
 
   const onCopyId = () => {
-    navigator.clipboard.writeText(user?.id || '').then(() => {
+    navigator.clipboard.writeText(user.id || '').then(() => {
       setIsCopyedId(true)
       setTimeout(() => { setIsCopyedId(false) }, 1500);
     })
   }
 
   const handleInterestsMenuVisible = () => {
-    if (isInterestsMenuVisible) {
-      updateUserInterests(user, userInterests)
-    }
     setIsInterestMenuVisible(prev => !prev)
   }
 
@@ -170,6 +149,17 @@ const Profile = () => {
     } else if (userInterests.length < 30) {
       setUserInterests([...userInterests, option])
     }
+  }
+
+  const onSaveUserInterests = (editedInterests: interest[]) => {
+    updateUserInterests(user, userInterests)
+    setUserInterests(editedInterests)
+    handleInterestsMenuVisible()
+  }
+
+  const onCloseInterests = () => {
+    setUserInterests(user.interests)
+    handleInterestsMenuVisible()
   }
 
   return (
@@ -365,36 +355,6 @@ const Profile = () => {
             }
           </div>
 
-          {/* <div className='flex justify-between items-center relative'>
-            <div>{t('selectGender')}</div>
-
-            <div>
-              <MultySelect
-                options={sexArr}
-                isMenuVisible={isPrefSexMenuVisible}
-                onSelectOption={handlePreferenceSex}
-                selectedOptions={preferenceSex}
-                onClose={handlePrefSexMenuVisible}
-                selectTitle='sex'
-              />
-              <div
-                onClick={handlePrefSexMenuVisible}
-                className='flex items-center gap-x-1'
-              >
-                <div>
-                  {preferenceSex.length === 3
-                    ? t('Any')
-                    : preferenceSex.length === 2
-                      ? t(preferenceSex[0]) + ', ' + t(preferenceSex[1])
-                      : t(preferenceSex[0])
-                  }
-                </div>
-                <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
-              </div>
-
-            </div>
-          </div> */}
-
           <SelectGender
             userPreferenceSex={preferenceSex}
             onSave={onSavePreferenceSex}
@@ -409,14 +369,15 @@ const Profile = () => {
             onSelectOption={handleInterests}
             options={[...interests].sort((a, b) => a.localeCompare(b))}
             selectedOptions={userInterests}
-            onClose={handleInterestsMenuVisible}
+            onClose={onCloseInterests}
+            onSave={onSaveUserInterests}
             selectTitle='interests'
           />
           <div
             className='flex flex-wrap gap-x-2 gap-y-2'
             onClick={handleInterestsMenuVisible}
           >
-            {[...interests].slice(0, 3).map(int => (
+            {[...userInterests].sort((a, b) => a.localeCompare(b)).slice(0, 2).map(int => (
               <div className='border border-yellow-400 rounded-xl px-4 py-1' key={int}>
                 {t(int)}
               </div>

@@ -32,8 +32,18 @@ const SelectGender = ({ userPreferenceSex, onSave }: SelectGenderProps) => {
     }
   }
 
+  const onSavePreferenceSex = (editedPreferenceSex: SexType[]) => {
+    onSave(editedPreferenceSex)
+    handlePrefSexMultySelectVisible()
+  }
+
+  const onClosePreferenceSexMultySelect = () => {
+    setPreferenceSex(userPreferenceSex)
+    handlePrefSexMultySelectVisible()
+  }
+
   return (
-    <div className='flex justify-between items-center relative'>
+    <div className='flex justify-between mb-3 items-center relative'>
       <div>{t('selectGender')}</div>
 
       <div>
@@ -42,8 +52,9 @@ const SelectGender = ({ userPreferenceSex, onSave }: SelectGenderProps) => {
           isMenuVisible={isPrefSexMultySelectVisible}
           onSelectOption={handlePreferenceSex}
           selectedOptions={preferenceSex}
-          onClose={handlePrefSexMultySelectVisible}
+          onClose={onClosePreferenceSexMultySelect}
           selectTitle='sex'
+          onSave={onSavePreferenceSex}
         />
         <div
           onClick={handlePrefSexMultySelectVisible}
