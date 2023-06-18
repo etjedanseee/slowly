@@ -45,7 +45,7 @@ const Interests = ({ userInterests, setInterests, setIsInterestsValid }: Interes
       </div>
 
       <div className='grid grid-cols-2 gap-x-3 items-start gap-y-2 text-center'>
-        {interests.map(intr => (
+        {interests.sort((a, b) => a.localeCompare(b)).map(intr => (
           <div
             key={intr}
             className={`

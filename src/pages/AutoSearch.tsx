@@ -16,14 +16,13 @@ import { sendLetter } from '../utils/sendLetter'
 import { coordsToDistance } from '../utils/calcDistance'
 import SelectGender from '../UI/SelectGender'
 
-
 const AutoSearch = () => {
   const { user, chatList } = useTypedSelector(state => state.auth)
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
   const navigate = useNavigate()
 
-  const [isIncludeUserCountryToSearch, setIsIncludeUserCountryToSearch] = useState(true)
+  const [isIncludeMyCountryToSearch, setIsIncludeMyCountryToSearch] = useState(true)
 
   const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
 
@@ -144,8 +143,8 @@ const AutoSearch = () => {
     navigate('/search')
   }
 
-  const onIncludeUserCountryToSearchChange = () => {
-    setIsIncludeUserCountryToSearch(prev => !prev)
+  const onIncludeMyCountryToSearchChange = () => {
+    setIsIncludeMyCountryToSearch(prev => !prev)
   }
 
   const onSavePreferenceSex = (editedPreferenceSex: SexType[]) => {
@@ -159,9 +158,8 @@ const AutoSearch = () => {
       }
       const letterParams = {
         userCountry: user.geo.location.country,
-        // excludeIds: [user.id,...chatList.map(chat => chat.chatId)],
-        excludeIds: [user.id],
-        isIncludeUserCountryToSearch,
+        excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+        isIncludeMyCountryToSearch,
         preferenceSex,
         selectedLangProficiency,
         selectedLearningLang,
@@ -169,8 +167,6 @@ const AutoSearch = () => {
         selectedTopic,
         setUsersForMailing,
       }
-      // console.log('send MailingLetter', letterParams)
-
       getUsersForMailing(letterParams)
     }
   }
@@ -183,6 +179,7 @@ const AutoSearch = () => {
         sendLetter(user.id, receiverUser.id, letterText, deliveredTime)
       }
       setUsersForMailing([])
+      setTimeout(() => navigate('/friends'), 300)
     }
   }, [usersForMailing, user])
 
@@ -210,18 +207,13 @@ const AutoSearch = () => {
           <div className='text-sm'>{t('includeMyCountryInSearch')}</div>
           <div
             className={`border-yellow-500 border-2 h-5 w-5 flex items-center justify-center`}
-            onClick={onIncludeUserCountryToSearchChange}
+            onClick={onIncludeMyCountryToSearchChange}
           >
-            <div className={`${isIncludeUserCountryToSearch ? 'bg-yellow-500' : 'bg-transparent'} h-3 w-3`} />
+            <div className={`${isIncludeMyCountryToSearch ? 'bg-yellow-500' : 'bg-transparent'} h-3 w-3`} />
           </div>
         </div>
 
-        <SelectGender
-          userPreferenceSex={preferenceSex}
-          onSave={onSavePreferenceSex}
-        />
-
-        <div className='flex items-center justify-between relative'>
+        <div className='flex items-center justify-between relative mb-2'>
           <div className='text-sm'>{t('numOfRecipients')}</div>
 
           <div
@@ -243,6 +235,11 @@ const AutoSearch = () => {
             />
           )}
         </div>
+
+        <SelectGender
+          userPreferenceSex={preferenceSex}
+          onSave={onSavePreferenceSex}
+        />
       </div>
 
       <div className={`text-xs px-2 mb-1`}>{t('aboutLetter')}</div>

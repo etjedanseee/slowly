@@ -10,6 +10,7 @@ import { useActions } from '../hooks/useActions'
 import MyButton from '../UI/MyButton'
 import { IUser } from '../types/Auth/auth'
 import { initialUserProfile } from '../utils/consts'
+import Loader from '../UI/Loader'
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string | null>(null)
@@ -21,12 +22,19 @@ const SignInPage = () => {
   const { t } = useTranslation()
   const { setUser } = useActions()
 
+  const [loading, setLoading] = useState(false)
+  const [signInError, setSignInError] = useState('')
+
   const onGoBackClick = () => {
     navigate('/auth')
   }
 
   const singIn = async () => {
-    if (!isFormValid) return false
+    if (!isFormValid) {
+      return false
+    }
+    setSignInError('')
+    setLoading(true)
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email || '',
@@ -50,14 +58,17 @@ const SignInPage = () => {
       // console.log('Get user', userObj)
       setUser(userObj)
 
-      setTimeout(() => {
-        navigate('/')
-      }, 1000);
-
+      navigate('/')
     } catch (e) {
-      // setAuthError('Неправильная почта или пароль')
       console.log('singIn error', e)
+      setSignInError('Wrong email or password')
+    } finally {
+      setLoading(false)
     }
+  }
+
+  if (loading) {
+    return <div className='flex justify-center items-center py-20'><Loader size='16' /></div>
   }
 
   return (
@@ -69,6 +80,7 @@ const SignInPage = () => {
         <LogoIcon className={`h-24 w-24 mb-2 fill-yellow-400`} />
       </div>
       <div className='text-4xl text-center font-medium'>{t('welcome')}</div>
+      {signInError && <div className='text-lg text-red-500 font-medium text-center mt-2'>{signInError}</div>}
 
       <div className='relative'>
         <UserEmail

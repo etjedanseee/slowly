@@ -158,11 +158,13 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
           </>
         )}
 
-        <MyButton
-          color='black'
-          onClick={handleOtherLangsVisible}
-          title={isOtherLangsVisible ? 'hide' : 'showAll'}
-        />
+        {user && (
+          <MyButton
+            color='black'
+            onClick={handleOtherLangsVisible}
+            title={isOtherLangsVisible ? 'hide' : 'showAll'}
+          />
+        )}
       </>
     </>
   )

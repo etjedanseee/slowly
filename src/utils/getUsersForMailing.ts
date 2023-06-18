@@ -4,7 +4,7 @@ import { ILang, IUser, SexType, interest } from "../types/Auth/auth"
 interface getUsersForMailingProps {
   userCountry: string,
   excludeIds: string[]
-  isIncludeUserCountryToSearch: boolean,
+  isIncludeMyCountryToSearch: boolean,
   preferenceSex: SexType[],
   selectedLangProficiency: number,
   selectedLearningLang: ILang,
@@ -13,7 +13,7 @@ interface getUsersForMailingProps {
   setUsersForMailing: (users: IUser[]) => void,
 }
 
-export const getUsersForMailing = async ({ isIncludeUserCountryToSearch, setUsersForMailing, preferenceSex, selectedLangProficiency, selectedLearningLang, selectedNumOfRecipients, selectedTopic, excludeIds, userCountry }: getUsersForMailingProps) => {
+export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersForMailing, preferenceSex, selectedLangProficiency, selectedLearningLang, selectedNumOfRecipients, selectedTopic, excludeIds, userCountry }: getUsersForMailingProps) => {
   try {
     const { data, error } = await supabase
       .from('Users')
@@ -26,9 +26,9 @@ export const getUsersForMailing = async ({ isIncludeUserCountryToSearch, setUser
 
     const Users = data as IUser[]
 
-    const filteredByCountry = isIncludeUserCountryToSearch
-      ? Users.filter(user => user.geo.location.country !== userCountry)
-      : Users
+    const filteredByCountry = isIncludeMyCountryToSearch
+      ? Users
+      : Users.filter(user => user.geo.location.country !== userCountry)
 
     const filteredById = filteredByCountry.filter(user => !excludeIds.includes(user.id))
 

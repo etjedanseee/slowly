@@ -4,12 +4,14 @@ import Navbar from '../UI/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as FriendsIcon } from '../assets/addFriend.svg'
 import { ReactComponent as ReloadIcon } from '../assets/reload.svg'
+import { ReactComponent as AddFriendIcon } from '../assets/addFriend.svg'
 import { fetchUsersById } from '../utils/fetchUserById'
 import { IUser } from '../types/Auth/auth'
 import { msInDay } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import { useActions } from '../hooks/useActions'
 import Loader from '../UI/Loader'
+import MyButton from '../UI/MyButton'
 
 const Friends = () => {
   const { t } = useTranslation()
@@ -30,6 +32,10 @@ const Friends = () => {
     if (user && !loadingChatList) {
       fetchUserChatList(user.id, setLoadingChatList)
     }
+  }
+
+  const onGotoSearchFriends = () => {
+    navigate('/search')
   }
 
   useEffect(() => {
@@ -70,30 +76,47 @@ const Friends = () => {
             </div>
 
             <div className='flex flex-col gap-y-4'>
-              {chatList.map(chat => (
-                <div
-                  key={chat.chatId}
-                  className='flex items-center gap-x-3'
-                  onClick={() => onFriendClick(chat.chatId)}
-                >
-                  <img src={users.find(u => u.id === chat.chatId)?.info.avatarUrl} className='rounded-full h-12 w-12' alt="user avatar" />
-                  <div className='flex-1'>
-                    <div className='mb-1 font-medium leading-none'>{users.find(u => u.id === chat.chatId)?.info.nickName}</div>
+              {chatList.length
+                ? chatList.map(chat => (
+                  <div
+                    key={chat.chatId}
+                    className='flex items-center gap-x-3'
+                    onClick={() => onFriendClick(chat.chatId)}
+                  >
+                    <img src={users.find(u => u.id === chat.chatId)?.info.avatarUrl} className='rounded-full h-12 w-12' alt="user avatar" />
+                    <div className='flex-1'>
+                      <div className='mb-1 font-medium leading-none truncate'>{users.find(u => u.id === chat.chatId)?.info.nickName}</div>
+                      <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                        {users.find(u => u.id === chat.chatId)?.geo.location.country}
+                      </div>
+                    </div>
+
                     <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      {users.find(u => u.id === chat.chatId)?.geo.location.country}
+                      {(Date.now() - +new Date(chat.messages[0].deliveredDate) <= msInDay) && (
+                        new Date(chat.messages[0].deliveredDate).getDate() === new Date().getDate()
+                      )
+                        ? new Date(chat.messages[0].deliveredDate).toLocaleTimeString().slice(0, -3)
+                        : new Date(chat.messages[0].deliveredDate).toDateString()
+                      }
                     </div>
                   </div>
-
-                  <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                    {(Date.now() - +new Date(chat.messages[0].deliveredDate) <= msInDay) && (
-                      new Date(chat.messages[0].deliveredDate).getDate() === new Date().getDate()
-                    )
-                      ? new Date(chat.messages[0].deliveredDate).toLocaleTimeString().slice(0, -3)
-                      : new Date(chat.messages[0].deliveredDate).toDateString()
-                    }
+                ))
+                : (
+                  <div className='flex flex-col items-center gap-y-4 py-3'>
+                    <div className='text-3xl text-center'>{t('findNewPenPals')}</div>
+                    <AddFriendIcon
+                      className={`h-16 w-16 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+                      onClick={onReloadChatListClick}
+                    />
+                    <MyButton
+                      onClick={onGotoSearchFriends}
+                      color='black'
+                      title='search'
+                      p='py-2'
+                    />
                   </div>
-                </div>
-              ))}
+                )
+              }
             </div>
           </div>
         )

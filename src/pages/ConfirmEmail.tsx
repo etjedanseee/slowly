@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import supabase from '../supabaseClient'
 import { useTranslation } from 'react-i18next'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -7,6 +7,7 @@ import MyButton from '../UI/MyButton'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as CheckMarkIcon } from '../assets/checkmark.svg'
 import { initialUserProfile } from '../utils/consts'
+import Loader from '../UI/Loader'
 
 interface ConfirmEmailProps {
   info: IUserInfo | null,
@@ -23,12 +24,16 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
   const { theme } = useTypedSelector(state => state.theme)
   const navigate = useNavigate()
 
+  const [signUpError, setSignUpError] = useState('')
+  const [loading, setLoading] = useState(false)
+
   const onGoToLoginClick = () => {
     navigate('/auth/signIn', { replace: true })
   }
 
   useEffect(() => {
     const singUp = async () => {
+      setLoading(true)
       const userMetadata = {
         info,
         interests,
@@ -55,14 +60,17 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
 
         console.log('signUp upsertData', upsertData);
 
-
         if (error) {
           throw new Error(error.message)
         }
-        console.log('singUp data', data)
+        setSignUpError('')
+
+        console.log('signUp data', data)
       } catch (e) {
-        console.log('singUp error', e)
-        // setAuthError('Ошибка при регистрации')
+        console.log('signUpError', e)
+        setSignUpError('SignUp error' + e)
+      } finally {
+        setLoading(false)
       }
     }
     if (isFormValid) {
@@ -70,14 +78,23 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
     }
   }, [isFormValid, info, interests, languages, geo, email, password])
 
+  if (loading) {
+    return <div className='flex justify-center py-20'><Loader size='16' /></div>
+  }
+
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} 
-    py-20 px-2 absolute top-0 w-full h-screen flex flex-col justify-between`}>
+      py-20 px-2 absolute top-0 w-full h-screen flex flex-col justify-between`}
+    >
       <div className='flex flex-col items-center text-center font-medium'>
         <CheckMarkIcon className={`${theme === 'dark' ? 'fill-green-500' : 'fill-green-500'} h-14`} />
-        <div className='text-2xl mb-4'>{t('successfulSignUp')}</div>
+        {signUpError
+          ? <div className='text-center text-red-500 font-medium'>{signUpError}</div>
+          : <div className='text-2xl mb-4'>{t('successfulSignUp')}</div>
+        }
         <div className='text-lg'>{t('confirmEmail')}</div>
       </div>
+
       <MyButton
         color='yellow'
         onClick={onGoToLoginClick}
