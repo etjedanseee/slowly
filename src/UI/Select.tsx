@@ -50,8 +50,8 @@ const Select = <T,>({ title, options, onSelectOption, selectedOption, onSave, on
               onClick={() => onSelectOption(option)}
               className='flex items-center gap-x-4'
             >
-              <div className={`border-yellow-500 border-2 h-5 w-5 flex items-center justify-center`}>
-                <div className={`${selectedOption === option ? 'bg-yellow-500' : 'bg-transparent'} h-3 w-3`} />
+              <div className={`border-yellow-400 border-2 h-5 w-5 flex items-center justify-center`}>
+                <div className={`${selectedOption === option ? 'bg-yellow-400' : 'bg-transparent'} h-3 w-3`} />
               </div>
               <div>{t(`${option}`)}</div>
             </div>

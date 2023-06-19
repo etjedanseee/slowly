@@ -18,7 +18,7 @@ const LangCheckBox = ({ cheked, name, title, onLangCheckBoxChange }: LangCheckBo
     <div className='flex items-center gap-x-4' onClick={() => onLangCheckBoxChange(title)}>
       <div className={`
         ${cheked
-          ? 'bg-yellow-500 border-yellow-500'
+          ? 'bg-yellow-400 border-yellow-400'
           : theme === 'dark'
             ? 'border-white'
             : 'border-gray-500'

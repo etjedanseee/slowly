@@ -89,7 +89,7 @@ const SignUpPage = () => {
         />
       )}
       {formStep === 3 && (
-        <div className='py-20 relative'>
+        <div className='py-20 relative px-4'>
           <UserLangs
             userLangs={languages}
             setUserLangs={setLanguages}

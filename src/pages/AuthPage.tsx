@@ -19,7 +19,7 @@ const AuthPage = () => {
   return (
     <div className={`
     ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
-    min-h-screen flex flex-col justify-between items-center px-2 py-3`
+    min-h-screen fixed top-0 left-0 w-full flex flex-col justify-between items-center px-2 py-3`
     }>
       {user && (
         <div className='flex justify-start w-full'>
@@ -36,8 +36,8 @@ const AuthPage = () => {
       </div>
 
       <div className='justify-self-end w-full flex flex-col gap-y-2 pb-3'>
-        <MyButton color='yellow' title={'letsStart'} onClick={() => { navigate('/auth/signUp') }} />
-        <MyButton color='black' title={'alredyHaveAcc'} onClick={() => { navigate('/auth/signIn') }} />
+        <MyButton color='yellow' title={'letsStart'} onClick={() => { navigate('/auth/signUp') }} p='py-2' />
+        <MyButton color='black' title={'alredyHaveAcc'} onClick={() => { navigate('/auth/signIn') }} p='py-2' />
       </div>
     </div>
   )

@@ -100,8 +100,8 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
         updateImage={setAvatarUrl}
       />
 
-      <div className='mb-3'>{t('sex')}</div>
-      <div className='grid grid-cols-3 text-center font-medium mb-4'>
+      <div className='mb-1'>{t('sex')}</div>
+      <div className='grid grid-cols-3 text-center font-medium mb-4 gap-x-1'>
         {sexArr.map(sexT => (
           <div key={sexT} className={`
           ${sex === sexT

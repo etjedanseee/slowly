@@ -102,7 +102,7 @@ const FriendChatPage = () => {
           <div className='font-medium text-lg'>{otherUser.info.nickName}</div>
           <div className='flex gap-x-4 items-center'>
             <div className='flex items-center gap-x-1'>
-              <GeoIcon className={`h-4 w-4 fill-yellow-500`} />
+              <GeoIcon className={`h-4 w-4 fill-yellow-400`} />
               <div>{otherUser.geo.location.country}</div>
             </div>
             <div className='flex gap-x-2 items-center'>
@@ -130,13 +130,13 @@ const FriendChatPage = () => {
         {otherUser.interests.slice(0, 2).map(intr => (
           <div
             key={intr}
-            className='border-2 border-yellow-500 py-1 px-3 rounded-full text-sm'
+            className='border-2 border-yellow-400 py-1 px-3 rounded-full text-sm'
           >
             {t(intr)}
           </div>
 
         ))}
-        <div className='border-2 border-yellow-500 py-1 px-3 rounded-full text-sm'>
+        <div className='border-2 border-yellow-400 py-1 px-3 rounded-full text-sm'>
           {otherUser.interests.length - 2}+
         </div>
       </div>

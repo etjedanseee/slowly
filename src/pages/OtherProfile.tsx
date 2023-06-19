@@ -104,7 +104,7 @@ const OtherProfile = () => {
 
         <div className='flex flex-col gap-y-2'>
           <div className='flex gap-x-2 items-center'>
-            <CakeIcon className={`h-5 w-5 fill-yellow-500`} />
+            <CakeIcon className={`h-5 w-5 fill-yellow-400`} />
             <div className='text-sm'>{ageToString(otherUser.info.birthDate)}</div>
             <div className='flex gap-x-1 items-center'>
               <ZodiacIcon zodiac={otherUser.info.zodiac} theme={theme} />
@@ -114,26 +114,26 @@ const OtherProfile = () => {
 
           <div className='flex items-center gap-x-2'>
             {otherUser.info.sex === 'male'
-              ? <MaleIcon className={`h-5 w-5 fill-yellow-500`} />
+              ? <MaleIcon className={`h-5 w-5 fill-yellow-400`} />
               : otherUser.info.sex === 'female'
-                ? <FemaleIcon className={`h-5 w-5 fill-yellow-500`} />
-                : <OtherGenderIcon className={`h-5 w-5 fill-yellow-500`} />
+                ? <FemaleIcon className={`h-5 w-5 fill-yellow-400`} />
+                : <OtherGenderIcon className={`h-5 w-5 fill-yellow-400`} />
             }
             <div>{t('sex')}: {t(otherUser.info.sex)}</div>
           </div>
 
           <div className='flex items-center gap-x-2'>
-            <GeoIcon className={`h-5 w-5 fill-yellow-500`} />
+            <GeoIcon className={`h-5 w-5 fill-yellow-400`} />
             <div>{otherUser.geo.location.country}</div>
           </div>
 
           <div className='flex items-center gap-x-2'>
-            <ArrowsLeftRightIcon className={`h-5 w-5 fill-yellow-500`} />
+            <ArrowsLeftRightIcon className={`h-5 w-5 fill-yellow-400`} />
             <div>≈ {Math.round(differenceDistance / 100) * 100} {t('kmFromYou')} </div>
           </div>
 
           <div className='flex items-center gap-x-2'>
-            <PlaneIcon className={`h-5 w-5 fill-yellow-500`} />
+            <PlaneIcon className={`h-5 w-5 fill-yellow-400`} />
             <div>{t('letterDelivered')} {deliveredTime < 60 ? `${deliveredTime} ${t('minutes')}` : `${Math.round(deliveredTime / 60)} ${t('hours')}`}
             </div>
           </div>
@@ -144,20 +144,20 @@ const OtherProfile = () => {
         <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{t('interests')}</div>
         <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-sm mb-3'>
           {commonInterests.map(int => (
-            <div key={int} className='bg-yellow-500 text-zinc-900 font-medium rounded-2xl px-3 py-1'>{t(int)}</div>
+            <div key={int} className='bg-yellow-400 text-zinc-900 font-medium rounded-2xl px-3 py-1'>{t(int)}</div>
           ))}
           {differentInterests.map(int => (
-            <div key={int} className='font-medium rounded-2xl px-3 py-1 border-yellow-500 border-2'>{t(int)}</div>
+            <div key={int} className='font-medium rounded-2xl px-3 py-1 border-yellow-400 border-2'>{t(int)}</div>
           ))}
         </div>
 
         <div className='flex items-center gap-x-2 text-sm'>
           <div className='flex items-center gap-x-1'>
-            <div className='bg-yellow-500 w-4 h-4 rounded-sm'></div>
+            <div className='bg-yellow-400 w-4 h-4 rounded-sm'></div>
             <div>{t('common')}</div>
           </div>
           <div className='flex items-center gap-x-1'>
-            <div className='border-2 border-yellow-500 w-4 h-4 rounded-sm'></div>
+            <div className='border-2 border-yellow-400 w-4 h-4 rounded-sm'></div>
             <div>{t('different')}</div>
           </div>
         </div>
@@ -196,11 +196,11 @@ const OtherProfile = () => {
       <div className='px-3 pb-6'>
         <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('emailPreferences')}</div>
         <div className='flex items-center gap-x-2 mb-1'>
-          <PencilIcon className={`h-4 w-5 fill-yellow-500`} />
+          <PencilIcon className={`h-4 w-5 fill-yellow-400`} />
           <div>{t('letterLength')}: {t(otherUser.profile.letterLength)}</div>
         </div>
         <div className='flex items-center gap-x-2'>
-          <ClockIcon className={`h-5 w-5 fill-yellow-500`} />
+          <ClockIcon className={`h-5 w-5 fill-yellow-400`} />
           <div>{t('responseTime')}: {t(otherUser.profile.responseTime)}</div>
         </div>
       </div>

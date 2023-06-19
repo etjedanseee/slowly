@@ -42,7 +42,7 @@ const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => 
 
       {canUpdate && (
         <div>
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between mb-2'>
             <div className='text-sm'>Update avatar URL:</div>
             <div className={`${theme === 'dark' ? 'text-white' : 'text-zinc-900'} 
               ${!!avatarUrl.length ? 'opacity-100' : 'opacity-50'}

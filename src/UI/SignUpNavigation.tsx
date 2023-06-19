@@ -36,6 +36,7 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid, onClos
             onClick={isCurrentStepValid ? onNextClick : () => { }}
             title={buttonText || 'next'}
             variant='rounded-full'
+            p='px-8 text-lg'
           />
         )}
       </div>
