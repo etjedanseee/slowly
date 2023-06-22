@@ -9,10 +9,11 @@ interface UserAvatarProps {
   userAvatar: string,
   theme: themeType,
   canUpdate?: boolean,
-  updateImage?: (url: string) => void
+  updateImage?: (url: string) => void,
+  size?: number
 }
 
-const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => { } }: UserAvatarProps) => {
+const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => { }, size }: UserAvatarProps) => {
   const [avatarUrl, setAvatarUrl] = useState(userAvatar);
 
   const { user } = useTypedSelector(state => state.auth)
@@ -35,8 +36,8 @@ const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => 
     <div className='w-full'>
       <div className='w-full flex justify-center'>
         {!!avatarUrl.length
-          ? <img src={avatarUrl} className='h-32 w-32 rounded-full object-cover' alt="User Avatar" />
-          : <DefaultUserIcon className={`h-32 w-32 rounded-full object-cover ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+          ? <img src={avatarUrl} className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover`} alt="User Avatar" />
+          : <DefaultUserIcon className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
         }
       </div>
 

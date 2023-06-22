@@ -213,8 +213,12 @@ export const dictionary = {
     topic: 'Topic',
     letterText: 'Letter text',
     write: 'Write',
+    coincidences: 'Coincidences',
+    coincided: 'Coincided',
   },
   ua: {
+    coincided: 'Збіглося',
+    coincidences: 'Збіги',
     write: 'Написати',
     letterText: 'Текст листа',
     topic: 'Тема',

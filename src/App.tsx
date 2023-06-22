@@ -17,6 +17,7 @@ import { useActions } from './hooks/useActions';
 import OtherProfile from './pages/OtherProfile';
 import FriendChatPage from './pages/FriendChatPage';
 import AutoSearch from './pages/AutoSearch';
+import ManuallySearch from './pages/ManuallySearch';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
@@ -62,6 +63,7 @@ function App() {
             <Route path='/friends/:id' element={<FriendChatPage />} />
             <Route path='/search' element={<SearchFriends />} />
             <Route path='/search/autoSearch' element={<AutoSearch />} />
+            <Route path='/search/manuallySearch' element={<ManuallySearch />} />
             <Route path='/draft' element={<Draft />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/profile/settings' element={<Settings />} />

@@ -137,7 +137,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
         <div className='text-sm'>{otherUser.info.nickName}</div>
       </div>
 
-      {!checkCommonLanguages(user?.languages || [], otherUser.languages) && (
+      {!checkCommonLanguages(user?.languages || [], otherUser.languages).length && (
         <div className='text-red-500 text-sm mb-2'>{t('understood')}</div>
       )}
 

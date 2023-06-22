@@ -166,7 +166,7 @@ const OtherProfile = () => {
       <div className='px-3 mb-6'>
         <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{t('langs')}</div>
         <div className='grid grid-cols-2 gap-y-4'>
-          {otherUser.languages.map(lang => (
+          {otherUser.languages.sort((a, b) => b.level - a.level).map(lang => (
             <div key={lang.code} className='flex flex-col'>
               <div className='mb-1'>
                 <div className={`font-medium ${theme === 'dark' ? 'text-yellow-400' : 'text-black'} leading-none`}>{lang.name}</div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { fetchUserById } from '../utils/fetchUserById'
 import { useNavigate, useParams } from 'react-router-dom'
-import { ILetter, IUser } from '../types/Auth/auth'
+import { IChatList, ILetter, IUser } from '../types/Auth/auth'
 import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
 import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { ReactComponent as SearchIcon } from '../assets/navbarIcons/search.svg'
@@ -26,6 +26,8 @@ const FriendChatPage = () => {
 
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
+
+  const [currentChat, setCurrentChat] = useState<IChatList | null>(null)
 
   const [openedLetter, setOpenedLetter] = useState<ILetter | null>(null)
   const [letterIndex, setLetterIndex] = useState(0)
@@ -52,7 +54,7 @@ const FriendChatPage = () => {
   }
 
   const onOpenLetter = (letterIdx: number) => {
-    const letters = chatList.find(chat => chat.chatId === id)?.messages || []
+    const letters = currentChat?.messages || []
     const letter = letters[letterIdx]
 
     if (!!letters.length) {
@@ -74,8 +76,14 @@ const FriendChatPage = () => {
   }
 
   useEffect(() => {
+    const chat = chatList.find(chat => chat.chatId === id)
+    if (chat) {
+      setCurrentChat(chat)
+    }
+  }, [chatList, id])
+
+  useEffect(() => {
     if (id) {
-      //подумать нужно ли отлавливать ошибку
       fetchUserById(id, setOtherUser, () => { })
     }
   }, [id])
@@ -142,13 +150,13 @@ const FriendChatPage = () => {
       </div>
 
       <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
-        {!openedLetter && chatList && chatList.find(chat => chat.chatId === id)?.messages.map((message, index) => (
+        {!openedLetter && currentChat?.messages.map((message, index) => (
           <Letter
             letter={message}
             otherUser={otherUser}
             index={index}
             onOpenLetter={onOpenLetter}
-            key={message.createdAt}
+            key={message.id}
             isOpened={false}
           />
         ))}
