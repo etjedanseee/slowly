@@ -24,11 +24,11 @@ const CompactUserProfile = ({ profile }: CompactUserProfileProps) => {
 
   return (
     <div
-      className={`flex flex-col items-center gap-y-1 relative text-sm py-2 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}
+      className={`flex flex-col items-center gap-y-[2px] relative text-sm py-2 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}
       onClick={() => onUserClick(profile.id)}
     >
       <div className='absolute top-2 right-2'><ZodiacIcon theme={theme} zodiac={profile.info.zodiac} /></div>
-      <div className='px-2 relative mb-3'>
+      <div className='mb-1'>
         <UserAvatar
           userAvatar={profile.info.avatarUrl}
           theme={theme}
