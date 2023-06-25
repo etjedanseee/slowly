@@ -12,6 +12,7 @@ import CompactUserProfile from '../components/CompactUserProfile'
 import { ILang, IUser } from '../types/Auth/auth'
 import MyButton from '../UI/MyButton'
 import MultySelect from '../UI/MultySelect'
+import Loader from '../UI/Loader'
 
 const ManuallySearch = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -30,7 +31,7 @@ const ManuallySearch = () => {
   const [loading, setLoading] = useState(false)
 
   if (!user) {
-    return null
+    return <div className='flex justify-center py-20'><Loader size='16' /></div>
   }
 
   const handleLangsMultySelectVisible = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Navbar from '../UI/Navbar'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -58,6 +58,17 @@ const Profile = () => {
   const [isInterestsMenuVisible, setIsInterestMenuVisible] = useState(false)
 
   const [userLangs, setUserLangs] = useState<ILang[]>(user?.languages || [])
+
+  useEffect(() => {
+    if (isEditUserInfoVisible) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    return () => {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isEditUserInfoVisible])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
@@ -395,7 +406,7 @@ const Profile = () => {
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3`}>
           <UserLangs
             setUserLangs={setUserLangs}
-            userLangs={userLangs}
+            userLangs={userLangs.sort((a, b) => b.level - a.level)}
             user={user}
           />
         </div>
