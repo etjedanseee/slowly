@@ -189,7 +189,7 @@ export const dictionary = {
     minutes: 'minutes',
     common: 'Common',
     different: 'Different',
-    findNewPenPals: 'Ready to find new pen pals?',
+    findNewPenPals: 'Ready to find new penpals?',
     startCommunicate: 'Start communicating with the world through',
     adddFriendById: 'Add friend by',
     enter: 'Enter',

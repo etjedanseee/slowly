@@ -8,8 +8,9 @@ import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import { ReactComponent as MenuIcon } from '../assets/menu.svg'
 import { ReactComponent as LanguageIcon } from '../assets/language.svg'
 import { ReactComponent as ChattingIcon } from '../assets/chatting.svg'
+import { ReactComponent as PencilIcon } from '../assets/navbarIcons/pencil.svg'
 import CompactUserProfile from '../components/CompactUserProfile'
-import { ILang, IUser } from '../types/Auth/auth'
+import { ILang, IUser, interest } from '../types/Auth/auth'
 import MyButton from '../UI/MyButton'
 import MultySelect from '../UI/MultySelect'
 import Loader from '../UI/Loader'
@@ -28,10 +29,38 @@ const ManuallySearch = () => {
   const [langs, setLangs] = useState<ILang[]>(user?.languages || [])
   const [selectedLangs, setSelectedLangs] = useState<ILang[]>(langs)
 
+  const [isInterestsMultySelectVisible, setIsInterestsMultySelectVisible] = useState(false)
+  const [interests, setInterests] = useState<interest[]>(user?.interests || [])
+  const [selectedInterests, setSelectedInterests] = useState<interest[]>(interests)
+
   const [loading, setLoading] = useState(false)
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
+  }
+
+  const handleInterestsMultySelectVisible = () => {
+    setIsInterestsMultySelectVisible(prev => !prev)
+  }
+
+  const onSelectInterest = (intr: interest) => {
+    if (interests.includes(intr)) {
+      if (interests.length > 1) {
+        setInterests(interests.filter(i => i !== intr))
+      }
+    } else {
+      setInterests([...interests, intr])
+    }
+  }
+
+  const onSaveSelectedInterests = () => {
+    setSelectedInterests(interests)
+    handleInterestsMultySelectVisible()
+  }
+
+  const onCloseInterests = () => {
+    handleInterestsMultySelectVisible()
+    setInterests(selectedInterests)
   }
 
   const handleLangsMultySelectVisible = () => {
@@ -44,7 +73,7 @@ const ManuallySearch = () => {
     if (currentLang) {
       if (isCurrentLangSelected && langs.length > 1) {
         setLangs(langs.filter(lang => lang.name !== langName))
-      } else {
+      } else if (!isCurrentLangSelected) {
         setLangs([...langs, currentLang])
       }
     }
@@ -94,7 +123,7 @@ const ManuallySearch = () => {
       {isFilterModalVisible && (
         <div className={`fixed top-0 left-0 z-10 min-h-screen w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'}`}>
           <div className={`fixed top-0 left-0 w-full flex items-center justify-between flex-wrap gap-y-3 py-3 px-2 
-          ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
+            ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
             <CloseIcon
               className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
               onClick={handleFilterModalVisible}
@@ -107,7 +136,7 @@ const ManuallySearch = () => {
                 variant='rounded-full'
               />
             </div>
-            <div className='w-full text-3xl uppercase tracking-wide'>{t('filters')}</div>
+            <div className='w-full text-3xl uppercase font-medium tracking-wide'>{t('filters')}</div>
           </div>
           <div className='pt-32 px-2'>
             <div className='flex items-center gap-x-4 mb-4'>
@@ -146,6 +175,33 @@ const ManuallySearch = () => {
                   selectTitle='langs'
                   options={user.languages.map(lang => lang.name)}
                   selectedOptions={langs.map(lang => lang.name)}
+                />
+              )}
+            </div>
+
+            <div className='flex items-center gap-x-4 mb-4'>
+              <PencilIcon
+                className={`h-6 w-6 fill-yellow-400`}
+              />
+              <div className='flex-1'>{t('interests')}</div>
+              <div
+                className='flex items-center gap-x-1'
+                onClick={handleInterestsMultySelectVisible}
+              >
+                <div>{selectedInterests.length} {t('selected')}</div>
+                <ArrowDownIcon
+                  className={`h-6 w-6 -mb-1 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+                />
+              </div>
+
+              {isInterestsMultySelectVisible && (
+                <MultySelect
+                  onClose={onCloseInterests}
+                  onSave={onSaveSelectedInterests}
+                  onSelectOption={onSelectInterest}
+                  selectTitle='interests'
+                  options={user.interests}
+                  selectedOptions={interests}
                 />
               )}
             </div>
