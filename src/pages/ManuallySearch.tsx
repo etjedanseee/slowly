@@ -14,6 +14,7 @@ import { ILang, IUser, interest } from '../types/Auth/auth'
 import MyButton from '../UI/MyButton'
 import MultySelect from '../UI/MultySelect'
 import Loader from '../UI/Loader'
+import AgeRangeSelector from '../UI/AgeRangeSelector'
 
 const ManuallySearch = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -205,6 +206,8 @@ const ManuallySearch = () => {
                 />
               )}
             </div>
+
+            <AgeRangeSelector />
           </div>
         </div>
       )}
