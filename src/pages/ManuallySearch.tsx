@@ -8,6 +8,7 @@ import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import { ReactComponent as MenuIcon } from '../assets/menu.svg'
 import { ReactComponent as LanguageIcon } from '../assets/language.svg'
 import { ReactComponent as ChattingIcon } from '../assets/chatting.svg'
+import { ReactComponent as CakeIcon } from '../assets/cake.svg'
 import { ReactComponent as PencilIcon } from '../assets/navbarIcons/pencil.svg'
 import CompactUserProfile from '../components/CompactUserProfile'
 import { ILang, IUser, interest } from '../types/Auth/auth'
@@ -15,6 +16,7 @@ import MyButton from '../UI/MyButton'
 import MultySelect from '../UI/MultySelect'
 import Loader from '../UI/Loader'
 import AgeRangeSelector from '../UI/AgeRangeSelector'
+import { ageOptionsLeft, ageOptionsRight } from '../utils/consts'
 
 const ManuallySearch = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -33,6 +35,10 @@ const ManuallySearch = () => {
   const [isInterestsMultySelectVisible, setIsInterestsMultySelectVisible] = useState(false)
   const [interests, setInterests] = useState<interest[]>(user?.interests || [])
   const [selectedInterests, setSelectedInterests] = useState<interest[]>(interests)
+
+  const [isAgeRangeVisible, setIsAgeRangeVisible] = useState(false)
+  const [leftValue, setLeftValue] = useState(ageOptionsLeft[0]);
+  const [rightValue, setRightValue] = useState(ageOptionsRight[ageOptionsRight.length - 1]);
 
   const [loading, setLoading] = useState(false)
 
@@ -100,6 +106,9 @@ const ManuallySearch = () => {
 
   const onChangeIncludeUsersWithBio = () => {
     setIsIncludeUsersWithBiography(prev => !prev)
+  }
+  const handleAgeRangeVisible = () => {
+    setIsAgeRangeVisible(prev => !prev)
   }
 
   return (
@@ -207,7 +216,31 @@ const ManuallySearch = () => {
               )}
             </div>
 
-            <AgeRangeSelector />
+            <div className='flex items-center gap-x-4 mb-4'>
+              <CakeIcon
+                className={`h-6 w-6 fill-yellow-400`}
+              />
+              <div className='flex-1'>{t('ageRange')}</div>
+              <div
+                className='flex items-center gap-x-1'
+                onClick={handleAgeRangeVisible}
+              >
+                <div>{leftValue} - {rightValue}</div>
+                <ArrowDownIcon
+                  className={`h-6 w-6 -mb-1 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+                />
+              </div>
+            </div>
+            {isAgeRangeVisible && (
+              <div className='mt-2'>
+                <AgeRangeSelector
+                  leftValue={leftValue}
+                  rightValue={rightValue}
+                  setLeftValue={setLeftValue}
+                  setRightValue={setRightValue}
+                />
+              </div>
+            )}
           </div>
         </div>
       )}

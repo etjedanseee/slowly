@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector';
+import { ageOptionsLeft, ageOptionsRight } from '../utils/consts';
 
-const AgeRangeSelector = () => {
+interface AgeRangeSelectorSelectorProps {
+  leftValue: number,
+  rightValue: number,
+  setLeftValue: (age: number) => void,
+  setRightValue: (age: number) => void,
+}
+
+const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }: AgeRangeSelectorSelectorProps) => {
   const { theme } = useTypedSelector(state => state.theme)
-  const ageOptionsLeft = [0, 20, 25, 30, 35, 40, 45, 50, 55, 60];
-  const ageOptionsRight = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65];
 
   const [isLeftOptionsVisible, setIsLeftOptionsVisible] = useState(false)
   const [isRightOptionsVisible, setIsRightOptionsVisible] = useState(false)
-
-  const [leftValue, setLeftValue] = useState(ageOptionsLeft[0]);
-  const [rightValue, setRightValue] = useState(ageOptionsRight[0]);
 
   const handleLeftOptionsVisible = () => {
     setIsLeftOptionsVisible(prev => !prev)
@@ -53,7 +56,7 @@ const AgeRangeSelector = () => {
         )
         : (
           <div className={`flex flex-col text-center gap-y-1 rounded-xl ${theme === 'dark' ? 'border-white' : 'border-gray-500'} border-2 text-lg py-1`}>
-            {ageOptionsLeft.map((value) => (
+            {ageOptionsLeft.filter(age => age < rightValue).map((value) => (
               <div
                 key={value}
                 onClick={() => handleLeftValueChange(value)}
@@ -66,7 +69,7 @@ const AgeRangeSelector = () => {
           </div>
         )}
 
-      <div className='text-3xl absolute top-5 -translate-y-1/2 left-1/2 -translate-x-1/2 flex justify-center text-center gap-x-[2px]'>
+      <div className='text-3xl absolute top-5 -translate-y-1/2 left-1/2 -translate-x-1/2 flex gap-x-[2px] -ml-1'>
         {[0, 1, 2].map(i => (
           <div key={i} className={`h-1 w-1 rounded-full ${theme === 'dark' ? 'bg-white' : 'bg-gray-500'}`} />
         ))}
@@ -81,7 +84,7 @@ const AgeRangeSelector = () => {
         )
         : (
           <div className={`flex flex-col text-center gap-y-1 rounded-xl ${theme === 'dark' ? 'border-white' : 'border-gray-500'} border-2 text-lg py-1`}>
-            {ageOptionsRight.map((value) => (
+            {ageOptionsRight.filter(age => age > leftValue).map((value) => (
               <div
                 key={value}
                 onClick={() => handleRightValueChange(value)}

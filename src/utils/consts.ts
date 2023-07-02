@@ -218,8 +218,10 @@ export const dictionary = {
     filters: 'Filters',
     withBiography: 'Users with biography',
     selected: 'selected',
+    ageRange: 'Age range',
   },
   ua: {
+    ageRange: 'Віковий діапазон',
     selected: 'обрано',
     withBiography: 'Користувачі з біографією',
     filters: 'Фільтри',
@@ -473,3 +475,6 @@ export const msInDay = 86400000
 export const appLangsArr: appLangType[] = ['en', 'ua']
 
 export const levelLangNames = ['Interested', 'Beginning', 'Average', 'Advanced', 'Fluency', 'Native language']
+
+export const ageOptionsLeft = [0, 20, 25, 30, 35, 40, 45, 50, 55, 60];
+export const ageOptionsRight = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65];
