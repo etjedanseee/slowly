@@ -1,7 +1,7 @@
 
 import { Dispatch } from 'redux';
 import { AuthAction, AuthActionTypes } from '../../types/Auth/authReducer';
-import { IChatList, ILang, ILetter, IUser, IUserInfo, LetterLengthType, ResponseTimeType, SexType, interest } from '../../types/Auth/auth';
+import { IChatList, ILang, ILetter, IUser, IUserInfo, IUserProfile, interest } from '../../types/Auth/auth';
 import supabase from '../../supabaseClient';
 
 
@@ -41,21 +41,6 @@ const updateUser = (user: IUser, updatedUserMetadata: any) => {
   }
 }
 
-export const updateUserAvatar = (user: IUser, imageUrl: string) => {
-  const updatedMetadata = {
-    info: {
-      ...user.info,
-      avatarUrl: imageUrl
-    },
-    interests: user.interests,
-    languages: user.languages,
-    geo: user.geo,
-    profile: user.profile
-  }
-
-  return updateUser(user, updatedMetadata)
-}
-
 export const updateUserInterests = (user: IUser, updatedInterests: interest[]) => {
   const updatedMetadata = {
     info: user.info,
@@ -80,66 +65,6 @@ export const updateUserLangs = (user: IUser, updatedLangs: ILang[]) => {
   return updateUser(user, updatedMetadata)
 }
 
-export const updateUserLetterLength = (user: IUser, updatedLL: LetterLengthType) => {
-  const updatedMetadata = {
-    info: user.info,
-    interests: user.interests,
-    languages: user.languages,
-    geo: user.geo,
-    profile: {
-      ...user.profile,
-      letterLength: updatedLL
-    }
-  }
-
-  return updateUser(user, updatedMetadata)
-}
-
-export const updateUserResponseTime = (user: IUser, updatedRT: ResponseTimeType) => {
-  const updatedMetadata = {
-    info: user.info,
-    interests: user.interests,
-    languages: user.languages,
-    geo: user.geo,
-    profile: {
-      ...user.profile,
-      responseTime: updatedRT
-    }
-  }
-
-  return updateUser(user, updatedMetadata)
-}
-
-export const updateUserSexPreference = (user: IUser, updatedPS: SexType[]) => {
-  const updatedMetadata = {
-    info: user.info,
-    interests: user.interests,
-    languages: user.languages,
-    geo: user.geo,
-    profile: {
-      ...user.profile,
-      sexPreference: updatedPS
-    }
-  }
-
-  return updateUser(user, updatedMetadata)
-}
-
-export const updateUserBiography = (user: IUser, updatedBiography: string) => {
-  const updatedMetadata = {
-    info: user.info,
-    interests: user.interests,
-    languages: user.languages,
-    geo: user.geo,
-    profile: {
-      ...user.profile,
-      biography: updatedBiography
-    }
-  }
-
-  return updateUser(user, updatedMetadata)
-}
-
 export const updateUserInfo = (user: IUser, updatedInfo: IUserInfo) => {
   const updatedMetadata = {
     info: updatedInfo,
@@ -147,6 +72,18 @@ export const updateUserInfo = (user: IUser, updatedInfo: IUserInfo) => {
     languages: user.languages,
     geo: user.geo,
     profile: user.profile
+  }
+
+  return updateUser(user, updatedMetadata)
+}
+
+export const updateUserProfile = (user: IUser, updatedProfile: IUserProfile) => {
+  const updatedMetadata = {
+    info: user.info,
+    interests: user.interests,
+    languages: user.languages,
+    geo: user.geo,
+    profile: updatedProfile
   }
 
   return updateUser(user, updatedMetadata)

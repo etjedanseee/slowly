@@ -63,17 +63,22 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
     setIsNickNameDirty(true)
   }
 
+  const handleSetAvatarUrl = (url: string) => {
+    setAvatarUrl(url)
+    setIsInfoUpdated(true)
+  }
+
   useEffect(() => {
     if (isInfoUpdated) {
       if (!birthDateError && nickName.length && avatarUrl.length) {
-        const userInfo: IUserInfo = {
+        const updatedUserInfo: IUserInfo = {
           avatarUrl,
           sex,
           nickName,
           birthDate,
           zodiac: calcZodiak(birthDate)
         }
-        setUserInfo(userInfo)
+        setUserInfo(updatedUserInfo)
       } else {
         setUserInfo(null)
       }
@@ -97,7 +102,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
         theme={theme}
         userAvatar={avatarUrl}
         canUpdate={true}
-        updateImage={setAvatarUrl}
+        updateImage={handleSetAvatarUrl}
       />
 
       <div className='mb-1'>{t('sex')}</div>

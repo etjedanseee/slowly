@@ -459,7 +459,8 @@ export const initialUserProfile: IUserProfile = {
   biography: '',
   letterLength: 'any',
   responseTime: 'soonPossible',
-  sexPreference: ['female', 'male', 'other']
+  sexPreference: ['female', 'male', 'other'],
+  ageRange: [0, 65]
 }
 
 export const initialUserInfo: IUserInfo = {

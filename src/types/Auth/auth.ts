@@ -22,7 +22,8 @@ export interface IUserProfile {
   biography: string,
   letterLength: LetterLengthType,
   responseTime: ResponseTimeType,
-  sexPreference: SexType[]
+  sexPreference: SexType[],
+  ageRange: number[]
 }
 
 export interface ILang {

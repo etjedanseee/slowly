@@ -35,7 +35,7 @@ const Profile = () => {
   const { theme } = useTypedSelector(state => state.theme)
   const { interests } = useTypedSelector(state => state.data)
   const { t } = useTranslation()
-  const { updateUserInterests, updateUserSexPreference, updateUserResponseTime, updateUserLetterLength, updateUserBiography, updateUserInfo } = useActions()
+  const { updateUserInterests, updateUserInfo, updateUserProfile } = useActions()
   const navigate = useNavigate()
 
   const [userInfo, setUserInfo] = useState<IUserInfo>(user?.info || initialUserInfo)
@@ -76,7 +76,6 @@ const Profile = () => {
 
   const handleEditUserInfoVisible = () => {
     setIsEditUserInfoVisible(prev => !prev)
-    setUserInfo(user.info)
   }
 
   const handleUpdateUserInfo = () => {
@@ -95,7 +94,7 @@ const Profile = () => {
   }
 
   const handleEditBiography = (text: string) => {
-    updateUserBiography(user, text)
+    updateUserProfile(user, { ...user.profile, biography: text })
     setBiography(text)
     handleEditBiographyVisible()
   }
@@ -109,7 +108,7 @@ const Profile = () => {
   }
 
   const onSaveSelectedLetterLength = () => {
-    updateUserLetterLength(user, letterLength)
+    updateUserProfile(user, { ...user.profile, letterLength: letterLength })
     handleLetterLengthSelectVisible()
   }
 
@@ -127,7 +126,7 @@ const Profile = () => {
   }
 
   const onSaveSelectedResponseTime = () => {
-    updateUserResponseTime(user, responseTime)
+    updateUserProfile(user, { ...user.profile, responseTime: responseTime })
     handleResponseTimeMenuVisible()
   }
 
@@ -137,7 +136,7 @@ const Profile = () => {
   }
 
   const onSavePreferenceSex = (editedPreferenceSex: SexType[]) => {
-    updateUserSexPreference(user, editedPreferenceSex)
+    updateUserProfile(user, { ...user.profile, sexPreference: editedPreferenceSex })
     setPreferenceSex(editedPreferenceSex)
   }
 
@@ -185,7 +184,6 @@ const Profile = () => {
           </NavLink>
         </div>
       </div>
-
 
       <div className='py-10'>
         <div className='px-2 relative mb-3'>
