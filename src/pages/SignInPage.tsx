@@ -9,7 +9,7 @@ import supabase from '../supabaseClient'
 import { useActions } from '../hooks/useActions'
 import MyButton from '../UI/MyButton'
 import { IUser } from '../types/Auth/auth'
-import { initialUserProfile } from '../utils/consts'
+import { initialUserInfo, initialUserProfile } from '../utils/consts'
 import Loader from '../UI/Loader'
 
 const SignInPage = () => {
@@ -49,7 +49,7 @@ const SignInPage = () => {
       const userObj: IUser = {
         id: data.user?.id || '0',
         email: data.user?.email || '0',
-        info: data.user?.user_metadata?.info || { sex: 'male', birthDate: new Date(), nickName: '', zodiac: 'Libra' },
+        info: data.user?.user_metadata?.info || initialUserInfo,
         interests: data.user?.user_metadata?.interests || [],
         languages: data.user?.user_metadata?.languages || [],
         geo: data.user?.user_metadata?.geo || { coord: { latitude: 0, longitude: 0 }, location: { country: '', city: '' } },

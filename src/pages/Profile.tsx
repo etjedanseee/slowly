@@ -29,6 +29,7 @@ import Loader from '../UI/Loader'
 import Select from '../UI/Select'
 import WriteTextModal from '../UI/WriteTextModal'
 import SelectGender from '../UI/SelectGender'
+import AgeRangeModal from '../components/AgeRangeModal'
 
 const Profile = () => {
   const { user } = useTypedSelector(state => state.auth)
@@ -59,8 +60,12 @@ const Profile = () => {
 
   const [userLangs, setUserLangs] = useState<ILang[]>(user?.languages || [])
 
+  const [isAgeRangeVisible, setIsAgeRangeVisible] = useState(false)
+  const [leftValue, setLeftValue] = useState(user?.profile.ageRange[0] || 0);
+  const [rightValue, setRightValue] = useState(user?.profile.ageRange[1] || 65);
+
   useEffect(() => {
-    if (isEditUserInfoVisible) {
+    if (isEditUserInfoVisible || isAgeRangeVisible) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'auto'
@@ -68,7 +73,7 @@ const Profile = () => {
     return () => {
       document.body.style.overflow = 'auto'
     }
-  }, [isEditUserInfoVisible])
+  }, [isEditUserInfoVisible, isAgeRangeVisible])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
@@ -172,10 +177,23 @@ const Profile = () => {
     handleInterestsMenuVisible()
   }
 
+  const handleAgeRangeVisible = () => {
+    setIsAgeRangeVisible(prev => !prev)
+  }
+
+  const onSaveAgeRange = (selectedLeftValue: number, selectedRightValue: number) => {
+    handleAgeRangeVisible()
+    setLeftValue(selectedLeftValue)
+    setRightValue(selectedRightValue)
+    updateUserProfile(user, { ...user.profile, ageRange: [selectedLeftValue, selectedRightValue] })
+  }
+
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} py-3`}>
 
-      <div className={`fixed z-20 top-0 left-0 w-full grid grid-cols-3 items-center py-2 ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}`}>
+      <div className={`fixed z-20 top-0 left-0 w-full grid grid-cols-3 items-center py-2 
+        ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}
+      `}>
         <div></div>
         <div className='font-medium text-center text-xl'>{user && user.info.nickName}</div>
         <div className='flex justify-end pr-3'>
@@ -371,6 +389,26 @@ const Profile = () => {
             userPreferenceSex={preferenceSex}
             onSave={onSavePreferenceSex}
           />
+
+          <div className='flex items-center gap-x-4 mb-4'>
+            <div className='flex-1'>{t('ageRange')}</div>
+            <div
+              className='flex items-center gap-x-1'
+              onClick={handleAgeRangeVisible}
+            >
+              {!isAgeRangeVisible && <div>{leftValue} - {rightValue}</div>}
+              <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
+            </div>
+          </div>
+
+          {isAgeRangeVisible && (
+            <AgeRangeModal
+              defaultLeftValue={leftValue}
+              defaultRightValue={rightValue}
+              onSaveAgeRange={onSaveAgeRange}
+              onClose={handleAgeRangeVisible}
+            />
+          )}
         </div>
 
         <div className='text-sm opacity-70 px-2 mb-2'>{t('interests')}</div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useNavigate, useParams } from 'react-router-dom'
 import UserAvatar from '../components/UserAvatar'
-import supabase from '../supabaseClient'
 import { IUser } from '../types/Auth/auth'
 import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
 import { ReactComponent as ClockIcon } from '../assets/clock.svg'
@@ -60,6 +59,7 @@ const OtherProfile = () => {
   if (!otherUser || !user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
   }
+
   return (
     <div className={`pb-10 ${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'}`}>
       <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} pt-12 pb-3`}>
@@ -192,16 +192,19 @@ const OtherProfile = () => {
         </div>
       </div>
 
-
       <div className='px-3 pb-6'>
         <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : ''}`}>{t('emailPreferences')}</div>
         <div className='flex items-center gap-x-2 mb-1'>
           <PencilIcon className={`h-4 w-5 fill-yellow-400`} />
           <div>{t('letterLength')}: {t(otherUser.profile.letterLength)}</div>
         </div>
-        <div className='flex items-center gap-x-2'>
+        <div className='flex items-center gap-x-2 mb-1'>
           <ClockIcon className={`h-5 w-5 fill-yellow-400`} />
           <div>{t('responseTime')}: {t(otherUser.profile.responseTime)}</div>
+        </div>
+        <div className='flex items-center gap-x-2'>
+          <CakeIcon className={`h-5 w-5 fill-yellow-400`} />
+          <div className='flex-1'>{t('ageRange')}: {otherUser.profile.ageRange[0]}-{otherUser.profile.ageRange[1]}</div>
         </div>
       </div>
 
