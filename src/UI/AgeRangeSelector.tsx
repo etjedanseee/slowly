@@ -44,8 +44,8 @@ const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }
   };
 
   return (
-    <div className={`flex items-start justify-center gap-x-16 text-black relative font-medium 
-      ${theme === 'dark' ? 'text-white' : 'text-black'}`}
+    <div className={`flex items-start justify-center gap-x-10 text-black relative font-medium py-10
+      ${theme === 'dark' ? 'text-white bg-zinc-900' : 'text-zinc-700 bg-slate-300'}`}
     >
       {!isLeftOptionsVisible
         ? (
@@ -55,7 +55,7 @@ const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }
           >{leftValue}</div>
         )
         : (
-          <div className={`flex flex-col text-center gap-y-1 rounded-xl ${theme === 'dark' ? 'border-white' : 'border-gray-500'} border-2 text-lg py-1`}>
+          <div className={`flex flex-col gap-y-1 rounded-xl ${theme === 'dark' ? 'border-white' : 'border-gray-500'} border-2 text-lg py-1`}>
             {ageOptionsLeft.filter(age => age < rightValue).map((value) => (
               <div
                 key={value}
@@ -69,7 +69,7 @@ const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }
           </div>
         )}
 
-      <div className='text-3xl absolute top-5 -translate-y-1/2 left-1/2 -translate-x-1/2 flex gap-x-[2px] -ml-1'>
+      <div className='text-3xl flex gap-x-[2px] pt-4'>
         {[0, 1, 2].map(i => (
           <div key={i} className={`h-1 w-1 rounded-full ${theme === 'dark' ? 'bg-white' : 'bg-gray-500'}`} />
         ))}

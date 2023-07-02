@@ -148,8 +148,8 @@ const ManuallySearch = () => {
             </div>
             <div className='w-full text-3xl uppercase font-medium tracking-wide'>{t('filters')}</div>
           </div>
-          <div className='pt-32 px-2'>
-            <div className='flex items-center gap-x-4 mb-4'>
+          <div className='pt-32'>
+            <div className='flex items-center gap-x-4 mb-4 px-2'>
               <ChattingIcon
                 className={`h-6 w-6 fill-yellow-400`}
               />
@@ -162,7 +162,7 @@ const ManuallySearch = () => {
               </div>
             </div>
 
-            <div className='flex items-center gap-x-4 mb-4'>
+            <div className='flex items-center gap-x-4 mb-4 px-2'>
               <LanguageIcon
                 className={`h-6 w-6 fill-yellow-400`}
               />
@@ -189,7 +189,7 @@ const ManuallySearch = () => {
               )}
             </div>
 
-            <div className='flex items-center gap-x-4 mb-4'>
+            <div className='flex items-center gap-x-4 mb-4 px-2'>
               <PencilIcon
                 className={`h-6 w-6 fill-yellow-400`}
               />
@@ -217,20 +217,28 @@ const ManuallySearch = () => {
             </div>
 
             <div className='flex items-center gap-x-4 mb-4'>
-              <CakeIcon
-                className={`h-6 w-6 fill-yellow-400`}
-              />
+              <div className='pl-2'>
+                <CakeIcon
+                  className={`h-6 w-6 fill-yellow-400`}
+                />
+              </div>
               <div className='flex-1'>{t('ageRange')}</div>
               <div
                 className='flex items-center gap-x-1'
                 onClick={handleAgeRangeVisible}
               >
-                <div>{leftValue} - {rightValue}</div>
-                <ArrowDownIcon
-                  className={`h-6 w-6 -mb-1 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
-                />
+                {!isAgeRangeVisible && <div>{leftValue} - {rightValue}</div>}
+                <div className='pr-2'>
+                  <ArrowDownIcon
+                    className={`h-6 w-6 duration-300 
+                    ${isAgeRangeVisible ? 'rotate-180' : 'rotate-0'} 
+                    ${theme === 'dark' ? 'fill-white' : 'fill-black'}
+                  `}
+                  />
+                </div>
               </div>
             </div>
+
             {isAgeRangeVisible && (
               <div className='mt-2'>
                 <AgeRangeSelector
