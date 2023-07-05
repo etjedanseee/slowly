@@ -11,11 +11,11 @@ import { ReactComponent as SagittariusIcon } from '../assets/zodiac/sagittarius.
 import { ReactComponent as ScorpioIcon } from '../assets/zodiac/scorpio.svg'
 import { ReactComponent as TaurusIcon } from '../assets/zodiac/taurus.svg'
 import { ReactComponent as VirgoIcon } from '../assets/zodiac/virgo.svg'
-import { ZodiakType } from '../types/Auth/auth'
+import { ZodiacType } from '../types/Auth/auth'
 import { themeType } from '../types/Theme/theme'
 
 interface ZodiacIconProps {
-  zodiac: ZodiakType,
+  zodiac: ZodiacType,
   theme: themeType
 }
 

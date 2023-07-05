@@ -10,13 +10,16 @@ import { ReactComponent as LanguageIcon } from '../assets/language.svg'
 import { ReactComponent as ChattingIcon } from '../assets/chatting.svg'
 import { ReactComponent as CakeIcon } from '../assets/cake.svg'
 import { ReactComponent as PencilIcon } from '../assets/navbarIcons/pencil.svg'
+import { ReactComponent as SexIcon } from '../assets/sex.svg'
+import { ReactComponent as StarIcon } from '../assets/star.svg'
 import CompactUserProfile from '../components/CompactUserProfile'
-import { ILang, IUser, interest } from '../types/Auth/auth'
+import { ILang, IUser, SexType, ZodiacType, interest } from '../types/Auth/auth'
 import MyButton from '../UI/MyButton'
 import MultySelect from '../UI/MultySelect'
 import Loader from '../UI/Loader'
 import AgeRangeSelector from '../UI/AgeRangeSelector'
-import { ageOptionsLeft, ageOptionsRight } from '../utils/consts'
+import { ageOptionsLeft, ageOptionsRight, zodiacs } from '../utils/consts'
+import SelectGender from '../UI/SelectGender'
 
 const ManuallySearch = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -39,6 +42,12 @@ const ManuallySearch = () => {
   const [isAgeRangeVisible, setIsAgeRangeVisible] = useState(false)
   const [leftValue, setLeftValue] = useState(ageOptionsLeft[0]);
   const [rightValue, setRightValue] = useState(ageOptionsRight[ageOptionsRight.length - 1]);
+
+  const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
+
+  const [isZodiacMultySelectVisible, setIsZodiacMultySelectVisible] = useState(false)
+  const [zodiac, setZodiac] = useState<ZodiacType[]>(zodiacs)
+  const [selectedZodiac, setSelectedZodiac] = useState<ZodiacType[]>(zodiacs)
 
   const [loading, setLoading] = useState(false)
 
@@ -111,6 +120,34 @@ const ManuallySearch = () => {
     setIsAgeRangeVisible(prev => !prev)
   }
 
+  const onSavePreferenceSex = (editedPreferenceSex: SexType[]) => {
+    setPreferenceSex(editedPreferenceSex)
+  }
+
+  const handleZodiacMultySelectVisible = () => {
+    setIsZodiacMultySelectVisible(prev => !prev)
+  }
+
+  const onSelectZodiac = (zod: ZodiacType) => {
+    if (zodiac.includes(zod)) {
+      if (zodiac.length > 1) {
+        setZodiac(zodiac.filter(z => z !== zod))
+      }
+    } else {
+      setZodiac([...zodiac, zod])
+    }
+  }
+
+  const onCloseZodiacMultySelect = () => {
+    setZodiac(selectedZodiac)
+    handleZodiacMultySelectVisible()
+  }
+
+  const onSaveSelectedZodiac = () => {
+    setSelectedZodiac(zodiac)
+    handleZodiacMultySelectVisible()
+  }
+
   return (
     <div className={`px-3 py-16 min-h-screen ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
       <div className='fixed top-0 left-0 w-full flex items-center justify-between gap-x-6 py-3 px-3'>
@@ -135,7 +172,7 @@ const ManuallySearch = () => {
           <div className={`fixed top-0 left-0 w-full flex items-center justify-between flex-wrap gap-y-3 py-3 px-2 
             ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
             <CloseIcon
-              className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+              className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
               onClick={handleFilterModalVisible}
             />
             <div>
@@ -148,6 +185,7 @@ const ManuallySearch = () => {
             </div>
             <div className='w-full text-3xl uppercase font-medium tracking-wide'>{t('filters')}</div>
           </div>
+
           <div className='pt-32'>
             <div className='flex items-center gap-x-4 mb-4 px-2'>
               <ChattingIcon
@@ -173,7 +211,7 @@ const ManuallySearch = () => {
               >
                 <div>{selectedLangs.length} {t('selected')}</div>
                 <ArrowDownIcon
-                  className={`h-6 w-6 -mb-1 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+                  className={`h-5 w-5 -mb-1 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
                 />
               </div>
 
@@ -200,7 +238,7 @@ const ManuallySearch = () => {
               >
                 <div>{selectedInterests.length} {t('selected')}</div>
                 <ArrowDownIcon
-                  className={`h-6 w-6 -mb-1 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+                  className={`h-5 w-5 -mb-1 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
                 />
               </div>
 
@@ -230,7 +268,7 @@ const ManuallySearch = () => {
                 {!isAgeRangeVisible && <div>{leftValue} - {rightValue}</div>}
                 <div className='pr-2'>
                   <ArrowDownIcon
-                    className={`h-6 w-6 duration-300 
+                    className={`h-5 w-5 duration-300 
                     ${isAgeRangeVisible ? 'rotate-180' : 'rotate-0'} 
                     ${theme === 'dark' ? 'fill-white' : 'fill-black'}
                   `}
@@ -240,7 +278,7 @@ const ManuallySearch = () => {
             </div>
 
             {isAgeRangeVisible && (
-              <div className='mt-2'>
+              <div className='my-2'>
                 <AgeRangeSelector
                   leftValue={leftValue}
                   rightValue={rightValue}
@@ -249,6 +287,43 @@ const ManuallySearch = () => {
                 />
               </div>
             )}
+
+            <div className='pr-2 pl-12 relative'>
+              <SexIcon
+                className={`h-6 w-6 fill-yellow-400 absolute left-2 top-1/2 -translate-y-1/2`}
+              />
+              <SelectGender
+                userPreferenceSex={preferenceSex}
+                onSave={onSavePreferenceSex}
+              />
+            </div>
+
+            <div className='flex items-center gap-x-4 mb-4 px-2'>
+              <StarIcon
+                className={`h-6 w-6 fill-yellow-400`}
+              />
+              <div className='flex-1'>{t('zodiac')}</div>
+              <div
+                className='flex items-center gap-x-1'
+                onClick={handleZodiacMultySelectVisible}
+              >
+                <div>{zodiac.length} {t('selected')}</div>
+                <ArrowDownIcon
+                  className={`h-5 w-5 -mb-1 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+                />
+              </div>
+
+              {isZodiacMultySelectVisible && (
+                <MultySelect
+                  onClose={onCloseZodiacMultySelect}
+                  onSave={onSaveSelectedZodiac}
+                  onSelectOption={onSelectZodiac}
+                  selectTitle='zodiac'
+                  options={zodiacs}
+                  selectedOptions={zodiac}
+                />
+              )}
+            </div>
           </div>
         </div>
       )}

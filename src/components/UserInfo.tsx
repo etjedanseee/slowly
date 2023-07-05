@@ -4,7 +4,7 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 import TextInput from '../UI/TextInput'
 import { isValidDate } from '../utils/validate'
 import { IUserInfo, SexType } from '../types/Auth/auth'
-import { calcZodiak } from '../utils/calcZodiak'
+import { calcZodiac } from '../utils/calcZodiac'
 import UserAvatar from './UserAvatar'
 import { sexArr } from '../utils/consts'
 
@@ -76,7 +76,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
           sex,
           nickName,
           birthDate,
-          zodiac: calcZodiak(birthDate)
+          zodiac: calcZodiac(birthDate)
         }
         setUserInfo(updatedUserInfo)
       } else {

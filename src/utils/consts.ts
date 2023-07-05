@@ -1,4 +1,4 @@
-import { ILang, IUserInfo, IUserProfile, LetterLengthType, ResponseTimeType, SexType } from "../types/Auth/auth"
+import { ILang, IUserInfo, IUserProfile, LetterLengthType, ResponseTimeType, SexType, ZodiacType } from "../types/Auth/auth"
 import { appLangType } from "../types/Theme/theme"
 
 export const dictionary = {
@@ -219,8 +219,10 @@ export const dictionary = {
     withBiography: 'Users with biography',
     selected: 'selected',
     ageRange: 'Age range',
+    zodiac: 'Zodiac',
   },
   ua: {
+    zodiac: 'Зодіак',
     ageRange: 'Віковий діапазон',
     selected: 'обрано',
     withBiography: 'Користувачі з біографією',
@@ -479,3 +481,5 @@ export const levelLangNames = ['Interested', 'Beginning', 'Average', 'Advanced',
 
 export const ageOptionsLeft = [0, 20, 25, 30, 35, 40, 45, 50, 55, 60];
 export const ageOptionsRight = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65];
+
+export const zodiacs: ZodiacType[] = ['Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius']

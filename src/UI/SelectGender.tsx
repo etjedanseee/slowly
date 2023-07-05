@@ -69,7 +69,7 @@ const SelectGender = ({ userPreferenceSex, onSave }: SelectGenderProps) => {
                 : t(userPreferenceSex[0])
             }
           </div>
-          <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+          <ArrowDownIcon className={`h-5 w-5 -mb-1 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
         </div>
 
       </div>

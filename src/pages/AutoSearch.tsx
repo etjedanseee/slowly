@@ -173,8 +173,7 @@ const AutoSearch = () => {
       }
       const letterParams = {
         userCountry: user.geo.location.country,
-        // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
-        excludeIds: [user.id],
+        excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
         isIncludeMyCountryToSearch,
         preferenceSex,
         selectedLangProficiency,
