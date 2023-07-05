@@ -7,7 +7,6 @@ export const calcAge = (date: Date): number => {
   const diff = now - dateMs
   const res = new Date(diff)
 
-  // console.log('res', res.getFullYear() - 1970)
   return res.getFullYear() - 1970
 }
 

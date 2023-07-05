@@ -15,6 +15,7 @@ import { getUsersForMailing } from '../utils/getUsersForMailing'
 import { sendLetter } from '../utils/sendLetter'
 import { coordsToDistance } from '../utils/calcDistance'
 import SelectGender from '../UI/SelectGender'
+import AgeRangeModal from '../components/AgeRangeModal'
 
 const AutoSearch = () => {
   const { user, chatList } = useTypedSelector(state => state.auth)
@@ -44,6 +45,10 @@ const AutoSearch = () => {
 
   const [letterText, setLetterText] = useState('')
   const [isLetterTextModalVisible, setIsLetterTextModalVisible] = useState(false)
+
+  const [isAgeRangeVisible, setIsAgeRangeVisible] = useState(false)
+  const [leftValue, setLeftValue] = useState(user?.profile.ageRange[0] || 0);
+  const [rightValue, setRightValue] = useState(user?.profile.ageRange[1] || 65);
 
   const [usersForMailing, setUsersForMailing] = useState<IUser[]>([])
 
@@ -151,6 +156,16 @@ const AutoSearch = () => {
     setPreferenceSex(editedPreferenceSex)
   }
 
+  const handleAgeRangeVisible = () => {
+    setIsAgeRangeVisible(prev => !prev)
+  }
+
+  const onSaveAgeRange = (selectedLeftValue: number, selectedRightValue: number) => {
+    handleAgeRangeVisible()
+    setLeftValue(selectedLeftValue)
+    setRightValue(selectedRightValue)
+  }
+
   const onSendMailingLetter = () => {
     if (user) {
       if (!letterText.trim().length) {
@@ -158,7 +173,8 @@ const AutoSearch = () => {
       }
       const letterParams = {
         userCountry: user.geo.location.country,
-        excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+        // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+        excludeIds: [user.id],
         isIncludeMyCountryToSearch,
         preferenceSex,
         selectedLangProficiency,
@@ -166,6 +182,7 @@ const AutoSearch = () => {
         selectedNumOfRecipients,
         selectedTopic,
         setUsersForMailing,
+        ageRange: [leftValue, rightValue]
       }
       getUsersForMailing(letterParams)
     }
@@ -235,6 +252,26 @@ const AutoSearch = () => {
             />
           )}
         </div>
+
+        <div className='flex items-center gap-x-4 mb-2'>
+          <div className='flex-1'>{t('ageRange')}</div>
+          <div
+            className='flex items-center gap-x-1'
+            onClick={handleAgeRangeVisible}
+          >
+            {!isAgeRangeVisible && <div>{leftValue} - {rightValue}</div>}
+            <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
+          </div>
+        </div>
+
+        {isAgeRangeVisible && (
+          <AgeRangeModal
+            defaultLeftValue={leftValue}
+            defaultRightValue={rightValue}
+            onSaveAgeRange={onSaveAgeRange}
+            onClose={handleAgeRangeVisible}
+          />
+        )}
 
         <SelectGender
           userPreferenceSex={preferenceSex}

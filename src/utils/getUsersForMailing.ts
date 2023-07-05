@@ -1,5 +1,6 @@
 import supabase from "../supabaseClient"
 import { ILang, IUser, SexType, interest } from "../types/Auth/auth"
+import { calcAge } from "./calcAge"
 
 interface getUsersForMailingProps {
   userCountry: string,
@@ -9,11 +10,12 @@ interface getUsersForMailingProps {
   selectedLangProficiency: number,
   selectedLearningLang: ILang,
   selectedNumOfRecipients: number,
+  ageRange: number[],
   selectedTopic: interest,
   setUsersForMailing: (users: IUser[]) => void,
 }
 
-export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersForMailing, preferenceSex, selectedLangProficiency, selectedLearningLang, selectedNumOfRecipients, selectedTopic, excludeIds, userCountry }: getUsersForMailingProps) => {
+export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersForMailing, preferenceSex, ageRange, selectedLangProficiency, selectedLearningLang, selectedNumOfRecipients, selectedTopic, excludeIds, userCountry }: getUsersForMailingProps) => {
   try {
     const { data, error } = await supabase
       .from('Users')
@@ -30,7 +32,19 @@ export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersF
       ? Users
       : Users.filter(user => user.geo.location.country !== userCountry)
 
-    const filteredById = filteredByCountry.filter(user => !excludeIds.includes(user.id))
+    const filteredByAge = filteredByCountry.filter(user => {
+      const userAge = calcAge(new Date(user.info.birthDate))
+      if (userAge < ageRange[0]) {
+        return false
+      }
+      return userAge > ageRange[1]
+        ? ageRange[1] === 65
+          ? true
+          : false
+        : true
+    })
+
+    const filteredById = filteredByAge.filter(user => !excludeIds.includes(user.id))
 
     const filteredBySex = filteredById.filter(user => preferenceSex.includes(user.info.sex));
 
@@ -39,7 +53,7 @@ export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersF
 
     if (!filteredByLang.length) {
       setUsersForMailing([])
-    } else if (selectedNumOfRecipients > filteredByLang.length) {
+    } else if (filteredByLang.length < selectedNumOfRecipients) {
       setUsersForMailing(filteredByLang)
     } else {
       setUsersForMailing(filteredByLang.slice(0, selectedNumOfRecipients))
