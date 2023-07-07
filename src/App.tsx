@@ -18,6 +18,8 @@ import OtherProfile from './pages/OtherProfile';
 import FriendChatPage from './pages/FriendChatPage';
 import AutoSearch from './pages/AutoSearch';
 import ManuallySearch from './pages/ManuallySearch';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
@@ -55,6 +57,19 @@ function App() {
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} max-w-[500px] mx-auto min-h-screen`}>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
       <Routes>
         {user && (
           <>

@@ -1,6 +1,7 @@
 import supabase from "../supabaseClient"
 import { ILang, IUser, SexType, interest } from "../types/Auth/auth"
 import { calcAge } from "./calcAge"
+import { toast } from 'react-toastify';
 
 interface getUsersForMailingProps {
   userCountry: string,
@@ -13,9 +14,10 @@ interface getUsersForMailingProps {
   ageRange: number[],
   selectedTopic: interest,
   setUsersForMailing: (users: IUser[]) => void,
+  t: (s: string) => string
 }
 
-export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersForMailing, preferenceSex, ageRange, selectedLangProficiency, selectedLearningLang, selectedNumOfRecipients, selectedTopic, excludeIds, userCountry }: getUsersForMailingProps) => {
+export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersForMailing, preferenceSex, ageRange, selectedLangProficiency, selectedLearningLang, selectedNumOfRecipients, selectedTopic, excludeIds, userCountry, t }: getUsersForMailingProps) => {
   try {
     const { data, error } = await supabase
       .from('Users')
@@ -53,6 +55,7 @@ export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersF
 
     if (!filteredByLang.length) {
       setUsersForMailing([])
+      toast.error(t('noUsersToSend'))
     } else if (filteredByLang.length < selectedNumOfRecipients) {
       setUsersForMailing(filteredByLang)
     } else {

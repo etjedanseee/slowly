@@ -127,12 +127,9 @@ const FriendChatPage = () => {
         />
       </div>
 
-      <>
-        {otherUser.profile.biography.length > 50
-          ? <div className='mb-2 leading-tight text-sm'>{otherUser.profile.biography.slice(0, 50)}...</div>
-          : <div className='mb-2 leading-tight text-sm'>{otherUser.profile.biography}</div>
-        }
-      </>
+      <div className='mb-2 leading-tight text-sm'>
+        {otherUser.profile.biography.length > 50 ? otherUser.profile.biography.slice(0, 50) : otherUser.profile.biography}
+      </div>
 
       <div className='flex gap-x-1 mb-4'>
         {otherUser.interests.slice(0, 2).map(intr => (
@@ -142,7 +139,6 @@ const FriendChatPage = () => {
           >
             {t(intr)}
           </div>
-
         ))}
         <div className='border-2 border-yellow-400 py-1 px-3 rounded-full text-sm'>
           {otherUser.interests.length - 2}+

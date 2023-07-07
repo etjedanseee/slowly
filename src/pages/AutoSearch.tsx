@@ -16,6 +16,7 @@ import { sendLetter } from '../utils/sendLetter'
 import { coordsToDistance } from '../utils/calcDistance'
 import SelectGender from '../UI/SelectGender'
 import AgeRangeModal from '../components/AgeRangeModal'
+import { toast } from 'react-toastify';
 
 const AutoSearch = () => {
   const { user, chatList } = useTypedSelector(state => state.auth)
@@ -169,6 +170,7 @@ const AutoSearch = () => {
   const onSendMailingLetter = () => {
     if (user) {
       if (!letterText.trim().length) {
+        toast.error(t('emptyLetter'))
         return false
       }
       const letterParams = {
@@ -181,7 +183,8 @@ const AutoSearch = () => {
         selectedNumOfRecipients,
         selectedTopic,
         setUsersForMailing,
-        ageRange: [leftValue, rightValue]
+        ageRange: [leftValue, rightValue],
+        t
       }
       getUsersForMailing(letterParams)
     }
@@ -194,6 +197,7 @@ const AutoSearch = () => {
         const deliveredTime = Math.round(diffGeoDistance / 90)
         sendLetter(user.id, receiverUser.id, letterText, deliveredTime)
       }
+      toast.success(`${t('sended')} ${usersForMailing.length} ${t('users')}`, { delay: 1000 })
       setUsersForMailing([])
       setTimeout(() => navigate('/friends'), 300)
     }
