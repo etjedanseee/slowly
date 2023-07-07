@@ -223,8 +223,10 @@ export const dictionary = {
     noUsersToSend: 'No found users to send',
     sended: 'Sended',
     users: 'users',
+    noFoundUser: 'No found user',
   },
   ua: {
+    noFoundUser: 'Користувача не знайдено',
     sended: 'Надіслано',
     users: 'користувачам',
     noUsersToSend: 'Не знайдено користувачів для відправки',

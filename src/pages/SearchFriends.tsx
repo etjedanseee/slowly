@@ -23,7 +23,6 @@ const SearchFriends = () => {
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
   const [otherUserLoading, setOtherUserLoading] = useState(false)
   const [isHideSearchButton, setIsHideSearchButton] = useState(false)
-  const [userSearchError, setUserSearchError] = useState('')
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
 
   const { deliveredTime } = useDeliveryTime(user, otherUser)
@@ -36,7 +35,7 @@ const SearchFriends = () => {
   const onSearchOtherUser = async () => {
     setOtherUserLoading(true)
     setIsHideSearchButton(true)
-    await fetchUserById(otherUserId, setOtherUser, setUserSearchError)
+    await fetchUserById(otherUserId, setOtherUser, t('noFoundUser'))
     setOtherUserLoading(false)
   }
 
@@ -73,7 +72,7 @@ const SearchFriends = () => {
         />
         <div className='mb-2'></div>
 
-        {!userSearchError && isHideSearchButton && (
+        {isHideSearchButton && (
           <>
             {otherUserLoading
               ? <div className='flex justify-center'><Loader size='12' /></div>
@@ -100,7 +99,6 @@ const SearchFriends = () => {
             }
           </>
         )}
-        {userSearchError && isHideSearchButton && <div className='text-red-500 font-medium'>{userSearchError}</div>}
         {!isHideSearchButton && <MyButton color='black' onClick={onSearchOtherUser} title='search' />}
       </div>
 

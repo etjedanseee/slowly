@@ -84,7 +84,7 @@ const FriendChatPage = () => {
 
   useEffect(() => {
     if (id) {
-      fetchUserById(id, setOtherUser, () => { })
+      fetchUserById(id, setOtherUser, t('noFoundUser'))
     }
   }, [id])
 
