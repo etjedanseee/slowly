@@ -1,7 +1,7 @@
 import supabase from "../supabaseClient"
 import { ILang, IUser, SexType, interest } from "../types/Auth/auth"
-import { calcAge } from "./calcAge"
 import { toast } from 'react-toastify';
+import { filterUsersByAgeRange, filterUsersById, filterUsersByLang, filterUsersBySex } from "./filterUsers";
 
 export interface getUsersForMailingProps {
   userCountry: string,
@@ -34,24 +34,10 @@ export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersF
       ? Users
       : Users.filter(user => user.geo.location.country !== userCountry)
 
-    const filteredByAge = filteredByCountry.filter(user => {
-      const userAge = calcAge(new Date(user.info.birthDate))
-      if (userAge < ageRange[0]) {
-        return false
-      }
-      return userAge > ageRange[1]
-        ? ageRange[1] === 65
-          ? true
-          : false
-        : true
-    })
-
-    const filteredById = filteredByAge.filter(user => !excludeIds.includes(user.id))
-
-    const filteredBySex = filteredById.filter(user => preferenceSex.includes(user.info.sex));
-
-    const filteredByLang = filteredBySex.filter(user => user.languages.find(lang => lang.engName === selectedLearningLang.engName && lang.level === selectedLangProficiency)
-    );
+    const filteredByAge = filterUsersByAgeRange(filteredByCountry, ageRange)
+    const filteredById = filterUsersById(filteredByAge, excludeIds)
+    const filteredBySex = filterUsersBySex(filteredById, preferenceSex)
+    const filteredByLang = filterUsersByLang(filteredBySex, selectedLearningLang, selectedLangProficiency)
 
     if (!filteredByLang.length) {
       setUsersForMailing([])

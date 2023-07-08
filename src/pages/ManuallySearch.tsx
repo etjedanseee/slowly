@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -20,15 +20,17 @@ import Loader from '../UI/Loader'
 import AgeRangeSelector from '../UI/AgeRangeSelector'
 import { ageOptionsLeft, ageOptionsRight, zodiacs } from '../utils/consts'
 import SelectGender from '../UI/SelectGender'
+import { getFilteredPenpals, getFilteredPenpalsProps } from '../utils/getFilteredPenpals'
 
 const ManuallySearch = () => {
   const { theme } = useTypedSelector(state => state.theme)
-  const { user } = useTypedSelector(state => state.auth)
+  const { user, chatList } = useTypedSelector(state => state.auth)
   const navigate = useNavigate()
   const { t } = useTranslation()
 
   const [findedUsers, setFindedUsers] = useState<IUser[]>([])
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false)
+
   const [isIncludeUsersWithBiography, setIsIncludeUsersWithBiography] = useState(false)
 
   const [isLangsMultySelectVisible, setIsLangsMultySelectVisible] = useState(false)
@@ -40,8 +42,8 @@ const ManuallySearch = () => {
   const [selectedInterests, setSelectedInterests] = useState<interest[]>(interests)
 
   const [isAgeRangeVisible, setIsAgeRangeVisible] = useState(false)
-  const [leftValue, setLeftValue] = useState(ageOptionsLeft[0]);
-  const [rightValue, setRightValue] = useState(ageOptionsRight[ageOptionsRight.length - 1]);
+  const [leftAge, setLeftAge] = useState(ageOptionsLeft[0]);
+  const [rightAge, setRightAge] = useState(ageOptionsRight[ageOptionsRight.length - 1]);
 
   const [preferenceSex, setPreferenceSex] = useState<SexType[]>(user?.profile.sexPreference || [])
 
@@ -50,6 +52,23 @@ const ManuallySearch = () => {
   const [selectedZodiac, setSelectedZodiac] = useState<ZodiacType[]>(zodiacs)
 
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (user && !!chatList.length && !findedUsers.length) {
+      getFilteredPenpals({
+        includesBiography: isIncludeUsersWithBiography,
+        ageRange: [leftAge, rightAge],
+        interests: selectedInterests,
+        langs: selectedLangs,
+        zodiac: selectedZodiac,
+        sex: preferenceSex,
+        // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+        excludeIds: [],
+        setFindedUsers,
+        setLoading
+      })
+    }
+  }, [user, chatList])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
@@ -148,9 +167,26 @@ const ManuallySearch = () => {
     handleZodiacMultySelectVisible()
   }
 
+  const onSaveFilters = async () => {
+    handleFilterModalVisible()
+    const props: getFilteredPenpalsProps = {
+      includesBiography: isIncludeUsersWithBiography,
+      ageRange: [leftAge, rightAge],
+      interests: selectedInterests,
+      langs: selectedLangs,
+      zodiac: selectedZodiac,
+      sex: preferenceSex,
+      // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+      excludeIds: [],
+      setFindedUsers,
+      setLoading
+    }
+    await getFilteredPenpals(props)
+  }
+
   return (
     <div className={`px-3 py-16 min-h-screen ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
-      <div className='fixed top-0 left-0 w-full flex items-center justify-between gap-x-6 py-3 px-3'>
+      <div className='fixed top-0 left-0  w-full flex items-center bg-inherit justify-between gap-x-6 py-3 px-3'>
         <ArrowBackIcon
           className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
@@ -162,14 +198,24 @@ const ManuallySearch = () => {
         />
         <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-500'} h-[1px] w-full absolute top-full left-0`} />
       </div>
-      {!findedUsers.length && <div className='mb-2'>No match users</div>}
-      <div className='grid grid-cols-2 gap-2'>
-        {user && <CompactUserProfile profile={user} />}
-      </div>
+
+      {
+        loading
+          ? <div className='flex justify-center py-20'><Loader size='16' /></div>
+          : !findedUsers.length
+            ? <div className='mb-2'>No match users</div>
+            : (
+              <div className='grid grid-cols-2 gap-2'>
+                {findedUsers.map(user => (
+                  <CompactUserProfile profile={user} />)
+                )}
+              </div>
+            )
+      }
 
       {isFilterModalVisible && (
         <div className={`fixed top-0 left-0 z-10 min-h-screen w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'}`}>
-          <div className={`fixed top-0 left-0 w-full flex items-center justify-between flex-wrap gap-y-3 py-3 px-2 
+          <div className={`fixed top-0 left-0 z-20 w-full flex items-center justify-between flex-wrap gap-y-3 py-3 px-2 
             ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
             <CloseIcon
               className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
@@ -178,7 +224,7 @@ const ManuallySearch = () => {
             <div>
               <MyButton
                 color='yellow'
-                onClick={handleFilterModalVisible}
+                onClick={onSaveFilters}
                 title='save'
                 variant='rounded-full'
               />
@@ -265,7 +311,7 @@ const ManuallySearch = () => {
                 className='flex items-center gap-x-1'
                 onClick={handleAgeRangeVisible}
               >
-                {!isAgeRangeVisible && <div>{leftValue} - {rightValue}</div>}
+                {!isAgeRangeVisible && <div>{leftAge} - {rightAge}</div>}
                 <div className='pr-2'>
                   <ArrowDownIcon
                     className={`h-5 w-5 duration-300 
@@ -280,10 +326,10 @@ const ManuallySearch = () => {
             {isAgeRangeVisible && (
               <div className='my-2'>
                 <AgeRangeSelector
-                  leftValue={leftValue}
-                  rightValue={rightValue}
-                  setLeftValue={setLeftValue}
-                  setRightValue={setRightValue}
+                  leftValue={leftAge}
+                  rightValue={rightAge}
+                  setLeftValue={setLeftAge}
+                  setRightValue={setRightAge}
                 />
               </div>
             )}
