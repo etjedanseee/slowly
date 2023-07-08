@@ -11,6 +11,7 @@ import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
 import WriteLetter from '../components/WriteLetter'
 import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import Loader from '../UI/Loader'
+import { toast } from 'react-toastify'
 
 //решить проблему с отображением профиля или ошибки при лоадинге от запроса
 const SearchFriends = () => {
@@ -33,6 +34,10 @@ const SearchFriends = () => {
   }
 
   const onSearchOtherUser = async () => {
+    if (!otherUserId) {
+      toast.error(t('emptyId'))
+      return false
+    }
     setOtherUserLoading(true)
     setIsHideSearchButton(true)
     await fetchUserById(otherUserId, setOtherUser, t('noFoundUser'))

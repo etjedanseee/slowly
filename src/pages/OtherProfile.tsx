@@ -38,11 +38,28 @@ const OtherProfile = () => {
 
   const [commonInterests, differentInterests] = filterInterests(otherUser?.interests || [], user?.interests || [])
 
+  const [timeLoading, setTimeLoading] = useState(0)
+
   useEffect(() => {
     if (id) {
       fetchUserById(id, setOtherUser, t('noFoundUser'))
     }
   }, [id])
+
+  useEffect(() => {
+    const timeInterval = setInterval(() => {
+      setTimeLoading(prev => prev + 1000)
+    }, 1000)
+
+    if (otherUser) {
+      clearInterval(timeInterval)
+    } else if (timeLoading >= 5000) {
+      navigate(-1)
+    }
+    return () => {
+      clearInterval(timeInterval)
+    }
+  }, [otherUser, timeLoading])
 
   const handleOpenBiography = () => {
     setIsBiographyTruncated(false)

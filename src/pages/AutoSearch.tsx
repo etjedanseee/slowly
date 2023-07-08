@@ -11,7 +11,7 @@ import { ILang, IUser, SexType, interest } from '../types/Auth/auth'
 import Select from '../UI/Select'
 import MyButton from '../UI/MyButton'
 import WriteTextModal from '../UI/WriteTextModal'
-import { getUsersForMailing } from '../utils/getUsersForMailing'
+import { getUsersForMailing, getUsersForMailingProps } from '../utils/getUsersForMailing'
 import { sendLetter } from '../utils/sendLetter'
 import { coordsToDistance } from '../utils/calcDistance'
 import SelectGender from '../UI/SelectGender'
@@ -173,7 +173,7 @@ const AutoSearch = () => {
         toast.error(t('emptyLetter'))
         return false
       }
-      const letterParams = {
+      const letterParams: getUsersForMailingProps = {
         userCountry: user.geo.location.country,
         excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
         isIncludeMyCountryToSearch,

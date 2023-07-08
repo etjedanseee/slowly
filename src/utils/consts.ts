@@ -224,8 +224,12 @@ export const dictionary = {
     sended: 'Sended',
     users: 'users',
     noFoundUser: 'No found user',
+    emptyId: 'Empty ID',
+    errorLoadingUser: 'Error loading user',
   },
   ua: {
+    errorLoadingUser: 'Помилка під час завантаження користувача',
+    emptyId: 'Порожній ID',
     noFoundUser: 'Користувача не знайдено',
     sended: 'Надіслано',
     users: 'користувачам',

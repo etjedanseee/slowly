@@ -3,7 +3,7 @@ import { ILang, IUser, SexType, interest } from "../types/Auth/auth"
 import { calcAge } from "./calcAge"
 import { toast } from 'react-toastify';
 
-interface getUsersForMailingProps {
+export interface getUsersForMailingProps {
   userCountry: string,
   excludeIds: string[]
   isIncludeMyCountryToSearch: boolean,
