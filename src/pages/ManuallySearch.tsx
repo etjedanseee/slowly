@@ -55,18 +55,44 @@ const ManuallySearch = () => {
 
   useEffect(() => {
     if (user && !!chatList.length && !findedUsers.length) {
-      getFilteredPenpals({
-        includesBiography: isIncludeUsersWithBiography,
-        ageRange: [leftAge, rightAge],
-        interests: selectedInterests,
-        langs: selectedLangs,
-        zodiac: selectedZodiac,
-        sex: preferenceSex,
-        // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
-        excludeIds: [],
-        setFindedUsers,
-        setLoading
-      })
+      const manuallySearchFilters = localStorage.getItem('manuallySearchFilters')
+
+      if (manuallySearchFilters) {
+        const data = JSON.parse(manuallySearchFilters)
+        setIsIncludeUsersWithBiography(data.isIncludeUsersWithBiography)
+        setSelectedInterests(data.selectedInterests)
+        setSelectedLangs(data.selectedLangs)
+        setSelectedZodiac(data.selectedZodiac)
+        setPreferenceSex(data.preferenceSex)
+        setLeftAge(data.leftAge)
+        setRightAge(data.rightAge)
+
+        getFilteredPenpals({
+          includesBiography: data.isIncludeUsersWithBiography,
+          ageRange: [data.leftAge, data.rightAge],
+          interests: data.selectedInterests,
+          langs: data.selectedLangs,
+          zodiac: data.selectedZodiac,
+          sex: data.preferenceSex,
+          // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+          excludeIds: [],
+          setFindedUsers,
+          setLoading
+        })
+      } else {
+        getFilteredPenpals({
+          includesBiography: isIncludeUsersWithBiography,
+          ageRange: [leftAge, rightAge],
+          interests: selectedInterests,
+          langs: selectedLangs,
+          zodiac: selectedZodiac,
+          sex: preferenceSex,
+          // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+          excludeIds: [],
+          setFindedUsers,
+          setLoading
+        })
+      }
     }
   }, [user, chatList])
 
@@ -168,6 +194,9 @@ const ManuallySearch = () => {
   }
 
   const onSaveFilters = async () => {
+    const filters = { isIncludeUsersWithBiography, leftAge, rightAge, selectedInterests, selectedLangs, selectedZodiac, preferenceSex }
+    localStorage.setItem('manuallySearchFilters', JSON.stringify(filters))
+
     handleFilterModalVisible()
     const props: getFilteredPenpalsProps = {
       includesBiography: isIncludeUsersWithBiography,
@@ -207,7 +236,7 @@ const ManuallySearch = () => {
             : (
               <div className='grid grid-cols-2 gap-2'>
                 {findedUsers.map(user => (
-                  <CompactUserProfile profile={user} />)
+                  <CompactUserProfile profile={user} key={user.id} />)
                 )}
               </div>
             )
