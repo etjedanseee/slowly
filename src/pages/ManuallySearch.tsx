@@ -186,7 +186,7 @@ const ManuallySearch = () => {
 
   return (
     <div className={`px-3 py-16 min-h-screen ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
-      <div className='fixed top-0 left-0  w-full flex items-center bg-inherit justify-between gap-x-6 py-3 px-3'>
+      <div className='fixed top-0 left-0 z-10 w-full flex items-center bg-inherit justify-between gap-x-6 py-3 px-3'>
         <ArrowBackIcon
           className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
@@ -214,7 +214,7 @@ const ManuallySearch = () => {
       }
 
       {isFilterModalVisible && (
-        <div className={`fixed top-0 left-0 z-10 min-h-screen w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'}`}>
+        <div className={`fixed top-0 left-0 z-20 min-h-screen w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'}`}>
           <div className={`fixed top-0 left-0 z-20 w-full flex items-center justify-between flex-wrap gap-y-3 py-3 px-2 
             ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
             <CloseIcon

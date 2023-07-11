@@ -10,3 +10,8 @@
   box-sizing: border-box;
   font-family: 'Montserrat';
 }
+
+body{
+  max-width: 375px;
+  margin: 0 auto;
+}

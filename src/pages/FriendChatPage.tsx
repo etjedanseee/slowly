@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { fetchUserById } from '../utils/fetchUserById'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -16,6 +16,7 @@ import WriteLetter from '../components/WriteLetter'
 import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import Loader from '../UI/Loader'
 import { useTranslation } from 'react-i18next'
+import { useDebounce } from '../hooks/useDebounce'
 
 const FriendChatPage = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -34,6 +35,16 @@ const FriendChatPage = () => {
 
   const [isPrevLetterArrowDisabled, setPrevLetterArrowDisabled] = useState(true)
   const [isNextLetterArrowDisabled, setNextLetterArrowDisabled] = useState(true)
+
+  const [isSearchVisible, setIsSearchVisible] = useState(false)
+  const [search, setSearch] = useState('')
+  const debounceSearch = useDebounce(search, 700)
+
+  const [filteredLetters, setFilteredLetters] = useState<ILetter[]>(currentChat?.messages || [])
+
+  const handleSearchVisible = () => {
+    setIsSearchVisible(prev => !prev)
+  }
 
   const { deliveredTime } = useDeliveryTime(user, otherUser)
 
@@ -54,16 +65,15 @@ const FriendChatPage = () => {
   }
 
   const onOpenLetter = (letterIdx: number) => {
-    const letters = currentChat?.messages || []
-    const letter = letters[letterIdx]
+    const letter = filteredLetters[letterIdx]
 
-    if (!!letters.length) {
+    if (!!filteredLetters.length) {
       if (letterIdx === 0) {
         setPrevLetterArrowDisabled(true)
       } else {
         setPrevLetterArrowDisabled(false)
       }
-      if (letterIdx === letters.length - 1) {
+      if (letterIdx === filteredLetters.length - 1) {
         setNextLetterArrowDisabled(true)
       } else {
         setNextLetterArrowDisabled(false)
@@ -74,6 +84,32 @@ const FriendChatPage = () => {
       setOpenedLetter(letter)
     }
   }
+
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+  }
+
+  useEffect(() => {
+    if (currentChat) {
+      if (isSearchVisible) {
+        if (!debounceSearch.trim().length) {
+          setFilteredLetters([])
+        } else {
+          const filteredLettersArr = currentChat.messages
+            .filter(letter => letter.message.toLowerCase().includes(debounceSearch.toLowerCase()))
+          setFilteredLetters(filteredLettersArr)
+        }
+      } else {
+        setFilteredLetters(currentChat.messages)
+      }
+    }
+  }, [currentChat, debounceSearch, isSearchVisible])
+
+  useEffect(() => {
+    if (!isSearchVisible) {
+      setSearch('')
+    }
+  }, [isSearchVisible])
 
   useEffect(() => {
     const chat = chatList.find(chat => chat.chatId === id)
@@ -94,59 +130,87 @@ const FriendChatPage = () => {
 
   return (
     <div className={`px-3 py-3 min-h-screen ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
-      <div className='flex items-center justify-between mb-4'>
+      <div className='flex items-center justify-between gap-x-6 mb-4'>
         <ArrowBackIcon
           className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
         />
-        <SearchIcon className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
+        {isSearchVisible
+          ? <div className='flex-1'>{otherUser.info.nickName}</div>
+          : (
+            <SearchIcon
+              onClick={handleSearchVisible}
+              className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+            />)
+        }
       </div>
 
-      <div
-        className='flex items-center justify-between mb-4'
-        onClick={onOtherUserClick}
-      >
-        <div>
-          <div className='font-medium text-lg'>{otherUser.info.nickName}</div>
-          <div className='flex gap-x-4 items-center'>
-            <div className='flex items-center gap-x-1'>
-              <GeoIcon className={`h-4 w-4 fill-yellow-400`} />
-              <div>{otherUser.geo.location.country}</div>
+      {isSearchVisible
+        ? (
+          <>
+            <div className='flex items-center mb-1'>
+              <input
+                value={search}
+                autoFocus
+                placeholder={t('search') || 'search'}
+                onChange={onSearchChange}
+                className={`${theme === 'dark' ? '' : ''} bg-inherit py-1 outline-none w-full`}
+              />
+              <div onClick={handleSearchVisible}>{t('close')}</div>
             </div>
-            <div className='flex gap-x-2 items-center'>
-              <ZodiacIcon zodiac={otherUser.info.zodiac} theme={theme} />
-              <div className='text-sm'>{ageToString(otherUser.info.birthDate)}</div>
+            <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-400'} h-[1px] w-full mb-3`} />
+          </>
+        )
+        : (
+          <>
+            <div
+              className='flex items-center justify-between mb-4'
+              onClick={onOtherUserClick}
+            >
+              <div>
+                <div className='font-medium text-lg'>{otherUser.info.nickName}</div>
+                <div className='flex gap-x-4 items-center'>
+                  <div className='flex items-center gap-x-1'>
+                    <GeoIcon className={`h-4 w-4 fill-yellow-400`} />
+                    <div>{otherUser.geo.location.country}</div>
+                  </div>
+                  <div className='flex gap-x-2 items-center'>
+                    <ZodiacIcon zodiac={otherUser.info.zodiac} theme={theme} />
+                    <div className='text-sm'>{ageToString(otherUser.info.birthDate)}</div>
+                  </div>
+                </div>
+              </div>
+
+              <img
+                src={otherUser.info.avatarUrl}
+                alt="Other user avatar"
+                className='w-12 h-12 rounded-full'
+              />
             </div>
-          </div>
-        </div>
 
-        <img
-          src={otherUser.info.avatarUrl}
-          alt="Other user avatar"
-          className='w-12 h-12 rounded-full'
-        />
-      </div>
+            <div className='mb-2 leading-tight text-sm'>
+              {otherUser.profile.biography.length > 50 ? otherUser.profile.biography.slice(0, 50) : otherUser.profile.biography}
+            </div>
 
-      <div className='mb-2 leading-tight text-sm'>
-        {otherUser.profile.biography.length > 50 ? otherUser.profile.biography.slice(0, 50) : otherUser.profile.biography}
-      </div>
-
-      <div className='flex gap-x-1 mb-4'>
-        {otherUser.interests.slice(0, 2).map(intr => (
-          <div
-            key={intr}
-            className='border-2 border-yellow-400 py-1 px-3 rounded-full text-sm'
-          >
-            {t(intr)}
-          </div>
-        ))}
-        <div className='border-2 border-yellow-400 py-1 px-3 rounded-full text-sm'>
-          {otherUser.interests.length - 2}+
-        </div>
-      </div>
+            <div className='flex gap-x-1 mb-4'>
+              {otherUser.interests.slice(0, 2).map(intr => (
+                <div
+                  key={intr}
+                  className='border-2 border-yellow-400 py-1 px-3 rounded-full text-sm'
+                >
+                  {t(intr)}
+                </div>
+              ))}
+              <div className='border-2 border-yellow-400 py-1 px-3 rounded-full text-sm'>
+                {otherUser.interests.length - 2}+
+              </div>
+            </div>
+          </>
+        )
+      }
 
       <div className='grid grid-cols-2 gap-x-4 gap-y-4'>
-        {!openedLetter && currentChat?.messages.map((message, index) => (
+        {!openedLetter && filteredLetters.map((message, index) => (
           <Letter
             letter={message}
             otherUser={otherUser}
