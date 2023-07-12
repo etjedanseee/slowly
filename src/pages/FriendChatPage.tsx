@@ -107,7 +107,7 @@ const FriendChatPage = () => {
   const onOpenLetter = (letterIdx: number) => {
     const letter = filteredLetters[letterIdx]
 
-    if (!letter.isRead && user.id === letter.receiverId) {
+    if (!letter.isRead && user.id === letter.receiverId && Date.now() > +new Date(letter.deliveredDate)) {
       readLetter(letter.id)
     }
 

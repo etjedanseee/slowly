@@ -47,7 +47,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
       onClick={() => onOpenLetter(index)}
     >
       {!isOpened && (
-        <div className='flex-1 flex'>
+        <div className='flex-1 flex pb-3'>
           {Date.now() > +new Date(letter.deliveredDate)
             ? letter.isRead
               ? (

@@ -10,7 +10,8 @@ export const sendLetter = async (senderId: string, receiverId: string, message: 
       receiverId,
       message,
       createdAt,
-      deliveredDate
+      deliveredDate,
+      isRead: false
     }])
 
     if (error) {
