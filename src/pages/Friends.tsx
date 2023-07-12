@@ -51,6 +51,10 @@ const Friends = () => {
     }
   }, [chatList])
 
+  if (!user) {
+    return <div className='flex justify-center py-20'><Loader size='16' /></div>
+  }
+
   return (
     <div className='flex flex-col h-screen'>
       <div className={`
@@ -91,13 +95,18 @@ const Friends = () => {
                       </div>
                     </div>
 
-                    <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      {(Date.now() - +new Date(chat.messages[0].deliveredDate) <= msInDay) && (
-                        new Date(chat.messages[0].deliveredDate).getDate() === new Date().getDate()
-                      )
-                        ? new Date(chat.messages[0].deliveredDate).toLocaleTimeString().slice(0, -3)
-                        : new Date(chat.messages[0].deliveredDate).toDateString()
-                      }
+                    <div className={`text-xs flex items-center gap-x-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                      <div>
+                        {(Date.now() - +new Date(chat.messages[0].deliveredDate) <= msInDay) && (
+                          new Date(chat.messages[0].deliveredDate).getDate() === new Date().getDate()
+                        )
+                          ? new Date(chat.messages[0].deliveredDate).toLocaleTimeString().slice(0, -3)
+                          : new Date(chat.messages[0].deliveredDate).toDateString()
+                        }
+                      </div>
+                      {!chat.messages[0].isRead && chat.messages[0].receiverId === user.id && (
+                        <div className='bg-yellow-400 h-2 w-2 rounded-full -mt-[1px]' />
+                      )}
                     </div>
                   </div>
                 ))

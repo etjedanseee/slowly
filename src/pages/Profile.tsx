@@ -12,7 +12,7 @@ import { ReactComponent as PencilIcon } from '../assets/navbarIcons/pencil.svg'
 import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { ReactComponent as ClockIcon } from '../assets/clock.svg'
 import { ReactComponent as CopyIcon } from '../assets/copy.svg'
-import { ReactComponent as CheckmarkIcon } from '../assets/checkmark.svg'
+import { ReactComponent as SuccessIcon } from '../assets/success.svg'
 import { useTranslation } from 'react-i18next'
 import { ageToString } from '../utils/calcAge'
 import ZodiacIcon from '../components/ZodiacIcon'
@@ -372,7 +372,7 @@ const Profile = () => {
           <div className='flex items-center justify-between mb-2'>
             <div>Slowly ID</div>
             {isCopyedId
-              ? <CheckmarkIcon className={`h-7 w-7 fill-green-500`} />
+              ? <SuccessIcon className={`h-7 w-7 fill-green-500`} />
               : (
                 <div
                   className='flex items-center justify-between gap-x-1'

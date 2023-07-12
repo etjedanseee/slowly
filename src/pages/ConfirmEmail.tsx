@@ -5,7 +5,7 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ILang, IUserGeo, IUserInfo, interest } from '../types/Auth/auth'
 import MyButton from '../UI/MyButton'
 import { useNavigate } from 'react-router-dom'
-import { ReactComponent as CheckMarkIcon } from '../assets/checkmark.svg'
+import { ReactComponent as SuccessIcon } from '../assets/success.svg'
 import { initialUserProfile } from '../utils/consts'
 import Loader from '../UI/Loader'
 
@@ -87,7 +87,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
       py-20 px-2 absolute top-0 w-full h-screen flex flex-col justify-between`}
     >
       <div className='flex flex-col items-center text-center font-medium'>
-        <CheckMarkIcon className={`${theme === 'dark' ? 'fill-green-500' : 'fill-green-500'} h-14`} />
+        <SuccessIcon className={`${theme === 'dark' ? 'fill-green-500' : 'fill-green-500'} h-14`} />
         {signUpError
           ? <div className='text-center text-red-500 font-medium'>{signUpError}</div>
           : <div className='text-2xl mb-4'>{t('successfulSignUp')}</div>

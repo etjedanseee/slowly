@@ -74,6 +74,7 @@ export interface ILetter {
   message: string,
   createdAt: string,
   deliveredDate: string,
+  isRead: boolean
 }
 
 export interface IChatList {

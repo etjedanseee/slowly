@@ -3,6 +3,7 @@ import { ILetter, IUser } from '../types/Auth/auth'
 import { msInDay } from '../utils/consts'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
+import { ReactComponent as CheckMarkIcon } from '../assets/checkmark.svg'
 
 interface ILetterProps {
   letter: ILetter,
@@ -34,13 +35,37 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
     if (isOpened) {
       window.scrollTo({ top: 0 })
     }
-  }, [])
+  }, [isOpened])
+
+  if (!user) {
+    return null
+  }
 
   return (
     <div
       className={`${isOpened ? 'py-4 pb-16' : 'px-2 py-2'} flex flex-col justify-end ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}
       onClick={() => onOpenLetter(index)}
     >
+      {!isOpened && (
+        <div className='flex-1 flex'>
+          {Date.now() > +new Date(letter.deliveredDate)
+            ? letter.isRead
+              ? (
+                <>
+                  <CheckMarkIcon className={`fill-yellow-400 h-3 w-3`} />
+                  <CheckMarkIcon className={`fill-yellow-400 h-3 w-3`} />
+                </>
+              )
+              : (
+                <>
+                  <CheckMarkIcon className={`fill-gray-200 h-3 w-3`} />
+                  <CheckMarkIcon className={`fill-yellow-400 h-3 w-3`} />
+                </>
+              )
+            : <CheckMarkIcon className={`fill-gray-200 h-3 w-3`} />
+          }
+        </div>
+      )}
       {Date.now() < +new Date(letter.deliveredDate)
         ? letter.senderId === otherUser.id
           ? null

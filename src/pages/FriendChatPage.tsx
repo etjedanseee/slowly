@@ -17,6 +17,7 @@ import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import Loader from '../UI/Loader'
 import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
+import { readLetter } from '../utils/readLetter'
 
 const FriendChatPage = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -42,52 +43,7 @@ const FriendChatPage = () => {
 
   const [filteredLetters, setFilteredLetters] = useState<ILetter[]>(currentChat?.messages || [])
 
-  const handleSearchVisible = () => {
-    setIsSearchVisible(prev => !prev)
-  }
-
   const { deliveredTime } = useDeliveryTime(user, otherUser)
-
-  const onGoBackClick = () => {
-    navigate(-1)
-  }
-
-  const onCloseLetter = () => {
-    setOpenedLetter(null)
-  }
-
-  const onOtherUserClick = () => {
-    navigate('/users/' + otherUser?.id)
-  }
-
-  const handleIsWriteLetterVisible = () => {
-    setWriteLetterVisible(prev => !prev)
-  }
-
-  const onOpenLetter = (letterIdx: number) => {
-    const letter = filteredLetters[letterIdx]
-
-    if (!!filteredLetters.length) {
-      if (letterIdx === 0) {
-        setPrevLetterArrowDisabled(true)
-      } else {
-        setPrevLetterArrowDisabled(false)
-      }
-      if (letterIdx === filteredLetters.length - 1) {
-        setNextLetterArrowDisabled(true)
-      } else {
-        setNextLetterArrowDisabled(false)
-      }
-    }
-    if (letter) {
-      setLetterIndex(letterIdx)
-      setOpenedLetter(letter)
-    }
-  }
-
-  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-  }
 
   useEffect(() => {
     if (currentChat) {
@@ -124,8 +80,57 @@ const FriendChatPage = () => {
     }
   }, [id])
 
-  if (!otherUser) {
+  if (!otherUser || !user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
+  }
+
+  const handleSearchVisible = () => {
+    setIsSearchVisible(prev => !prev)
+  }
+
+  const onGoBackClick = () => {
+    navigate(-1)
+  }
+
+  const onCloseLetter = () => {
+    setOpenedLetter(null)
+  }
+
+  const onOtherUserClick = () => {
+    navigate('/users/' + otherUser?.id)
+  }
+
+  const handleIsWriteLetterVisible = () => {
+    setWriteLetterVisible(prev => !prev)
+  }
+
+  const onOpenLetter = (letterIdx: number) => {
+    const letter = filteredLetters[letterIdx]
+
+    if (!letter.isRead && user.id === letter.receiverId) {
+      readLetter(letter.id)
+    }
+
+    if (!!filteredLetters.length) {
+      if (letterIdx === 0) {
+        setPrevLetterArrowDisabled(true)
+      } else {
+        setPrevLetterArrowDisabled(false)
+      }
+      if (letterIdx === filteredLetters.length - 1) {
+        setNextLetterArrowDisabled(true)
+      } else {
+        setNextLetterArrowDisabled(false)
+      }
+    }
+    if (letter) {
+      setLetterIndex(letterIdx)
+      setOpenedLetter(letter)
+    }
+  }
+
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
   }
 
   return (
