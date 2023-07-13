@@ -1,6 +1,7 @@
 import supabase from "../supabaseClient"
+import { toast } from 'react-toastify';
 
-export const sendLetter = async (senderId: string, receiverId: string, message: string, deliveryTime: number) => {
+export const sendLetter = async (senderId: string, receiverId: string, message: string, deliveryTime: number, t: (s: string) => string) => {
   const createdAt = new Date()
   const deliveredDate = new Date(+createdAt + (deliveryTime * 60000))
 
@@ -15,6 +16,7 @@ export const sendLetter = async (senderId: string, receiverId: string, message: 
     }])
 
     if (error) {
+      toast.error(t('sendLetterError'))
       throw new Error(error.message)
     }
 

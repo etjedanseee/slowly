@@ -11,19 +11,18 @@ import MyButton from '../UI/MyButton'
 import { IUser } from '../types/Auth/auth'
 import { initialUserInfo, initialUserProfile } from '../utils/consts'
 import Loader from '../UI/Loader'
+import { toast } from 'react-toastify';
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string | null>(null)
   const [password, setPassword] = useState<string | null>(null)
   const [isFormValid, setIsFormValid] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const { theme } = useTypedSelector(state => state.theme)
   const navigate = useNavigate()
   const { t } = useTranslation()
   const { setUser } = useActions()
-
-  const [loading, setLoading] = useState(false)
-  const [signInError, setSignInError] = useState('')
 
   const onGoBackClick = () => {
     navigate('/auth')
@@ -33,7 +32,6 @@ const SignInPage = () => {
     if (!isFormValid) {
       return false
     }
-    setSignInError('')
     setLoading(true)
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -43,6 +41,7 @@ const SignInPage = () => {
       console.log('singIn data', data)
 
       if (error) {
+        toast.error(t('wrongEmailOrPassword'))
         throw new Error(error.message)
       }
 
@@ -61,7 +60,6 @@ const SignInPage = () => {
       navigate('/')
     } catch (e) {
       console.log('singIn error', e)
-      setSignInError('Wrong email or password')
     } finally {
       setLoading(false)
     }
@@ -80,7 +78,6 @@ const SignInPage = () => {
         <LogoIcon className={`h-24 w-24 mb-2 fill-yellow-400`} />
       </div>
       <div className='text-4xl text-center font-medium'>{t('welcome')}</div>
-      {signInError && <div className='text-lg text-red-500 font-medium text-center mt-2'>{signInError}</div>}
 
       <div className='relative'>
         <UserEmail

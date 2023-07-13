@@ -1,6 +1,7 @@
 import supabase from "../supabaseClient"
 import { ILang, IUser, SexType, ZodiacType, interest } from "../types/Auth/auth"
 import { filterUsersByAgeRange, filterUsersByInterests, filterUsersByLangs, filterUsersBySex } from "./filterUsers"
+import { toast } from 'react-toastify'
 
 export interface getFilteredPenpalsProps {
   includesBiography: boolean,
@@ -11,10 +12,11 @@ export interface getFilteredPenpalsProps {
   zodiac: ZodiacType[],
   excludeIds: string[],
   setFindedUsers: (users: IUser[]) => void,
-  setLoading: (b: boolean) => void
+  setLoading: (b: boolean) => void,
+  t: (s: string) => string
 }
 
-export const getFilteredPenpals = async ({ ageRange, includesBiography, interests, langs, sex, zodiac, setFindedUsers, excludeIds, setLoading }: getFilteredPenpalsProps) => {
+export const getFilteredPenpals = async ({ ageRange, includesBiography, interests, langs, sex, zodiac, setFindedUsers, excludeIds, setLoading, t }: getFilteredPenpalsProps) => {
   try {
     setLoading(true)
     const { data, error } = await supabase
@@ -22,7 +24,7 @@ export const getFilteredPenpals = async ({ ageRange, includesBiography, interest
       .select('*')
 
     if (error) {
-      console.log(error)
+      toast.error(t('getPenpalsError'))
       throw new Error(error.message)
     }
 
@@ -40,7 +42,8 @@ export const getFilteredPenpals = async ({ ageRange, includesBiography, interest
     // console.log('filteredUsers', filteredByIds)
 
     if (!filteredByIds.length) {
-
+      toast.info(t('didntFindFriends'))
+      setFindedUsers([])
     } else {
       setFindedUsers(filteredByIds)
     }

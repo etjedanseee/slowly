@@ -9,6 +9,7 @@ import { calcWordsCount } from '../utils/calcWordsCount'
 import { sendLetter } from '../utils/sendLetter'
 import { checkCommonLanguages } from '../utils/checkCommonLanguages'
 import { useActions } from '../hooks/useActions'
+import { toast } from 'react-toastify';
 
 interface WriteLetterProps {
   otherUser: IUser,
@@ -23,7 +24,6 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [letterText, setLetterText] = useState('')
-  const [letterError, setLetterError] = useState('')
   const [signsCount, setSignsCount] = useState(0)
   const [wordsCount, setWordsCount] = useState(0)
   const [isHelpMenuVisible, setIsHelpMenuVisible] = useState(false)
@@ -34,7 +34,6 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
 
   const handleLetterText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setLetterText(e.target.value)
-    setLetterError('')
   }
 
   const handleHelpMenuVisible = () => {
@@ -52,14 +51,14 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
 
   const onSendLetter = () => {
     if (user && letterText?.trim().length) {
-      sendLetter(user.id, otherUser.id, letterText, deliveredTime)
+      sendLetter(user.id, otherUser.id, letterText, deliveredTime, t)
       setTimeout(() =>
         fetchUserChatList(user.id, () => { })
         , 500)
       localStorage.removeItem(`WriteLetterTo ${otherUser.id}`)
       onClose()
     } else {
-      setLetterError('emptyLetter')
+      toast.error(t('emptyLetter'))
     }
   }
 
@@ -140,8 +139,6 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
       {!checkCommonLanguages(user?.languages || [], otherUser.languages).length && (
         <div className='text-red-500 text-sm mb-2'>{t('understood')}</div>
       )}
-
-      {letterError && <div className='text-red-500 text-sm mb-2'>{t(letterError)}</div>}
 
       <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-400'} h-[1px] w-full mb-4`} />
 

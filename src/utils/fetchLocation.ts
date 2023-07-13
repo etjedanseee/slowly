@@ -1,13 +1,14 @@
 import { IUserGeoByCoords, IСoordinates } from "../types/Auth/auth"
+import { toast } from 'react-toastify'
 
 interface fetchLocByCoordParams {
   setUserGeo: (data: IUserGeoByCoords) => void,
   coord: IСoordinates,
-  setFetchGeoError: (error: string) => void,
-  setLoading: (b: boolean) => void
+  setLoading: (b: boolean) => void,
+  t: (s: string) => string
 }
 
-export async function fetchLocationByCoord({ coord, setUserGeo, setFetchGeoError, setLoading }: fetchLocByCoordParams) {
+export async function fetchLocationByCoord({ coord, setUserGeo, setLoading, t }: fetchLocByCoordParams) {
   setLoading(true)
   try {
     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coord.latitude}&lon=${coord.longitude}`)
@@ -25,7 +26,7 @@ export async function fetchLocationByCoord({ coord, setUserGeo, setFetchGeoError
     })
   } catch (error) {
     console.log('fetch coords by geo error')
-    setFetchGeoError('Get geo by coords error. Please determine geo by ip')
+    toast.error(t('getGeoByCoordsError'))
   } finally {
     setLoading(false)
   }

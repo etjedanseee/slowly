@@ -80,7 +80,7 @@ const ManuallySearch = () => {
           // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
           excludeIds: [],
           setFindedUsers,
-          setLoading
+          setLoading, t
         })
       } else {
         getFilteredPenpals({
@@ -93,7 +93,7 @@ const ManuallySearch = () => {
           // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
           excludeIds: [],
           setFindedUsers,
-          setLoading
+          setLoading, t
         })
       }
     }
@@ -211,7 +211,7 @@ const ManuallySearch = () => {
       // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
       excludeIds: [],
       setFindedUsers,
-      setLoading
+      setLoading, t
     }
     await getFilteredPenpals(props)
   }

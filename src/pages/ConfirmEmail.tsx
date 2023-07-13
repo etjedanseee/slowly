@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { ReactComponent as SuccessIcon } from '../assets/success.svg'
 import { initialUserProfile } from '../utils/consts'
 import Loader from '../UI/Loader'
+import { toast } from 'react-toastify'
 
 interface ConfirmEmailProps {
   info: IUserInfo | null,
@@ -24,7 +25,6 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
   const { theme } = useTypedSelector(state => state.theme)
   const navigate = useNavigate()
 
-  const [signUpError, setSignUpError] = useState('')
   const [loading, setLoading] = useState(false)
 
   const onGoToLoginClick = () => {
@@ -63,12 +63,12 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
         if (error) {
           throw new Error(error.message)
         }
-        setSignUpError('')
+        toast.success(t('successfulSignUp'))
 
         console.log('signUp data', data)
       } catch (e) {
         console.log('signUpError', e)
-        setSignUpError('SignUp error' + e)
+        toast.error('SignUp error ' + e)
       } finally {
         setLoading(false)
       }
@@ -88,10 +88,6 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
     >
       <div className='flex flex-col items-center text-center font-medium'>
         <SuccessIcon className={`${theme === 'dark' ? 'fill-green-500' : 'fill-green-500'} h-14`} />
-        {signUpError
-          ? <div className='text-center text-red-500 font-medium'>{signUpError}</div>
-          : <div className='text-2xl mb-4'>{t('successfulSignUp')}</div>
-        }
         <div className='text-lg'>{t('confirmEmail')}</div>
       </div>
 

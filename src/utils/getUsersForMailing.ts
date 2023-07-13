@@ -25,6 +25,7 @@ export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersF
       .contains('interests', [selectedTopic])
 
     if (error) {
+      toast.error(t('getPenpalsError'))
       throw new Error(error.message)
     }
 

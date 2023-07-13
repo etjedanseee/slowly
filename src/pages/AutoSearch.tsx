@@ -195,7 +195,7 @@ const AutoSearch = () => {
       for (let receiverUser of usersForMailing) {
         const diffGeoDistance = coordsToDistance(user.geo.coord, receiverUser.geo.coord)
         const deliveredTime = Math.round(diffGeoDistance / 90)
-        sendLetter(user.id, receiverUser.id, letterText, deliveredTime)
+        sendLetter(user.id, receiverUser.id, letterText, deliveredTime, t)
       }
       toast.success(`${t('sended')} ${usersForMailing.length} ${t('users')}`, { delay: 1000 })
       setUsersForMailing([])

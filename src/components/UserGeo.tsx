@@ -7,6 +7,7 @@ import MyButton from '../UI/MyButton'
 import { ReactComponent as UkraineFlag } from '../assets/ukraineFlag.svg'
 import { IUserGeo } from '../types/Auth/auth'
 import Loader from '../UI/Loader'
+import { toast } from 'react-toastify'
 
 interface UserGeoProps {
   setUserGeo: (data: IUserGeo | null) => void,
@@ -17,27 +18,24 @@ interface UserGeoProps {
 const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
-  const [fetchGeoError, setFetchGeoError] = useState('')
   const [loading, setLoading] = useState(false)
 
   const onGetCoordsByGeo = () => {
-    setFetchGeoError('')
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        position => fetchLocationByCoord({ coord: position.coords, setUserGeo, setFetchGeoError, setLoading }),
+        position => fetchLocationByCoord({ coord: position.coords, setUserGeo, setLoading, t }),
         error => {
-          console.log("get geo error:", error)
-          setFetchGeoError(`${error.message} \n Please determine geo by ip`)
+          // console.log("get geo error:", error)
+          toast.error(error.message + '. ' + t('getGeoByLocationError'))
         },
         { enableHighAccuracy: true, maximumAge: 5000 }
       );
     } else {
-      setFetchGeoError('Browser not support. Please determine geo by ip')
+      toast.error(t('browserNotSupport'))
     }
   }
 
   const onFetchByIpAddress = async () => {
-    setFetchGeoError('')
     setLoading(true)
     try {
       const response = await fetch('https://ipapi.co/json/');
@@ -54,7 +52,7 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
       })
     } catch (error) {
       console.error('fetch coords by ip error', error);
-      setFetchGeoError('Get geolocation by ip error')
+      toast.error(t('getLocationByIpError'))
     } finally {
       setLoading(false)
     }
@@ -88,12 +86,7 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
                 }</div>
           }</>
         )
-          : (
-            <>
-              <div className='text-center leading-none opacity-80 mb-2'>{t('deliveryTimeDepens')}</div>
-              {fetchGeoError && <div className='text-red-500 font-medium text-center'>{fetchGeoError}</div>}
-            </>
-          )
+          : <div className='text-center leading-none opacity-80 mb-2'>{t('deliveryTimeDepens')}</div>
         }
       </div>
 
