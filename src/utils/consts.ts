@@ -234,8 +234,20 @@ export const dictionary = {
     didntFindFriends: 'Unfortunately we didn\'t find suitable penpals',
     wrongEmailOrPassword: 'Wrong email or password',
     sendLetterError: 'Send letter error',
+    sortBy: 'Sort by',
+    alphabet: 'By alphabet',
+    frequency: 'By frequency',
+    unread: 'By unread',
+    recent: 'By recent',
+    distance: 'By distance',
   },
   ua: {
+    distance: 'По відстані',
+    recent: 'За останніми',
+    unread: 'За непрочитаними',
+    frequency: 'За частотою',
+    alphabet: 'За алфавітом',
+    sortBy: 'Сортувати за',
     sendLetterError: 'Помилка при надсиланні листа',
     wrongEmailOrPassword: 'Неправильна електронна адреса або пароль',
     didntFindFriends: 'На жаль не знайшли потрібних друзів',
@@ -511,3 +523,5 @@ export const ageOptionsLeft = [0, 20, 25, 30, 35, 40, 45, 50, 55, 60];
 export const ageOptionsRight = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65];
 
 export const zodiacs: ZodiacType[] = ['Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius']
+
+export const sortFriendsByNames = ['alphabet', 'frequency', 'unread', 'recent', 'distance']

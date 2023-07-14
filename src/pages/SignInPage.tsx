@@ -56,7 +56,6 @@ const SignInPage = () => {
       }
       // console.log('Get user', userObj)
       setUser(userObj)
-
       navigate('/')
     } catch (e) {
       console.log('singIn error', e)
