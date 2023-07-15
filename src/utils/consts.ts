@@ -386,7 +386,7 @@ export const dictionary = {
     letterOnTheWay: 'Лист у дорозі',
     changeLang: 'Змінити мову на українську',
     appLang: 'Мова програми',
-    penpals: 'Друзі по листуванню',
+    penpals: 'Друзі',
     friends: 'Друзі',
     helloWorld: 'Поділіться своїми інтересами зі світом!',
     letsStart: 'Давайте почнемо',

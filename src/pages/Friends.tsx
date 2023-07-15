@@ -7,7 +7,7 @@ import { ReactComponent as ReloadIcon } from '../assets/reload.svg'
 import { ReactComponent as AddFriendIcon } from '../assets/addFriend.svg'
 import { ReactComponent as SortIcon } from '../assets/sort.svg'
 import { fetchUsersById } from '../utils/fetchUserById'
-import { IUser } from '../types/Auth/auth'
+import { IChatList, IUser } from '../types/Auth/auth'
 import { msInDay, sortFriendsByNames } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import { useActions } from '../hooks/useActions'
@@ -24,10 +24,11 @@ const Friends = () => {
   const navigate = useNavigate()
   const { fetchUserChatList } = useActions()
 
-  const [users, setUsers] = useState<IUser[]>([])
+  const [sortedChatList, setSortedChatList] = useState<IChatList[]>(chatList)
+  const [friends, setFriends] = useState<IUser[]>([])
   const [loadingChatList, setLoadingChatList] = useState(false)
   const [isSortMenuVisible, setIsSortMenuVisiblew] = useState(false)
-  const [sort, setSort] = useState(sortFriendsByNames[0])
+  const [sort, setSort] = useState(localStorage.getItem('sort') || sortFriendsByNames[3])
 
   const handleSortMenuVisible = () => {
     setIsSortMenuVisiblew(prev => !prev)
@@ -35,6 +36,7 @@ const Friends = () => {
 
   const onChangeSort = (sort: string) => {
     setSort(sort)
+    localStorage.setItem('sort', sort)
     handleSortMenuVisible()
   }
 
@@ -61,13 +63,17 @@ const Friends = () => {
   useEffect(() => {
     if (!!chatList.length) {
       const ids = chatList.map(chat => chat.chatId)
-      fetchUsersById(ids, setUsers)
+      fetchUsersById(ids, setFriends)
     }
   }, [chatList])
 
   useEffect(() => {
-    sortFriends(chatList, sort)
-  }, [sort, chatList])
+    if (!user) {
+      return
+    }
+    const sortedChats = sortFriends(chatList, friends, user, sort)
+    setSortedChatList(sortedChats)
+  }, [sort, chatList, friends, user])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
@@ -95,6 +101,7 @@ const Friends = () => {
 
       {isSortMenuVisible && (
         <SortMenu
+          selectedSort={sort}
           close={handleSortMenuVisible}
           onChangeSort={onChangeSort}
         />
@@ -107,23 +114,23 @@ const Friends = () => {
             <div className='flex justify-end items-center mb-2'>
               <div className={`flex items-center gap-x-2 px-3 py-1 rounded-lg ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
                 <FriendsIcon className={`h-4 w-4 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
-                <div className='text-sm font-medium'>{chatList.length}</div>
+                <div className='text-sm font-medium'>{sortedChatList.length}</div>
               </div>
             </div>
 
             <div className='flex flex-col gap-y-4'>
-              {chatList.length
-                ? chatList.map(chat => (
+              {sortedChatList.length
+                ? sortedChatList.map(chat => (
                   <div
                     key={chat.chatId}
                     className='flex items-center gap-x-3'
                     onClick={() => onFriendClick(chat.chatId)}
                   >
-                    <img src={users.find(u => u.id === chat.chatId)?.info.avatarUrl} className='rounded-full h-12 w-12' alt="user avatar" />
+                    <img src={friends.find(u => u.id === chat.chatId)?.info.avatarUrl} className='rounded-full h-12 w-12' alt="user avatar" />
                     <div className='flex-1'>
-                      <div className='mb-1 font-medium leading-none truncate'>{users.find(u => u.id === chat.chatId)?.info.nickName}</div>
+                      <div className='mb-1 font-medium leading-none truncate'>{friends.find(u => u.id === chat.chatId)?.info.nickName}</div>
                       <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                        {users.find(u => u.id === chat.chatId)?.geo.location.country}
+                        {friends.find(u => u.id === chat.chatId)?.geo.location.country}
                       </div>
                     </div>
 

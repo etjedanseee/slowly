@@ -5,11 +5,12 @@ import { sortFriendsByNames } from '../utils/consts'
 
 interface SortMenuProps {
   close: () => void,
-  onChangeSort: (sort: string) => void
+  onChangeSort: (sort: string) => void,
+  selectedSort: string
 }
 
 
-const SortMenu = ({ close, onChangeSort }: SortMenuProps) => {
+const SortMenu = ({ close, onChangeSort, selectedSort }: SortMenuProps) => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
 
@@ -22,7 +23,7 @@ const SortMenu = ({ close, onChangeSort }: SortMenuProps) => {
             <div
               key={sort}
               onClick={() => onChangeSort(sort)}
-            >{t(sort)}</div>
+            >{t(sort)}{selectedSort === sort && ' *'}</div>
           ))}
 
           <div
