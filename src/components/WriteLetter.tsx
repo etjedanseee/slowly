@@ -49,12 +49,11 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
     onClose()
   }
 
-  const onSendLetter = () => {
+  const onSendLetter = async () => {
     if (user && letterText?.trim().length) {
-      sendLetter(user.id, otherUser.id, letterText, deliveredTime, t)
-      setTimeout(() =>
-        fetchUserChatList(user.id, () => { })
-        , 500)
+      await sendLetter(user.id, otherUser.id, letterText, deliveredTime, t)
+      fetchUserChatList(user.id, () => { })
+
       localStorage.removeItem(`WriteLetterTo ${otherUser.id}`)
       onClose()
     } else {

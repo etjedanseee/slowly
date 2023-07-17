@@ -18,6 +18,7 @@ import Loader from '../UI/Loader'
 import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import { readLetter } from '../utils/readLetter'
+import { useActions } from '../hooks/useActions'
 
 const FriendChatPage = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -25,6 +26,7 @@ const FriendChatPage = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const { id } = useParams()
+  const { fetchUserChatList } = useActions()
 
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
@@ -104,11 +106,12 @@ const FriendChatPage = () => {
     setWriteLetterVisible(prev => !prev)
   }
 
-  const onOpenLetter = (letterIdx: number) => {
+  const onOpenLetter = async (letterIdx: number) => {
     const letter = filteredLetters[letterIdx]
 
     if (!letter.isRead && user.id === letter.receiverId && Date.now() > +new Date(letter.deliveredDate)) {
-      readLetter(letter.id)
+      await readLetter(letter.id)
+      fetchUserChatList(user.id, () => { })
     }
 
     if (!!filteredLetters.length) {

@@ -29,7 +29,6 @@ const Friends = () => {
   const [loadingChatList, setLoadingChatList] = useState(false)
   const [isSortMenuVisible, setIsSortMenuVisiblew] = useState(false)
   const [sort, setSort] = useState(localStorage.getItem('sort') || sortFriendsByNames[0])
-
   const [loadedAvatars, setLoadedAvatars] = useState<string[]>([])
 
   const handleImageLoad = (userId: string) => {
