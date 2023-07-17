@@ -70,11 +70,11 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
         ? letter.senderId === otherUser.id
           ? null
           : isOpened
-            ? <div className='flex-1 mb-4 min-h-[100px]'>{letter.message}</div>
-            : <div className='flex-1 leading-tight text-xs py-4'>{letter.message.slice(0, 50)}</div>
+            ? <div className='flex-1 mb-4 min-h-[100px] break-words'>{letter.message}</div>
+            : <div className='flex-1 leading-tight text-xs py-4 break-words'>{letter.message.slice(0, 50)}</div>
         : isOpened
-          ? <div className='flex-1 mb-4 min-h-[100px]'>{letter.message}</div>
-          : <div className='flex-1 leading-tight text-xs py-4'>{letter.message.slice(0, 50)}</div>
+          ? <div className='flex-1 mb-4 min-h-[100px] break-words'>{letter.message}</div>
+          : <div className='flex-1 leading-tight text-xs py-4 break-words'>{letter.message.slice(0, 50)}</div>
       }
       <div>
         {isOpened
