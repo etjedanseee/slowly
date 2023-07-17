@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { sortFriendsByNames } from '../utils/consts'
@@ -15,8 +15,14 @@ const SortMenu = ({ close, onChangeSort, selectedSort }: SortMenuProps) => {
   const { theme } = useTypedSelector(state => state.theme)
 
   return (
-    <div className={`fixed top-0 left-0 right-0 bottom-0 z-50 bg-black bg-opacity-70 flex flex-col justify-end`}>
-      <div className={`${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'} rounded-t-lg py-3 px-4`}>
+    <div
+      className={`fixed top-0 left-0 right-0 bottom-0 z-50 bg-black bg-opacity-70 flex flex-col justify-end`}
+      onClick={close}
+    >
+      <div
+        className={`${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'} rounded-t-lg py-3 px-4`}
+        onClick={e => e.stopPropagation()}
+      >
         <div className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-400'} text-center mb-2`}>{t('sortBy')}</div>
         <div className='flex flex-col gap-y-2'>
           {sortFriendsByNames.map(sort => (

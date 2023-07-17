@@ -28,15 +28,15 @@ const Friends = () => {
   const [friends, setFriends] = useState<IUser[]>([])
   const [loadingChatList, setLoadingChatList] = useState(false)
   const [isSortMenuVisible, setIsSortMenuVisiblew] = useState(false)
-  const [sort, setSort] = useState(localStorage.getItem('sort') || sortFriendsByNames[3])
+  const [sort, setSort] = useState(localStorage.getItem('sort') || sortFriendsByNames[0])
 
   const handleSortMenuVisible = () => {
     setIsSortMenuVisiblew(prev => !prev)
   }
 
-  const onChangeSort = (sort: string) => {
-    setSort(sort)
-    localStorage.setItem('sort', sort)
+  const onChangeSort = (newSort: string) => {
+    setSort(newSort)
+    localStorage.setItem('sort', newSort)
     handleSortMenuVisible()
   }
 

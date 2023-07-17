@@ -51,20 +51,19 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
           }
         })
 
+        if (error) {
+          throw new Error(error.message)
+        }
+
         const upsertData = await supabase.from('Users')
           .upsert({
             id: data.user?.id,
             email,
             ...userMetadata,
           })
-
-        console.log('signUp upsertData', upsertData);
-
-        if (error) {
-          throw new Error(error.message)
-        }
         toast.success(t('successfulSignUp'))
 
+        console.log('signUp upsertData', upsertData);
         console.log('signUp data', data)
       } catch (e) {
         console.log('signUpError', e)
@@ -76,7 +75,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
     if (isFormValid) {
       singUp()
     }
-  }, [isFormValid, info, interests, languages, geo, email, password])
+  }, [isFormValid, info, interests, languages, geo, email, password, t])
 
   if (loading) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>

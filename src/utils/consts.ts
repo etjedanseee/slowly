@@ -524,4 +524,4 @@ export const ageOptionsRight = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65];
 
 export const zodiacs: ZodiacType[] = ['Capricorn', 'Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius']
 
-export const sortFriendsByNames = ['alphabet', 'frequency', 'unread', 'recent', 'distance']
+export const sortFriendsByNames = ['recent', 'alphabet', 'frequency', 'unread', 'distance']
