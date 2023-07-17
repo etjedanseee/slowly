@@ -30,6 +30,12 @@ const Friends = () => {
   const [isSortMenuVisible, setIsSortMenuVisiblew] = useState(false)
   const [sort, setSort] = useState(localStorage.getItem('sort') || sortFriendsByNames[0])
 
+  const [loadedAvatars, setLoadedAvatars] = useState<string[]>([])
+
+  const handleImageLoad = (userId: string) => {
+    setLoadedAvatars(prev => [...prev, userId])
+  }
+
   const handleSortMenuVisible = () => {
     setIsSortMenuVisiblew(prev => !prev)
   }
@@ -126,7 +132,16 @@ const Friends = () => {
                     className='flex items-center gap-x-3'
                     onClick={() => onFriendClick(chat.chatId)}
                   >
-                    <img src={friends.find(u => u.id === chat.chatId)?.info.avatarUrl} className='rounded-full h-12 w-12' alt="user avatar" />
+                    <img
+                      src={friends.find(u => u.id === chat.chatId)?.info.avatarUrl}
+                      className={`rounded-full h-12 w-12 ${!loadedAvatars.includes(chat.chatId) ? 'hidden' : 'block'} `}
+                      alt="user avatar"
+                      onLoad={() => handleImageLoad(chat.chatId)}
+                    />
+                    {!loadedAvatars.includes(chat.chatId) && <div
+                      className={`h-12 w-12 rounded-full bg-gray-200`}
+                    />}
+
                     <div className='flex-1'>
                       <div className='mb-1 font-medium leading-none truncate'>{friends.find(u => u.id === chat.chatId)?.info.nickName}</div>
                       <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
