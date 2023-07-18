@@ -26,7 +26,7 @@ import Loader from '../UI/Loader'
 
 const OtherProfile = () => {
   const { theme } = useTypedSelector(state => state.theme)
-  const { user } = useTypedSelector(state => state.auth)
+  const { user, friends } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { id } = useParams()
@@ -42,9 +42,14 @@ const OtherProfile = () => {
 
   useEffect(() => {
     if (id) {
-      fetchUserById(id, setOtherUser, t('noFoundUser'))
+      const currentFriend = friends.find(f => f.id === id)
+      if (currentFriend) {
+        setOtherUser(currentFriend)
+      } else {
+        fetchUserById(id, setOtherUser, t('noFoundUser'))
+      }
     }
-  }, [id])
+  }, [id, friends])
 
   useEffect(() => {
     const timeInterval = setInterval(() => {

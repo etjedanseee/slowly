@@ -6,8 +6,7 @@ import { ReactComponent as FriendsIcon } from '../assets/addFriend.svg'
 import { ReactComponent as ReloadIcon } from '../assets/reload.svg'
 import { ReactComponent as AddFriendIcon } from '../assets/addFriend.svg'
 import { ReactComponent as SortIcon } from '../assets/sort.svg'
-import { fetchUsersById } from '../utils/fetchUserById'
-import { IChatList, IUser } from '../types/Auth/auth'
+import { IChatList } from '../types/Auth/auth'
 import { msInDay, sortFriendsByNames } from '../utils/consts'
 import { useNavigate } from 'react-router-dom'
 import { useActions } from '../hooks/useActions'
@@ -19,13 +18,12 @@ import { sortFriends } from '../utils/sortFriends'
 const Friends = () => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
-  const { user } = useTypedSelector(state => state.auth)
+  const { user, friends } = useTypedSelector(state => state.auth)
   const { chatList } = useTypedSelector(state => state.auth)
   const navigate = useNavigate()
   const { fetchUserChatList } = useActions()
 
   const [sortedChatList, setSortedChatList] = useState<IChatList[]>(chatList)
-  const [friends, setFriends] = useState<IUser[]>([])
   const [loadingChatList, setLoadingChatList] = useState(false)
   const [isSortMenuVisible, setIsSortMenuVisiblew] = useState(false)
   const [sort, setSort] = useState(localStorage.getItem('sort') || sortFriendsByNames[0])
@@ -64,13 +62,6 @@ const Friends = () => {
       fetchUserChatList(user.id, setLoadingChatList)
     }
   }, [user, chatList])
-
-  useEffect(() => {
-    if (!!chatList.length) {
-      const ids = chatList.map(chat => chat.chatId)
-      fetchUsersById(ids, setFriends)
-    }
-  }, [chatList])
 
   useEffect(() => {
     if (!user) {

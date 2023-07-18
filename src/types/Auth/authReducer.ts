@@ -2,12 +2,14 @@ import { IChatList, IUser } from "./auth"
 
 export interface AuthState {
   user: IUser | null,
-  chatList: IChatList[]
+  chatList: IChatList[],
+  friends: IUser[],
 }
 
 export enum AuthActionTypes {
   SET_USER = 'SET_USER',
-  SET_CHAT_LIST = 'SET_CHAT_LIST'
+  SET_CHAT_LIST = 'SET_CHAT_LIST',
+  SET_FRIENDS = 'SET_FRIENDS'
 }
 
 interface setUser {
@@ -20,5 +22,10 @@ interface setChatList {
   payload: IChatList[]
 }
 
+interface setFriends {
+  type: AuthActionTypes.SET_FRIENDS,
+  payload: IUser[]
+}
 
-export type AuthAction = setUser | setChatList
+
+export type AuthAction = setUser | setChatList | setFriends

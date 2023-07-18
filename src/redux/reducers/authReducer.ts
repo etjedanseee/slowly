@@ -4,7 +4,8 @@ import { AuthState, AuthAction, AuthActionTypes } from './../../types/Auth/authR
 
 const initialState: AuthState = {
   user: null,
-  chatList: []
+  chatList: [],
+  friends: []
 }
 
 export const authReducer = (state = initialState, action: AuthAction): AuthState => {
@@ -19,6 +20,12 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
       return {
         ...state,
         chatList: action.payload
+      }
+    }
+    case AuthActionTypes.SET_FRIENDS: {
+      return {
+        ...state,
+        friends: action.payload
       }
     }
     default: return state

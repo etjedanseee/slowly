@@ -138,3 +138,26 @@ export const fetchUserChatList = (id: string, setLoadingChatList: (b: boolean) =
     }
   }
 }
+
+export const fetchFriends = (ids: string[]) => {
+  return async (dispatch: Dispatch<AuthAction>) => {
+    try {
+      const { data, error } = await supabase
+        .from('Users')
+        .select('*')
+        .in('id', ids);
+
+      if (error) {
+        console.log(error);
+        throw new Error(error.message)
+      }
+
+      if (data && data.length > 0) {
+        const friends = data as IUser[];
+        dispatch({ type: AuthActionTypes.SET_FRIENDS, payload: friends })
+      }
+    } catch (e) {
+      console.log('fetch friends error', e)
+    }
+  }
+}

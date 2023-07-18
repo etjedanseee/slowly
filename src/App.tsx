@@ -25,7 +25,7 @@ function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user, chatList } = useTypedSelector(state => state.auth)
   const { interests } = useTypedSelector(state => state.data)
-  const { setUser, fetchInterests, fetchUserChatList } = useActions()
+  const { setUser, fetchInterests, fetchUserChatList, fetchFriends } = useActions()
 
   i18n.use(initReactI18next).init({
     resources: { en: { translation: dictionary.en }, ua: { translation: dictionary.ua } },
@@ -54,6 +54,13 @@ function App() {
       fetchUserChatList(user.id, () => { })
     }
   }, [user, chatList])
+
+  useEffect(() => {
+    if (!!chatList.length) {
+      const ids = chatList.map(chat => chat.chatId)
+      fetchFriends(ids)
+    }
+  }, [chatList])
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} max-w-[500px] mx-auto min-h-screen`}>
