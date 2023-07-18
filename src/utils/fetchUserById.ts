@@ -1,9 +1,7 @@
 import supabase from "../supabaseClient";
 import { IUser } from "../types/Auth/auth";
-import { toast } from 'react-toastify'
 
-
-export const fetchUserById = async (id: string, setOtherUser: (user: IUser) => void, errorMessage: string) => {
+export const fetchUserById = async (id: string, setOtherUser: (user: IUser) => void, setFetchError: (b: boolean) => void, errorMessage: string) => {
   try {
     const { data, error } = await supabase
       .from('Users')
@@ -12,7 +10,7 @@ export const fetchUserById = async (id: string, setOtherUser: (user: IUser) => v
 
     if (error) {
       console.log(error);
-      toast.error(errorMessage)
+      setFetchError(true)
       throw new Error(error.message)
     }
 

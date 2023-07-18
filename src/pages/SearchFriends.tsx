@@ -13,7 +13,6 @@ import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import Loader from '../UI/Loader'
 import { toast } from 'react-toastify'
 
-//решить проблему с отображением профиля или ошибки при лоадинге от запроса
 const SearchFriends = () => {
   const { theme } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
@@ -23,6 +22,7 @@ const SearchFriends = () => {
   const [otherUserId, setOtherUserId] = useState('')
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
   const [otherUserLoading, setOtherUserLoading] = useState(false)
+  const [fetchOtherUserError, setFetchOtherUserError] = useState(false)
   const [isHideSearchButton, setIsHideSearchButton] = useState(false)
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
 
@@ -40,7 +40,7 @@ const SearchFriends = () => {
     }
     setOtherUserLoading(true)
     setIsHideSearchButton(true)
-    await fetchUserById(otherUserId, setOtherUser, t('noFoundUser'))
+    await fetchUserById(otherUserId, setOtherUser, setFetchOtherUserError, t('noFoundUser'))
     setOtherUserLoading(false)
   }
 

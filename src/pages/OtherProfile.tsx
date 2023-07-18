@@ -23,6 +23,7 @@ import WriteLetterButton from '../UI/WriteLetterButton'
 import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import { fetchUserById } from '../utils/fetchUserById'
 import Loader from '../UI/Loader'
+import { toast } from 'react-toastify'
 
 const OtherProfile = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -30,15 +31,14 @@ const OtherProfile = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { id } = useParams()
+
+  const [fetchOtherUserError, setFetchOtherUserError] = useState(false)
   const [otherUser, setOtherUser] = useState<IUser | null>(null)
-  const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
-
-  const [isBiographyTruncated, setIsBiographyTruncated] = useState(true)
-  const { differenceDistance, deliveredTime } = useDeliveryTime(user, otherUser)
-
   const [commonInterests, differentInterests] = filterInterests(otherUser?.interests || [], user?.interests || [])
+  const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
+  const [isBiographyTruncated, setIsBiographyTruncated] = useState(true)
 
-  const [timeLoading, setTimeLoading] = useState(0)
+  const { differenceDistance, deliveredTime } = useDeliveryTime(user, otherUser)
 
   useEffect(() => {
     if (id) {
@@ -46,25 +46,23 @@ const OtherProfile = () => {
       if (currentFriend) {
         setOtherUser(currentFriend)
       } else {
-        fetchUserById(id, setOtherUser, t('noFoundUser'))
+        fetchUserById(id, setOtherUser, setFetchOtherUserError, t('noFoundUser'))
       }
     }
   }, [id, friends])
 
   useEffect(() => {
-    const timeInterval = setInterval(() => {
-      setTimeLoading(prev => prev + 1000)
-    }, 1000)
+    if (fetchOtherUserError) {
+      toast.error(t('noFoundUser'))
+      setTimeout(() => { onGoBackClick() }, 3000)
+    }
+  }, [fetchOtherUserError])
 
+  useEffect(() => {
     if (otherUser) {
-      clearInterval(timeInterval)
-    } else if (timeLoading >= 5000) {
-      navigate(-1)
+      setFetchOtherUserError(false)
     }
-    return () => {
-      clearInterval(timeInterval)
-    }
-  }, [otherUser, timeLoading])
+  }, [otherUser])
 
   const handleOpenBiography = () => {
     setIsBiographyTruncated(false)
