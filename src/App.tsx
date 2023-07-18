@@ -20,6 +20,7 @@ import AutoSearch from './pages/AutoSearch';
 import ManuallySearch from './pages/ManuallySearch';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
@@ -96,6 +97,7 @@ function App() {
         <Route path='/auth/signUp' element={<SignUpPage />} />
         <Route path='/auth/signIn' element={<SignInPage />} />
         {!localStorage.getItem('user') && <Route path='*' element={<Navigate to='/auth' />} />}
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>
   );

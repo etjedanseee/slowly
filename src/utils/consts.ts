@@ -240,8 +240,12 @@ export const dictionary = {
     unread: 'By unread',
     recent: 'By recent',
     distance: 'By distance',
+    notFoundPage: 'Whoops! Page not found',
+    goBack: 'Go back',
   },
   ua: {
+    goBack: 'Повернутися назад',
+    notFoundPage: 'Ой! Сторінку не знайдено',
     distance: 'По відстані',
     recent: 'За останніми',
     unread: 'За непрочитаними',
