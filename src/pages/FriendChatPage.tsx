@@ -164,6 +164,7 @@ const FriendChatPage = () => {
               <div onClick={handleSearchVisible}>{t('close')}</div>
             </div>
             <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-400'} h-[1px] w-full mb-3`} />
+            {!!search.length && !filteredLetters.length && <div className='text-sm'>{t('noResultsFind')}</div>}
           </>
         )
         : (

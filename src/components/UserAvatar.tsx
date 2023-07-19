@@ -1,17 +1,17 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { ReactComponent as DefaultUserIcon } from '../assets/navbarIcons/user.svg'
-import { themeType } from '../types/Theme/theme';
 import TextInput from '../UI/TextInput';
+import { useTypedSelector } from '../hooks/useTypedSelector';
 
 interface UserAvatarProps {
   userAvatar: string,
-  theme: themeType,
   canUpdate?: boolean,
   updateImage?: (url: string) => void,
   size?: number
 }
 
-const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => { }, size }: UserAvatarProps) => {
+const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, size }: UserAvatarProps) => {
+  const { theme } = useTypedSelector(state => state.theme)
   const [avatarUrl, setAvatarUrl] = useState(userAvatar);
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +23,10 @@ const UserAvatar = ({ userAvatar, theme, canUpdate = false, updateImage = () => 
       updateImage(avatarUrl)
     }
   }
+
+  useEffect(() => {
+    setAvatarUrl(userAvatar)
+  }, [userAvatar])
 
   return (
     <div className='w-full'>

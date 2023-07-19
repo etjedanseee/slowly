@@ -99,7 +99,6 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
     <div className={`fixed top-0 left-0 w-full h-screen py-20 px-2 z-20 overflow-hidden
     ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} `}>
       <UserAvatar
-        theme={theme}
         userAvatar={avatarUrl}
         canUpdate={true}
         updateImage={handleSetAvatarUrl}

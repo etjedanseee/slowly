@@ -95,7 +95,6 @@ const OtherProfile = () => {
         <div className='relative'>
           <UserAvatar
             userAvatar={otherUser.info.avatarUrl}
-            theme={theme}
             canUpdate={false}
           />
         </div>

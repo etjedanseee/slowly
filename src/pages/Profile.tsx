@@ -207,7 +207,6 @@ const Profile = () => {
         <div className='px-2 relative mb-3'>
           <UserAvatar
             userAvatar={user.info.avatarUrl}
-            theme={theme}
             canUpdate={false}
           />
         </div>

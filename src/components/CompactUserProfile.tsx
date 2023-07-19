@@ -31,7 +31,6 @@ const CompactUserProfile = ({ profile }: CompactUserProfileProps) => {
       <div className='mb-1'>
         <UserAvatar
           userAvatar={profile.info.avatarUrl}
-          theme={theme}
           canUpdate={false}
           size={24}
         />

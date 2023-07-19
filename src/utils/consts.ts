@@ -242,8 +242,10 @@ export const dictionary = {
     distance: 'By distance',
     notFoundPage: 'Whoops! Page not found',
     goBack: 'Go back',
+    noResultsFind: 'No results found.',
   },
   ua: {
+    noResultsFind: 'Результатів не знайдено.',
     goBack: 'Повернутися назад',
     notFoundPage: 'Ой! Сторінку не знайдено',
     distance: 'По відстані',
