@@ -76,7 +76,7 @@ const Friends = () => {
   }
 
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='flex flex-col min-h-screen'>
       <div className={`
         ${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} 
           font-medium text-2xl px-4 py-3 flex items-center justify-between`}

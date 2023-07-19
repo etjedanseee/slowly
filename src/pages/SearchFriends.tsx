@@ -8,6 +8,7 @@ import { fetchUserById } from '../utils/fetchUserById'
 import { IUser } from '../types/Auth/auth'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
+import TalkingIcon from '../assets/talking.png'
 import WriteLetter from '../components/WriteLetter'
 import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import Loader from '../UI/Loader'
@@ -41,6 +42,9 @@ const SearchFriends = () => {
     setOtherUserLoading(true)
     setIsHideSearchButton(true)
     await fetchUserById(otherUserId, setOtherUser, setFetchOtherUserError, t('noFoundUser'))
+    if (fetchOtherUserError) {
+      toast.error(t('noFoundUser'))
+    }
     setOtherUserLoading(false)
   }
 
@@ -61,13 +65,24 @@ const SearchFriends = () => {
   }
 
   return (
-    <div className='flex flex-col justify-around h-screen text-center pb-10 px-3'>
-      <div>
-        <div className='text-2xl leading-none mb-2'>{t('findNewPenPals')}</div>
-        <div className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} `}>{t('startCommunicate')} Slowly</div>
+    <div className='flex flex-col justify-around min-h-screen text-center pb-20 px-3 gap-y-3'>
+      <div className='flex items-center justify-center'>
+        <img src={TalkingIcon} className='h-64' alt="" />
       </div>
 
-      <div className='text-start mb-4'>
+      <div>
+        <div className='mb-4'>
+          <div className='text-2xl leading-none mb-2'>{t('findNewPenPals')}</div>
+          <div className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} `}>{t('startCommunicate')} Slowly</div>
+        </div>
+
+        <div className='flex flex-col gap-y-2'>
+          <MyButton color='yellow' onClick={goToAutoSearch} title='autoSearch' p='py-2' variant='rounded-lg' />
+          <MyButton color='black' onClick={goToManuallySearch} title='manuallySearch' p='py-2' variant='rounded-lg' />
+        </div>
+      </div>
+
+      <div className='text-start'>
         <div className='font-medium mb-2'>{t('adddFriendById')} Slowly ID</div>
         <TextInput
           onFocus={() => { }}
@@ -105,11 +120,6 @@ const SearchFriends = () => {
           </>
         )}
         {!isHideSearchButton && <MyButton color='black' onClick={onSearchOtherUser} title='search' />}
-      </div>
-
-      <div className='flex flex-col gap-y-2'>
-        <MyButton color='black' onClick={goToAutoSearch} title='autoSearch' p='py-2' />
-        <MyButton color='yellow' onClick={goToManuallySearch} title='manuallySearch' p='py-2' />
       </div>
 
       {isWriteLetterVisible && otherUser && (

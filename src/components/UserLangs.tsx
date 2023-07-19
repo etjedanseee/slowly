@@ -90,7 +90,7 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
 
       {isControlMenuVisible && (
         <div
-          className={`fixed top-0 left-0 h-screen w-full bg-opacity-60 flex flex-col justify-end items-center z-50 bg-black`}
+          className={`fixed top-0 left-0 min-h-screen w-full bg-opacity-60 flex flex-col justify-end items-center z-50 bg-black`}
           onClick={onControlMenuClose}
         >
           <CloseIcon className='h-6 w-6 fill-gray-200 mb-2' />

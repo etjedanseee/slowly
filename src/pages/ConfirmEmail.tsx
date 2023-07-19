@@ -83,7 +83,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} 
-      py-20 px-2 absolute top-0 w-full h-screen flex flex-col justify-between`}
+      py-20 px-2 absolute top-0 w-full min-h-screen flex flex-col justify-between`}
     >
       <div className='flex flex-col items-center text-center font-medium'>
         <SuccessIcon className={`${theme === 'dark' ? 'fill-green-500' : 'fill-green-500'} h-14`} />

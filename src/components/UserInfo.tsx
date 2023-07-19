@@ -96,7 +96,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   }, [userInfo, setIsUserInfoValid])
 
   return (
-    <div className={`fixed top-0 left-0 w-full h-screen py-20 px-2 z-20 overflow-hidden
+    <div className={`fixed top-0 left-0 w-full min-h-screen py-20 px-2 z-20 overflow-y-auto
     ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} `}>
       <UserAvatar
         userAvatar={avatarUrl}
