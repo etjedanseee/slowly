@@ -21,6 +21,6 @@ export const sendLetter = async (senderId: string, receiverId: string, message: 
     }
 
   } catch (e) {
-    console.log('Send letter sb error:', e)
+    console.log('Send letter error:', e)
   }
 }

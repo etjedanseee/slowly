@@ -243,8 +243,10 @@ export const dictionary = {
     notFoundPage: 'Whoops! Page not found',
     goBack: 'Go back',
     noResultsFind: 'No results found.',
+    recentlyReceived: 'Recently received',
   },
   ua: {
+    recentlyReceived: 'Нещодавно отримані',
     noResultsFind: 'Результатів не знайдено.',
     goBack: 'Повернутися назад',
     notFoundPage: 'Ой! Сторінку не знайдено',
