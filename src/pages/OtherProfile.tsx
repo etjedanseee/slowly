@@ -46,7 +46,7 @@ const OtherProfile = () => {
       if (currentFriend) {
         setOtherUser(currentFriend)
       } else {
-        fetchUserById(id, setOtherUser, setFetchOtherUserError, t('noFoundUser'))
+        fetchUserById(id, setOtherUser, setFetchOtherUserError)
       }
     }
   }, [id, friends])

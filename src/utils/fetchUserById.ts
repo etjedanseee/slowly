@@ -1,7 +1,7 @@
 import supabase from "../supabaseClient";
 import { IUser } from "../types/Auth/auth";
 
-export const fetchUserById = async (id: string, setOtherUser: (user: IUser) => void, setFetchError: (b: boolean) => void, errorMessage: string) => {
+export const fetchUserById = async (id: string, setOtherUser: (user: IUser) => void, setFetchError: (b: boolean) => void) => {
   try {
     const { data, error } = await supabase
       .from('Users')

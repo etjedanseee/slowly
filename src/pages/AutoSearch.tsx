@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import Loader from '../UI/Loader'
 import { useTranslation } from 'react-i18next'
-import { ReactComponent as SearchFriendsIcon } from '../assets/searchFriends.svg'
+import LetterEarthIcon from '../assets/letterEarth.png'
 import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
 import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { useNavigate } from 'react-router-dom'
@@ -218,7 +218,7 @@ const AutoSearch = () => {
       </div>
 
       <div className='flex justify-center items-center mb-6'>
-        <SearchFriendsIcon className={`h-32 w-32 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
+        <img src={LetterEarthIcon} alt='' className={`h-40`} />
       </div>
 
       <div className={`text-xs px-2 mb-1`}>{t('target')}</div>
@@ -286,7 +286,6 @@ const AutoSearch = () => {
       <div className={`py-3 px-2 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
         <div className='flex items-center justify-between mb-3'>
           <div className='text-sm'>{t('learningLangs')}</div>
-
           <div
             onClick={handleLearningLangSelectVisible}
             className='flex items-center gap-x-1'
@@ -309,7 +308,6 @@ const AutoSearch = () => {
 
         <div className='flex items-center justify-between mb-3'>
           <div className='text-sm'>{t('Language Proficiency')}</div>
-
           <div
             onClick={handleLangProficiencySelectVisible}
             className='flex items-center gap-x-1'
@@ -332,7 +330,6 @@ const AutoSearch = () => {
 
         <div className='flex items-center justify-between mb-4'>
           <div className='text-sm'>{t('topic')}</div>
-
           <div
             onClick={handleTopicSelectVisible}
             className='flex items-center gap-x-1'
@@ -354,7 +351,7 @@ const AutoSearch = () => {
         </div>
 
         <div className='min-h-[150px] flex flex-col justify-between'>
-          <div>
+          <div onClick={handleLetterTextModalVisible}>
             <div className='mb-1'>{t('letterText')}</div>
             <div className='text-sm'>{letterText.slice(0, 100)}</div>
           </div>

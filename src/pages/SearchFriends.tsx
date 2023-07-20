@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react'
+import React, { useState, ChangeEvent, useEffect } from 'react'
 import Navbar from '../UI/Navbar'
 import MyButton from '../UI/MyButton'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -41,10 +41,7 @@ const SearchFriends = () => {
     }
     setOtherUserLoading(true)
     setIsHideSearchButton(true)
-    await fetchUserById(otherUserId, setOtherUser, setFetchOtherUserError, t('noFoundUser'))
-    if (fetchOtherUserError) {
-      toast.error(t('noFoundUser'))
-    }
+    await fetchUserById(otherUserId, setOtherUser, setFetchOtherUserError)
     setOtherUserLoading(false)
   }
 
@@ -63,6 +60,13 @@ const SearchFriends = () => {
   const goToManuallySearch = () => {
     navigate('/search/manuallySearch')
   }
+
+  useEffect(() => {
+    if (fetchOtherUserError) {
+      toast.error(t('noFoundUser'))
+      setFetchOtherUserError(false)
+    }
+  }, [fetchOtherUserError])
 
   return (
     <div className='flex flex-col justify-around min-h-screen text-center pb-20 px-3 gap-y-3'>
@@ -83,7 +87,7 @@ const SearchFriends = () => {
       </div>
 
       <div className='text-start'>
-        <div className='font-medium mb-2'>{t('adddFriendById')} Slowly ID</div>
+        <div className='font-medium text-sm mb-1'>{t('adddFriendById')} Slowly ID</div>
         <TextInput
           onFocus={() => { }}
           onInputChange={handleOtherUserIdChange}
