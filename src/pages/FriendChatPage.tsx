@@ -31,6 +31,7 @@ const FriendChatPage = () => {
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
 
   const [currentChat, setCurrentChat] = useState<IChatList | null>(null)
+  const [filteredLetters, setFilteredLetters] = useState<ILetter[]>(currentChat?.messages || [])
 
   const [openedLetter, setOpenedLetter] = useState<ILetter | null>(null)
   const [letterIndex, setLetterIndex] = useState(0)
@@ -40,9 +41,9 @@ const FriendChatPage = () => {
 
   const [isSearchVisible, setIsSearchVisible] = useState(false)
   const [search, setSearch] = useState('')
-  const debounceSearch = useDebounce(search, 700)
+  const [isNoResultsFind, setIsNoResultsFind] = useState(false)
 
-  const [filteredLetters, setFilteredLetters] = useState<ILetter[]>(currentChat?.messages || [])
+  const debounceSearch = useDebounce(search, 700)
 
   const { deliveredTime } = useDeliveryTime(user, friend)
 
@@ -55,6 +56,9 @@ const FriendChatPage = () => {
           const filteredLettersArr = currentChat.messages
             .filter(letter => letter.message.toLowerCase().includes(debounceSearch.toLowerCase()))
           setFilteredLetters(filteredLettersArr)
+          if (!filteredLettersArr.length) {
+            setIsNoResultsFind(true)
+          }
         }
       } else {
         setFilteredLetters(currentChat.messages)
@@ -131,6 +135,9 @@ const FriendChatPage = () => {
 
   const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
+    if (isNoResultsFind) {
+      setIsNoResultsFind(false)
+    }
   }
 
   return (
@@ -164,7 +171,7 @@ const FriendChatPage = () => {
               <div onClick={handleSearchVisible}>{t('close')}</div>
             </div>
             <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-400'} h-[1px] w-full mb-3`} />
-            {!!search.length && !filteredLetters.length && <div className='text-sm'>{t('noResultsFind')}</div>}
+            {isNoResultsFind && <div className='text-sm'>{t('noResultsFind')}</div>}
           </>
         )
         : (

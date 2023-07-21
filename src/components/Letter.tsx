@@ -4,7 +4,6 @@ import { msInDay } from '../utils/consts'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as CheckMarkIcon } from '../assets/checkmark.svg'
-import { useNavigate } from 'react-router-dom'
 
 interface ILetterProps {
   letter: ILetter,
@@ -18,15 +17,8 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
   const { theme } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   const [deliveredDateInMin, setDeliveredDateInMin] = useState(Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000))
-
-  const onFriendClick = () => {
-    if (letter.senderId === otherUser.id) {
-      navigate('/users/' + otherUser.id)
-    }
-  }
 
   useEffect(() => {
     const deliveryDateInterval = setInterval(() => {
@@ -87,10 +79,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
       <div>
         {isOpened
           ? (
-            <div
-              onClick={onFriendClick}
-              className='flex items-center gap-x-3'
-            >
+            <div className='flex items-center gap-x-3'>
               <img
                 src={letter.senderId === otherUser.id ? otherUser.info.avatarUrl : user?.info.avatarUrl}
                 className='rounded-full h-16 w-16' alt="user avatar"

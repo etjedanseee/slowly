@@ -15,3 +15,8 @@ body{
   max-width: 375px;
   margin: 0 auto;
 }
+
+.withoutscroll::-webkit-scrollbar {
+  width: 0.5em;
+}
+

@@ -250,7 +250,7 @@ const Profile = () => {
                 flex items-center gap-x-1 rounded-lg px-2 py-1
               `}>
                 <ZodiacIcon zodiac={user.info.zodiac} theme={theme} />
-                <div>{t(user.info.zodiac)}</div>
+                <div>{t(user.info.zodiac.toLowerCase())}</div>
               </div>
 
               <ArrowDownIcon

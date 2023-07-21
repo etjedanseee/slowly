@@ -244,8 +244,10 @@ export const dictionary = {
     goBack: 'Go back',
     noResultsFind: 'No results found.',
     recentlyReceived: 'Recently received',
+    Any: 'Any',
   },
   ua: {
+    Any: 'Будь-яка',
     recentlyReceived: 'Нещодавно отримані',
     noResultsFind: 'Результатів не знайдено.',
     goBack: 'Повернутися назад',
