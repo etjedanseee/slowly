@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import { readLetter } from '../utils/readLetter'
 import { useActions } from '../hooks/useActions'
+import Map from '../UI/Map'
 
 const FriendChatPage = () => {
   const { theme } = useTypedSelector(state => state.theme)

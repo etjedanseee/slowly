@@ -25,9 +25,10 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
   const [isPasswordDirty, setIsPasswordDirty] = useState(false)
 
   const onEmailTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.value.length) {
+    const email = e.target.value.trim()
+    if (!email.length) {
       setEmailTextError(t('required') || 'Field is required')
-    } else if (isValidEmail(e.target.value)) {
+    } else if (isValidEmail(email)) {
       setEmailTextError('')
     } else {
       setEmailTextError(t('enterCorrectEmail') || 'Enter correct email')

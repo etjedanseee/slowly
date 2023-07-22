@@ -245,8 +245,10 @@ export const dictionary = {
     noResultsFind: 'No results found.',
     recentlyReceived: 'Recently received',
     Any: 'Any',
+    lettersOnWay: 'Letters on the way',
   },
   ua: {
+    lettersOnWay: 'Листи в дорозі',
     Any: 'Будь-яка',
     recentlyReceived: 'Нещодавно отримані',
     noResultsFind: 'Результатів не знайдено.',

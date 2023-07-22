@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../UI/Navbar'
 import { ReactComponent as LogoIcon } from '../assets/logo.svg'
 import { ReactComponent as CloseIcon } from '../assets/close.svg'
+import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
 import { ILetter } from '../types/Auth/auth'
@@ -13,6 +14,7 @@ import UserAvatar from '../components/UserAvatar'
 import { useNavigate } from 'react-router-dom'
 import { readLetter } from '../utils/readLetter'
 import { useActions } from '../hooks/useActions'
+import Map from '../UI/Map'
 
 const Home = () => {
   const { t } = useTranslation()
@@ -75,7 +77,7 @@ const Home = () => {
       <div className='mb-2 px-2'>
         <LogoIcon className={`${theme === 'dark' ? 'fill-white' : 'fill-black'} h-20 w-20`} />
       </div>
-      <div>
+      <div className='mb-4'>
         <div className='px-2'>
           <div className='relative inline-block mb-4'>
             <div className='px-2 mb-1 text-lg font-medium'>{t('recentlyReceived')}</div>
@@ -142,6 +144,18 @@ const Home = () => {
             />
           )}
         </div>
+      )}
+
+      <div className='px-2 flex items-center gap-x-2'>
+        <PlaneIcon className={`fill-yellow-400 h-5 w-5 -mb-[1px]`} />
+        <div className='text-sm'>{t('lettersOnWay')}</div>
+      </div>
+
+      <div id='map'></div>
+      {user && !!friends.length && (
+        <Map
+          recentlyLetters={recentlyLetters}
+        />
       )}
       <Navbar />
     </div>
