@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@csstools/selector-specificity": "^2.1.0",
+    "@react-leaflet/core": "^2.1.0",
     "@redux-devtools/extension": "^3.2.5",
     "@supabase/supabase-js": "^2.13.1",
     "@testing-library/jest-dom": "^5.16.5",

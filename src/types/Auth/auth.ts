@@ -83,7 +83,8 @@ export interface IChatList {
   messages: ILetter[]
 }
 
-export interface IFriendsWithCoords {
+export interface IFriendsWithLetter {
   friend: IUser,
-  coords: LatLng
+  coords: LatLng,
+  letter: ILetter
 }
