@@ -1,3 +1,4 @@
+import { LatLng } from "leaflet"
 import { langType } from "../../utils/consts"
 
 export interface IUser {
@@ -80,4 +81,9 @@ export interface ILetter {
 export interface IChatList {
   chatId: string,
   messages: ILetter[]
+}
+
+export interface IFriendsWithCoords {
+  friend: IUser,
+  coords: LatLng
 }

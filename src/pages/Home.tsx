@@ -27,6 +27,7 @@ const Home = () => {
   const [openedLetter, setOpenedLetter] = useState<ILetter | null>(null)
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
   const [friendsDeliveredTime, setFriendsDeliveredTime] = useState<number[]>([])
+  const [isMapVisible, setIsMapVisible] = useState(false)
 
   useEffect(() => {
     const res: number[] = []
@@ -49,6 +50,10 @@ const Home = () => {
     })
     setRecentlyLetters(resLetters)
   }, [chatList, user])
+
+  const handleMapVisible = () => {
+    setIsMapVisible(prev => !prev)
+  }
 
   const onCloseLetter = () => {
     setOpenedLetter(null)
@@ -146,15 +151,19 @@ const Home = () => {
         </div>
       )}
 
-      <div className='px-2 flex items-center gap-x-2'>
+      <div
+        className='px-2 flex items-center gap-x-2'
+        onClick={handleMapVisible}
+      >
         <PlaneIcon className={`fill-yellow-400 h-5 w-5 -mb-[1px]`} />
         <div className='text-sm'>{t('lettersOnWay')}</div>
       </div>
 
       <div id='map'></div>
-      {user && !!friends.length && (
+      {isMapVisible && user && !!friends.length && (
         <Map
-          recentlyLetters={recentlyLetters}
+          onWayLetters={recentlyLetters}
+          onClose={handleMapVisible}
         />
       )}
       <Navbar />
