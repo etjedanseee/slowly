@@ -4,11 +4,12 @@ import { useMap } from 'react-leaflet';
 
 interface ChangeMapViewProps {
   center: LatLngLiteral,
+  zoom?: number
 }
 
-const ChangeMapView = ({ center }: ChangeMapViewProps) => {
+const ChangeMapView = ({ center, zoom = 5 }: ChangeMapViewProps) => {
   const map = useMap();
-  map.setView(center);
+  map.setView(center, zoom);
   return null;
 }
 
