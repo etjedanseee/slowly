@@ -96,7 +96,8 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
                   <div className={`flex ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                     {`${t('deliveredThrought')} ${deliveredDateInMin < 60
                       ? `${deliveredDateInMin} ${t('minutes')}`
-                      : `${Math.round(deliveredDateInMin / 60)} ${t('hours')}`}`}
+                      : `${Math.round(deliveredDateInMin / 60)} ${t('hours')}`}
+                    `}
                   </div>
                 )
                   : (

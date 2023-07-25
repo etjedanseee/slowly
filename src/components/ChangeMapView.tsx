@@ -1,5 +1,4 @@
 import { LatLngLiteral } from 'leaflet'
-import React from 'react'
 import { useMap } from 'react-leaflet';
 
 interface ChangeMapViewProps {

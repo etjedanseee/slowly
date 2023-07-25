@@ -9,6 +9,7 @@ import { ReactComponent as PlaneIcon } from '../assets/plane.svg'
 import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import ChangeMapView from '../components/ChangeMapView'
 import L from 'leaflet'
+import { coordsToDistance } from '../utils/calcDistance'
 
 interface MapProps {
   onWayLetters: ILetter[],
@@ -22,23 +23,31 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
 
   const [center, setCenter] = useState<LatLngLiteral>({ lat: 0, lng: 0 })
   const [zoom, setZoom] = useState(5)
-  const [centerIndex, setCenterIndex] = useState(-1)
 
   const [friendsWithLetter, setFriendsWithLetter] = useState<IFriendsWithLetter[]>([])
+  const [index, setIndex] = useState(-1)
+  const [isPrevArrowDisabled, setIsPrevArrowDisabled] = useState(true)
+  const [isNextArrowDisabled, setIsNextArrowDisabled] = useState(true)
 
   const gotoPrevFriend = () => {
-    if (centerIndex > 0) {
-      setCenter(friendsWithLetter[centerIndex - 1].coords)
+    if (index > 0) {
+      setCenter(friendsWithLetter[index - 1].coords)
       setZoom(10)
-      setCenterIndex(prev => prev - 1)
+      setIndex(prev => prev - 1)
+    } else {
+      setIndex(-1)
+      setZoom(5)
     }
   }
 
   const gotoNextFriend = () => {
-    if (centerIndex < friendsWithLetter.length - 1) {
-      setCenter(friendsWithLetter[centerIndex + 1].coords)
-      setCenterIndex(prev => prev + 1)
+    if (index < friendsWithLetter.length - 1) {
+      setCenter(friendsWithLetter[index + 1].coords)
+      setIndex(prev => prev + 1)
       setZoom(10)
+    } else {
+      setIndex(-1)
+      setZoom(5)
     }
   }
 
@@ -59,6 +68,19 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
       setCenter(friendsWithLetter[0].coords)
     }
   }, [friendsWithLetter])
+
+  useEffect(() => {
+    if (index < friendsWithLetter.length - 1) {
+      setIsNextArrowDisabled(false)
+    } else {
+      setIsNextArrowDisabled(true)
+    }
+    if (index >= 0) {
+      setIsPrevArrowDisabled(false)
+    } else {
+      setIsPrevArrowDisabled(true)
+    }
+  }, [index, friendsWithLetter])
 
   if (!user) {
     return null
@@ -94,25 +116,20 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
               icon={L.icon({
                 iconUrl: fWithLetter.friend.info.avatarUrl,
                 iconAnchor: [15, 32],
-                className: 'w-7 h-7 min-h-[30px] min-w-[30px] rounded-full '
-
+                className: 'w-7 h-7 rounded-full'
               })}
-            >
-              <Popup>
-                {fWithLetter.friend.info.nickName}
-              </Popup>
-            </Marker>
+            />
           ))}
 
-          {centerIndex >= 0 && (
+          {index >= 0 && (
             <>
-              <Polyline color='#17b308' positions={[uCoords, friendsWithLetter[centerIndex].coords]} />
+              <Polyline color='#17b308' positions={[uCoords, friendsWithLetter[index].coords]} />
               <Marker
                 position={uCoords}
                 icon={L.icon({
                   iconUrl: user.info.avatarUrl,
                   iconAnchor: [15, 32],
-                  className: 'w-7 h-7 min-h-[30px] min-w-[30px] rounded-full '
+                  className: 'w-7 h-7 rounded-full'
                 })} />
             </>
           )}
@@ -123,38 +140,49 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
           text-white border-4 border-black w-5/6 py-2 px-4 bg-zinc-800 rounded-sm`}
           style={{ zIndex: 999 }}
         >
-          {centerIndex < 0
+          {index < 0
             ? (
               <>
-                <div className='rounded-full'>
-                  <PlaneIcon className={`fill-white h-12 w-12`} />
-                </div>
-                <div>{onWayLetters.length} {t('lettersOnWay')}.</div>
+                <div className='rounded-full'><PlaneIcon className={`fill-white h-12 w-12`} /></div>
+                <div className='tracking-tighter font-medium'>{onWayLetters.length} {t('lettersOnWay')}.</div>
               </>
             )
             : (
-              <div className='flex items-center gap-x-2'>
+              <div className='flex items-center gap-x-2 text-sm'>
                 <img
-                  src={friendsWithLetter[centerIndex].friend.info.avatarUrl}
+                  src={friendsWithLetter[index].friend.info.avatarUrl}
                   className='rounded-full h-12 w-12'
                   alt='friend avatar'
                 />
                 <div>
-                  <div className='text-white font-medium'>{friendsWithLetter[centerIndex].friend.info.nickName}</div>
-                  <div></div>
+                  <div className='text-white font-medium'>
+                    {`${friendsWithLetter[index].friend.info.nickName} 
+                    (${coordsToDistance(user.geo.coord, friendsWithLetter[index].friend.geo.coord)} km)`}
+                  </div>
+                  <div className='text-gray-300'>
+                    {t('deliveredThrought') + ' '}
+                    {Math.round((+new Date(friendsWithLetter[index].letter.deliveredDate) - Date.now()) / 60000) < 60
+                      ? `${Math.round((+new Date(friendsWithLetter[index].letter.deliveredDate) - Date.now()) / 60000)} ${t('minutes')}`
+                      : `${Math.round(Math.round((+new Date(friendsWithLetter[index].letter.deliveredDate) - Date.now()) / 60000) / 60)} ${t('hours')}`
+                    }
+                  </div>
                 </div>
               </div>
             )
           }
           <div
-            className='absolute top-1/2 left-0 -translate-x-4 -translate-y-1/2 bg-zinc-900 rounded-full p-1 opacity-90'
-            onClick={gotoPrevFriend}
+            className={`absolute top-1/2 left-0 -translate-x-4 -translate-y-1/2 bg-zinc-900 rounded-full p-1 
+              ${isPrevArrowDisabled ? 'opacity-50' : 'opacity-90'} 
+            `}
+            onClick={isPrevArrowDisabled ? () => { } : gotoPrevFriend}
           >
             <ArrowDownIcon className='fill-white h-5 w-5 rotate-90' />
           </div>
           <div
-            className='absolute top-1/2 right-0 translate-x-4 -translate-y-1/2 bg-zinc-900 rounded-full p-1 opacity-90'
-            onClick={gotoNextFriend}
+            className={`absolute top-1/2 right-0 translate-x-4 -translate-y-1/2 rounded-full p-1 bg-zinc-900  
+              ${isNextArrowDisabled ? 'opacity-50' : 'opacity-90'} 
+            `}
+            onClick={isNextArrowDisabled ? () => { } : gotoNextFriend}
           >
             <ArrowDownIcon className='fill-white h-5 w-5 -rotate-90' />
           </div>

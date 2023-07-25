@@ -246,8 +246,12 @@ export const dictionary = {
     recentlyReceived: 'Recently received',
     Any: 'Any',
     lettersOnWay: 'Letters on the way',
+    noLettersOnWay: 'No letters on the way',
+    loading: 'Loading...',
   },
   ua: {
+    loading: 'Завантаження...',
+    noLettersOnWay: 'Немає листів у дорозі',
     lettersOnWay: 'Листи в дорозі',
     Any: 'Будь-яка',
     recentlyReceived: 'Нещодавно отримані',

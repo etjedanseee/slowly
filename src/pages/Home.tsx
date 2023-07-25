@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 import { readLetter } from '../utils/readLetter'
 import { useActions } from '../hooks/useActions'
 import Map from '../UI/Map'
+import Loader from '../UI/Loader'
 
 const Home = () => {
   const { t } = useTranslation()
@@ -24,10 +25,12 @@ const Home = () => {
   const { fetchUserChatList } = useActions()
 
   const [recentlyLetters, setRecentlyLetters] = useState<ILetter[]>([])
+  const [lettersOnWay, setLettersOnWay] = useState<ILetter[]>([])
   const [openedLetter, setOpenedLetter] = useState<ILetter | null>(null)
   const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
   const [friendsDeliveredTime, setFriendsDeliveredTime] = useState<number[]>([])
   const [isMapVisible, setIsMapVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const res: number[] = []
@@ -41,14 +44,24 @@ const Home = () => {
   }, [friends, user])
 
   useEffect(() => {
-    const resLetters: ILetter[] = []
+    const resRecentlyLetters: ILetter[] = []
+    const resLettersOnWay: ILetter[] = []
     chatList.forEach(chat => {
-      const filteredLetters = chat.messages.filter(mess => +new Date(mess.deliveredDate) < Date.now() && mess.receiverId === user?.id)
-      if (filteredLetters.length) {
-        resLetters.push(...filteredLetters)
+      const filteredRecentlyLetters = chat.messages.filter(mess => {
+        return +new Date(mess.deliveredDate) < Date.now() && mess.receiverId === user?.id
+      })
+      const filteredlettersOnWay = chat.messages.filter(mess => {
+        return +new Date(mess.deliveredDate) > Date.now() && mess.receiverId === user?.id
+      })
+      if (filteredRecentlyLetters.length) {
+        resRecentlyLetters.push(...filteredRecentlyLetters)
+      }
+      if (filteredlettersOnWay.length) {
+        resLettersOnWay.push(...filteredlettersOnWay)
       }
     })
-    setRecentlyLetters(resLetters)
+    setRecentlyLetters(resRecentlyLetters)
+    setLettersOnWay(resLettersOnWay)
   }, [chatList, user])
 
   const handleMapVisible = () => {
@@ -59,6 +72,12 @@ const Home = () => {
     setOpenedLetter(null)
   }
 
+  const fetchChatList = () => {
+    if (user) {
+      fetchUserChatList(user.id, setLoading)
+    }
+  }
+
   const handleIsWriteLetterVisible = () => {
     setWriteLetterVisible(prev => !prev)
   }
@@ -66,7 +85,7 @@ const Home = () => {
   const onOpenLetter = async (letter: ILetter) => {
     if (!letter.isRead && user) {
       await readLetter(letter.id)
-      fetchUserChatList(user.id, () => { })
+      fetchChatList()
     }
     setOpenedLetter(letter)
   }
@@ -151,18 +170,38 @@ const Home = () => {
         </div>
       )}
 
-      <div
-        className='px-2 flex items-center gap-x-2'
-        onClick={handleMapVisible}
-      >
-        <PlaneIcon className={`fill-yellow-400 h-5 w-5 -mb-[1px]`} />
-        <div className='text-sm'>{t('lettersOnWay')}</div>
-      </div>
+      {loading
+        ? (
+          <div className='px-2 flex items-center gap-x-1'>
+            <Loader size='7' />
+            <div>{t('loading')}</div>
+          </div>
+        )
+        : <div className='px-2 flex items-center gap-x-2'>
+          <PlaneIcon className={`fill-yellow-400 h-7 w-7 -mb-[2px]`} />
+          {lettersOnWay.length
+            ? (
+              <div
+                className='w-full flex items-center justify-between'
+                onClick={handleMapVisible}
+              >
+                <div className='text-sm'>{t('lettersOnWay')}</div>
+                <div
+                  className='bg-yellow-400 h-7 w-7 rounded-full flex items-center justify-center text-black font-semibold'
+                >
+                  {lettersOnWay.length}
+                </div>
+              </div>
+            )
+            : <div onClick={fetchChatList} className='text-sm'>{t('noLettersOnWay')}</div>
+          }
+        </div>
+      }
 
       <div id='map'></div>
       {isMapVisible && user && !!friends.length && (
         <Map
-          onWayLetters={recentlyLetters}
+          onWayLetters={lettersOnWay}
           onClose={handleMapVisible}
         />
       )}
