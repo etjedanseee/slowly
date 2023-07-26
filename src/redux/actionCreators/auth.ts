@@ -126,8 +126,7 @@ export const fetchUserChatList = (id: string, setLoadingChatList: (b: boolean) =
         });
 
         const chatList = Array.from(messagesMap.values())
-
-        console.log('ChatList res', chatList)
+        // console.log('ChatList res', chatList)
 
         dispatch({ type: AuthActionTypes.SET_CHAT_LIST, payload: chatList })
       }
