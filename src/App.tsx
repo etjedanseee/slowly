@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useTypedSelector } from './hooks/useTypedSelector';
 import Draft from './pages/Draft';
@@ -21,12 +21,15 @@ import ManuallySearch from './pages/ManuallySearch';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFoundPage from './pages/NotFoundPage';
+import supabase from './supabaseClient';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user, chatList } = useTypedSelector(state => state.auth)
   const { interests } = useTypedSelector(state => state.data)
   const { setUser, fetchInterests, fetchUserChatList, fetchFriends } = useActions()
+
+  const [isHaveSession, setIsHaveSession] = useState(true)
 
   i18n.use(initReactI18next).init({
     resources: { en: { translation: dictionary.en }, ua: { translation: dictionary.ua } },
@@ -36,13 +39,24 @@ function App() {
   });
 
   useEffect(() => {
+    const checkSession = async () => {
+      const { data, error } = await supabase.auth.getSession()
+      if (!data && !error) {
+        setIsHaveSession(false)
+      }
+      setIsHaveSession(true)
+    }
+    checkSession()
+  }, [])
+
+  useEffect(() => {
     const localUser = localStorage.getItem('user')
-    if (localUser && !user) {
+    if (localUser && !user && isHaveSession) {
       setUser(JSON.parse(localUser))
     } else if (user && !localUser) {
       localStorage.setItem('user', JSON.stringify(user))
     }
-  }, [user, setUser])
+  }, [user, setUser, isHaveSession])
 
   useEffect(() => {
     if (!interests.length) {
@@ -99,7 +113,7 @@ function App() {
         <Route path='/auth' element={<AuthPage />} />
         <Route path='/auth/signUp' element={<SignUpPage />} />
         <Route path='/auth/signIn' element={<SignInPage />} />
-        {!localStorage.getItem('user') && <Route path='*' element={<Navigate to='/auth' />} />}
+        {(!localStorage.getItem('user') || !isHaveSession) && <Route path='*' element={<Navigate to='/auth' />} />}
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>

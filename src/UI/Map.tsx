@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { MapContainer, Marker, Polyline, Popup, TileLayer, } from 'react-leaflet'
+import { MapContainer, Marker, Polyline, TileLayer, } from 'react-leaflet'
 import { IFriendsWithLetter, ILetter } from '../types/Auth/auth'
 import { LatLngLiteral, latLng } from 'leaflet'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -70,16 +70,8 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
   }, [friendsWithLetter])
 
   useEffect(() => {
-    if (index < friendsWithLetter.length - 1) {
-      setIsNextArrowDisabled(false)
-    } else {
-      setIsNextArrowDisabled(true)
-    }
-    if (index >= 0) {
-      setIsPrevArrowDisabled(false)
-    } else {
-      setIsPrevArrowDisabled(true)
-    }
+    index < friendsWithLetter.length - 1 ? setIsNextArrowDisabled(false) : setIsNextArrowDisabled(true)
+    index >= 0 ? setIsPrevArrowDisabled(false) : setIsPrevArrowDisabled(true)
   }, [index, friendsWithLetter])
 
   if (!user) {
@@ -115,7 +107,7 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
               position={fWithLetter.coords}
               icon={L.icon({
                 iconUrl: fWithLetter.friend.info.avatarUrl,
-                iconAnchor: [15, 32],
+                iconAnchor: [15, 30],
                 className: 'w-7 h-7 rounded-full'
               })}
             />
@@ -128,7 +120,7 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
                 position={uCoords}
                 icon={L.icon({
                   iconUrl: user.info.avatarUrl,
-                  iconAnchor: [15, 32],
+                  iconAnchor: [15, 30],
                   className: 'w-7 h-7 rounded-full'
                 })} />
             </>
@@ -136,16 +128,16 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
         </MapContainer>
 
         <div
-          className={`absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-x-4 items-center 
+          className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-x-4 items-center 
           text-white border-4 border-black w-5/6 py-2 px-4 bg-zinc-800 rounded-sm`}
           style={{ zIndex: 999 }}
         >
           {index < 0
             ? (
-              <>
-                <div className='rounded-full'><PlaneIcon className={`fill-white h-12 w-12`} /></div>
+              <div className='flex items-center gap-x-2'>
+                <div className='rounded-full'><PlaneIcon className={`fill-white h-12 w-12 p-1`} /></div>
                 <div className='tracking-tighter font-medium'>{onWayLetters.length} {t('lettersOnWay')}.</div>
-              </>
+              </div>
             )
             : (
               <div className='flex items-center gap-x-2 text-sm'>
