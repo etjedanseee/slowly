@@ -52,6 +52,8 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   const onNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.value.length) {
       setNickNameError(t('required') || 'Field is required')
+    } else if (e.target.value.length >= 15) {
+      setNickNameError(t('nickNameMustBeLess15') || 'Nickname must be less than 15 characters')
     } else {
       setNickNameError('')
     }
@@ -70,7 +72,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
 
   useEffect(() => {
     if (isInfoUpdated) {
-      if (!birthDateError && nickName.length && avatarUrl.length) {
+      if (!birthDateError && !nickNameError && avatarUrl) {
         const updatedUserInfo: IUserInfo = {
           avatarUrl,
           sex,
@@ -84,8 +86,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
       }
       setIsInfoUpdated(false)
     }
-
-  }, [birthDate, birthDateError, nickName, sex, setUserInfo, avatarUrl, isInfoUpdated])
+  }, [birthDate, birthDateError, nickName, sex, setUserInfo, avatarUrl, isInfoUpdated, nickNameError])
 
   useEffect(() => {
     if (userInfo !== null) {

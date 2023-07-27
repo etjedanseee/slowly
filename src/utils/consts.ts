@@ -248,8 +248,10 @@ export const dictionary = {
     lettersOnWay: 'Letters on the way',
     noLettersOnWay: 'No letters on the way',
     loading: 'Loading...',
+    nickNameMustBeLess15: 'Nickname must be less than 15 characters',
   },
   ua: {
+    nickNameMustBeLess15: 'Нік повинен бути менше 15 символів',
     loading: 'Завантаження...',
     noLettersOnWay: 'Немає листів у дорозі',
     lettersOnWay: 'Листи в дорозі',

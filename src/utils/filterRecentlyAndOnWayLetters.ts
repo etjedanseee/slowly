@@ -4,19 +4,16 @@ export const filterRecenntlyAndOnWayLetters = (chatList: IChatList[], user: IUse
   const resRecentlyLetters: ILetter[] = []
   const resLettersOnWay: ILetter[] = []
   chatList.forEach(chat => {
-    const filteredRecentlyLetters = chat.messages.filter(mess => {
-      return +new Date(mess.deliveredDate) < Date.now() && mess.receiverId === user?.id
-    })
-    const filteredlettersOnWay = chat.messages.filter(mess => {
-      return +new Date(mess.deliveredDate) > Date.now() && mess.receiverId === user?.id
-    })
-    if (filteredRecentlyLetters.length) {
-      resRecentlyLetters.push(...filteredRecentlyLetters)
-    }
-    if (filteredlettersOnWay.length) {
-      resLettersOnWay.push(...filteredlettersOnWay)
+    for (let letter of chat.messages) {
+      if (letter.receiverId !== user.id) {
+        continue
+      }
+      if (+new Date(letter.deliveredDate) < Date.now()) {
+        resRecentlyLetters.push(letter)
+      } else {
+        resLettersOnWay.push(letter)
+      }
     }
   })
-
   return [resRecentlyLetters, resLettersOnWay]
 }
