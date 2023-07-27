@@ -3,21 +3,17 @@ import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useNavigate, useParams } from 'react-router-dom'
 import { IChatList, ILetter, IUser } from '../types/Auth/auth'
 import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
-import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import { ReactComponent as SearchIcon } from '../assets/navbarIcons/search.svg'
 import { ReactComponent as GeoIcon } from '../assets/geo.svg'
-import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import { ageToString } from '../utils/calcAge'
 import ZodiacIcon from '../components/ZodiacIcon'
 import Letter from '../components/Letter'
-import WriteLetterButton from '../UI/WriteLetterButton'
-import WriteLetter from '../components/WriteLetter'
-import { useDeliveryTime } from '../hooks/useDeliveryTime'
 import Loader from '../UI/Loader'
 import { useTranslation } from 'react-i18next'
 import { useDebounce } from '../hooks/useDebounce'
 import { readLetter } from '../utils/readLetter'
 import { useActions } from '../hooks/useActions'
+import OpenedLetter from '../components/OpenedLetter'
 
 const FriendChatPage = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -28,7 +24,6 @@ const FriendChatPage = () => {
   const { fetchUserChatList } = useActions()
 
   const [friend, setFriend] = useState<IUser | null>(null)
-  const [isWriteLetterVisible, setWriteLetterVisible] = useState(false)
 
   const [currentChat, setCurrentChat] = useState<IChatList | null>(null)
   const [filteredLetters, setFilteredLetters] = useState<ILetter[]>(currentChat?.messages || [])
@@ -44,8 +39,6 @@ const FriendChatPage = () => {
   const [isNoResultsFind, setIsNoResultsFind] = useState(false)
 
   const debounceSearch = useDebounce(search, 700)
-
-  const { deliveredTime } = useDeliveryTime(user, friend)
 
   useEffect(() => {
     if (currentChat) {
@@ -101,10 +94,6 @@ const FriendChatPage = () => {
 
   const onFriendClick = () => {
     navigate('/users/' + friend?.id)
-  }
-
-  const handleIsWriteLetterVisible = () => {
-    setWriteLetterVisible(prev => !prev)
   }
 
   const onOpenLetter = async (letterIdx: number) => {
@@ -235,68 +224,17 @@ const FriendChatPage = () => {
         ))}
       </div>
 
-      {openedLetter !== null && (
-        <div
-          className={`absolute top-0 left-0 w-full min-h-screen z-10 bg-inherit px-2 py-1`}
-        >
-          <div className='py-2 relative mb-4'>
-            <CloseIcon
-              className={`absolute top-2 left-0 h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
-              onClick={onCloseLetter}
-            />
-            <div className='text-center text-lg font-medium'>
-              {openedLetter.senderId === id ? friend.info.nickName : user?.info.nickName}
-            </div>
-            <div className='absolute top-2 right-0 flex items-center'>
-              <ArrowDownIcon
-                onClick={isPrevLetterArrowDisabled ? () => { } : () => onOpenLetter(letterIndex - 1)}
-                className={`h-7 w-7 rotate-90 
-                  ${theme === 'dark'
-                    ? isPrevLetterArrowDisabled
-                      ? 'fill-gray-500'
-                      : 'fill-white'
-                    : isPrevLetterArrowDisabled
-                      ? 'fill-zinc-700'
-                      : 'fill-black'
-                  }
-                `}
-              />
-              <ArrowDownIcon
-                onClick={isNextLetterArrowDisabled ? () => { } : () => onOpenLetter(letterIndex + 1)}
-                className={`h-7 w-7 -rotate-90 
-                  ${theme === 'dark'
-                    ? isNextLetterArrowDisabled
-                      ? 'fill-gray-500'
-                      : 'fill-white'
-                    : isNextLetterArrowDisabled
-                      ? 'fill-zinc-700'
-                      : 'fill-black'
-                  }
-                `}
-              />
-            </div>
-          </div>
-
-          <div className={`px-3 py-3 flex flex-col justify-end ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
-            <Letter
-              letter={openedLetter}
-              otherUser={friend}
-              index={0}
-              onOpenLetter={() => { }}
-              isOpened={true}
-            />
-          </div>
-
-          <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />
-
-          {isWriteLetterVisible && (
-            <WriteLetter
-              deliveredTime={deliveredTime}
-              otherUser={friend}
-              onClose={handleIsWriteLetterVisible}
-            />
-          )}
-        </div>
+      {openedLetter && (
+        <OpenedLetter
+          friend={friend}
+          isNextLetterArrowDisabled={isNextLetterArrowDisabled}
+          isPrevLetterArrowDisabled={isPrevLetterArrowDisabled}
+          letter={openedLetter}
+          letterIndex={letterIndex}
+          onClose={onCloseLetter}
+          openAnotherLetter={onOpenLetter}
+          showSwitchLettersArrows={true}
+        />
       )}
     </div>
   )

@@ -21,16 +21,11 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   const { theme } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
   const { fetchUserChatList } = useActions()
-  const navigate = useNavigate()
   const { t } = useTranslation()
   const [letterText, setLetterText] = useState('')
   const [signsCount, setSignsCount] = useState(0)
   const [wordsCount, setWordsCount] = useState(0)
   const [isHelpMenuVisible, setIsHelpMenuVisible] = useState(false)
-
-  const onUserProfileClick = () => {
-    navigate('/users/' + otherUser.id)
-  }
 
   const handleLetterText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setLetterText(e.target.value)
@@ -123,10 +118,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
         </div>)
       }
 
-      <div
-        className='flex items-center gap-x-3 mb-4'
-        onClick={onUserProfileClick}
-      >
+      <div className='flex items-center gap-x-3 mb-4'>
         <img
           src={otherUser.info.avatarUrl}
           className='rounded-full w-12 h-12'
