@@ -239,7 +239,7 @@ const ManuallySearch = () => {
             : (
               <div className='grid grid-cols-2 gap-2'>
                 {findedUsers.map(user => (
-                  <CompactUserProfile profile={user} key={user.id} />)
+                  <CompactUserProfile userProfile={user} key={user.id} />)
                 )}
               </div>
             )

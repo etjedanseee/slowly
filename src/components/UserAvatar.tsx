@@ -13,13 +13,23 @@ interface UserAvatarProps {
 const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, size }: UserAvatarProps) => {
   const { theme } = useTypedSelector(state => state.theme)
   const [avatarUrl, setAvatarUrl] = useState(userAvatar);
+  const [isValidImage, setIsValidImage] = useState(true);
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAvatarUrl(event.target.value);
+    const url = event.target.value
+    const img = new Image();
+    img.src = url;
+    img.onload = () => {
+      setIsValidImage(true);
+    };
+    img.onerror = () => {
+      setIsValidImage(false);
+    };
+    setAvatarUrl(url);
   };
 
   const handleSaveImageURL = () => {
-    if (!!avatarUrl.length && avatarUrl !== userAvatar) {
+    if (isValidImage && (avatarUrl !== userAvatar)) {
       updateImage(avatarUrl)
     }
   }
@@ -31,7 +41,7 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
   return (
     <div className='w-full'>
       <div className='w-full flex justify-center'>
-        {!!avatarUrl.length
+        {isValidImage
           ? <img src={avatarUrl} className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover`} alt="User Avatar" />
           : <DefaultUserIcon className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
         }
@@ -42,8 +52,8 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
           <div className='flex items-center justify-between mb-2'>
             <div className='text-sm'>Update avatar URL:</div>
             <div className={`${theme === 'dark' ? 'text-white' : 'text-zinc-900'} 
-              ${!!avatarUrl.length ? 'opacity-100' : 'opacity-50'}
-              border-2 rounded-xl inline-block px-4 py-1 mt-1 text-sm`}
+              ${isValidImage && avatarUrl !== userAvatar ? 'opacity-100' : 'opacity-50'}
+              border-2 rounded-xl inline-block px-4 py-[2px] mt-1 text-sm`}
               onClick={handleSaveImageURL}
             >
               Save
