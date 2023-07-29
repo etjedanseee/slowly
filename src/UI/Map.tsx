@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { MapContainer, Marker, Polyline, TileLayer, } from 'react-leaflet'
+import { MapContainer, Marker, Polyline, Popup, TileLayer, } from 'react-leaflet'
 import { IFriendsWithLetter, ILetter } from '../types/Auth/auth'
 import { LatLngLiteral, latLng } from 'leaflet'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -10,7 +10,8 @@ import { ReactComponent as ArrowDownIcon } from '../assets/arrowDown.svg'
 import ChangeMapView from '../components/ChangeMapView'
 import L from 'leaflet'
 import { coordsToDistance } from '../utils/calcDistance'
-
+import { calcWhereNowOnWayLetter } from '../utils/calcWhereNowOnWayLetter'
+import plane from '../assets/plane.svg'
 interface MapProps {
   onWayLetters: ILetter[],
   onClose: () => void,
@@ -28,26 +29,30 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
   const [index, setIndex] = useState(-1)
   const [isPrevArrowDisabled, setIsPrevArrowDisabled] = useState(true)
   const [isNextArrowDisabled, setIsNextArrowDisabled] = useState(true)
+  const [letterCurrentPosition, setLetterCurrentPosition] = useState<LatLngLiteral | null>(null)
+
 
   const gotoPrevFriend = () => {
     if (index > 0) {
+      const letterPosition = calcWhereNowOnWayLetter(friendsWithLetter[index - 1].coords, uCoords, friendsWithLetter[index - 1].letter)
+      setLetterCurrentPosition(letterPosition)
       setCenter(friendsWithLetter[index - 1].coords)
       setZoom(10)
       setIndex(prev => prev - 1)
     } else {
       setIndex(-1)
       setZoom(5)
+      setLetterCurrentPosition(null)
     }
   }
 
   const gotoNextFriend = () => {
     if (index < friendsWithLetter.length - 1) {
+      const letterPosition = calcWhereNowOnWayLetter(friendsWithLetter[index + 1].coords, uCoords, friendsWithLetter[index + 1].letter)
+      setLetterCurrentPosition(letterPosition)
       setCenter(friendsWithLetter[index + 1].coords)
       setIndex(prev => prev + 1)
       setZoom(10)
-    } else {
-      setIndex(-1)
-      setZoom(5)
     }
   }
 
@@ -124,6 +129,19 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
                   className: 'w-7 h-7 rounded-full'
                 })} />
             </>
+          )}
+
+          {letterCurrentPosition && (
+            <Marker
+              position={letterCurrentPosition}
+              icon={
+                L.icon({
+                  iconUrl: plane,
+                  iconAnchor: [15, 30],
+                  className: 'w-7 h-7 bg-teal-700 rounded-full'
+                })
+              }
+            />
           )}
         </MapContainer>
 
