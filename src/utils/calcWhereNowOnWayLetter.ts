@@ -13,7 +13,6 @@ export const calcWhereNowOnWayLetter = (coords1: LatLngLiteral, coords2: LatLngL
   const currentLetterLatitude = coords1.lat + ratioOfCurrTimeToTotalDeliveryTime * (coords2.lat - coords1.lat)
   const currentLetterLongitude = coords1.lng + ratioOfCurrTimeToTotalDeliveryTime * (coords2.lng - coords1.lng)
 
-  console.log({ sendDate, deliveredDate, diffTime, passedTime, ratioOfCurrTimeToTotalDeliveryTime, currentLetterLatitude, currentLetterLongitude })
   return {
     lat: currentLetterLatitude,
     lng: currentLetterLongitude

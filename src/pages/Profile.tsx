@@ -157,7 +157,7 @@ const Profile = () => {
   }
 
   const handleInterests = (option: interest) => {
-    if (userInterests.find(int => int === option)) {
+    if (userInterests.includes(option)) {
       if (userInterests.length > 3) {
         setUserInterests(userInterests.filter(int => int !== option))
       }
@@ -331,7 +331,6 @@ const Profile = () => {
                 onSave={onSaveSelectedLetterLength}
               />
             )}
-
           </div>
 
           <div className='flex justify-between items-center relative'>
@@ -407,12 +406,11 @@ const Profile = () => {
         </div>
 
         <div className='text-sm opacity-70 px-2 mb-2'>{t('interests')}</div>
-
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
           {isInterestsMenuVisible && (
             <MultySelect
               onSelectOption={handleInterests}
-              options={[...interests].sort((a, b) => a.localeCompare(b))}
+              options={[...interests].sort((a, b) => t(a).localeCompare(t(b)))}
               selectedOptions={userInterests}
               onClose={onCloseInterests}
               onSave={onSaveUserInterests}
@@ -423,7 +421,7 @@ const Profile = () => {
             className='flex flex-wrap gap-x-2 gap-y-2'
             onClick={handleInterestsMenuVisible}
           >
-            {[...userInterests].sort((a, b) => a.localeCompare(b)).slice(0, 2).map(int => (
+            {[...userInterests].sort((a, b) => t(a).localeCompare(t(b))).slice(0, 2).map(int => (
               <div className='border border-yellow-400 rounded-xl px-4 py-1' key={int}>
                 {t(int)}
               </div>
@@ -433,15 +431,14 @@ const Profile = () => {
         </div>
 
         <div className='text-sm opacity-70 px-2 mb-2'>{t('langs')}</div>
-
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3`}>
           <UserLangs
             setUserLangs={setUserLangs}
             userLangs={userLangs.sort((a, b) => b.level - a.level)}
             user={user}
+            isShowAnotherLanguages={false}
           />
         </div>
-
       </div>
       <Navbar />
     </div >

@@ -12,10 +12,11 @@ import { useActions } from '../hooks/useActions';
 interface UserlangsProps {
   userLangs: ILang[],
   setUserLangs: (selectedLangs: ILang[]) => void,
-  user?: IUser
+  user?: IUser,
+  isShowAnotherLanguages: boolean
 }
 
-const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
+const UserLangs = ({ userLangs, setUserLangs, user, isShowAnotherLanguages }: UserlangsProps) => {
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
   const { updateUserLangs } = useActions()
@@ -23,7 +24,7 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
   const [selectedLang, setSelectedLang] = useState<null | ILang>(null)
   const [isModalLangChoiceVisible, setIsModalLangChoiceVisible] = useState(false)
   const [isControlMenuVisible, setIsContolMenuVisible] = useState(false)
-  const [isOtherLangsVisible, setIsOtherLangsVisible] = useState(!userLangs.length)
+  const [isOtherLangsVisible, setIsOtherLangsVisible] = useState(isShowAnotherLanguages)
 
   const handleOtherLangsVisible = () => {
     setIsOtherLangsVisible(prev => !prev)
@@ -72,9 +73,7 @@ const UserLangs = ({ userLangs, setUserLangs, user }: UserlangsProps) => {
       if (user && userLangs.length > 1) {
         updateUserLangs(user, otherLangs)
       }
-      if (!user) {
-        setUserLangs([...otherLangs])
-      }
+      setUserLangs(otherLangs)
     }
   }
 

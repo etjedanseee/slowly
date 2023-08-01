@@ -15,10 +15,10 @@ const Interests = ({ userInterests, setInterests, setIsInterestsValid }: Interes
   const { t } = useTranslation()
 
   const handleSelectInterest = (selectedI: interest) => {
-    const isSelectedIntIncludes = userInterests.find(i => i === selectedI)
+    const isSelectedIntIncludes = userInterests.includes(selectedI)
     if (isSelectedIntIncludes) {
       const filteredI = userInterests.filter(int => int !== selectedI)
-      setInterests([...filteredI])
+      setInterests(filteredI)
     } else {
       setInterests([...userInterests, selectedI])
     }
@@ -45,14 +45,14 @@ const Interests = ({ userInterests, setInterests, setIsInterestsValid }: Interes
       </div>
 
       <div className='grid grid-cols-2 gap-x-3 items-start gap-y-2 text-center'>
-        {interests.sort((a, b) => a.localeCompare(b)).map(intr => (
+        {interests.sort((a, b) => t(a).localeCompare(t(b))).map(intr => (
           <div
             key={intr}
             className={`
             ${theme === 'dark'
-                ? userInterests.find(i => i === intr)
+                ? userInterests.includes(intr)
                   ? 'bg-yellow-400 text-zinc-900' : 'bg-zinc-950 text-gray-200'
-                : userInterests.find(i => i === intr)
+                : userInterests.includes(intr)
                   ? 'bg-yellow-400 text-zinc-900 border-2 border-yellow-400' : 'border-2 border-gray-300'
               } 
             rounded-lg px-4 py-2 leading-none`}

@@ -23,10 +23,10 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   const [avatarUrl, setAvatarUrl] = useState(userInfo?.avatarUrl || '')
   const [sex, setSex] = useState<SexType>(userInfo?.sex || 'male')
   const [birthDate, setBirthDate] = useState(userInfo?.birthDate || '')
-  const [birthDateError, setBirthDateError] = useState('')
+  const [birthDateError, setBirthDateError] = useState(t('required') || 'Field is required')
   const [isBirthDateDirty, setIsBirthDateDirty] = useState(false)
   const [nickName, setNickName] = useState(userInfo?.nickName || '')
-  const [nickNameError, setNickNameError] = useState('')
+  const [nickNameError, setNickNameError] = useState(t('required') || 'Field is required')
   const [isNickNameDirty, setIsNickNameDirty] = useState(false)
 
   const handleSex = (s: SexType) => {

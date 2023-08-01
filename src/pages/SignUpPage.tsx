@@ -55,7 +55,7 @@ const SignUpPage = () => {
     } else {
       setIsLanguagesValid(false)
     }
-  }, [languages])
+  }, [languages.length])
 
   useEffect(() => {
     if (isUserInfoValid && isInterestsValid && isLanguagesValid && isUserGeoValid && isUserEmailValid) {
@@ -93,6 +93,7 @@ const SignUpPage = () => {
           <UserLangs
             userLangs={languages}
             setUserLangs={setLanguages}
+            isShowAnotherLanguages={true}
           />
         </div>
       )}

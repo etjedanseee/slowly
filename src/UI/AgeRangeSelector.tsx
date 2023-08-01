@@ -80,17 +80,19 @@ const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }
           <div
             className={`border-y-[1px] ${theme === 'dark' ? 'border-white' : 'border-gray-500'} py-2 px-8 text-xl`}
             onClick={handleRightOptionsVisible}
-          >{rightValue}</div>
+          >{rightValue === 65 ? rightValue + '+' : rightValue}</div>
         )
         : (
-          <div className={`flex flex-col text-center gap-y-1 rounded-xl ${theme === 'dark' ? 'border-white' : 'border-gray-500'} border-2 text-lg py-1`}>
+          <div className={`flex flex-col text-center gap-y-1 rounded-xl border-2 text-lg py-1 
+            ${theme === 'dark' ? 'border-white' : 'border-gray-500'} 
+          `}>
             {ageOptionsRight.filter(age => age > leftValue).map((value) => (
               <div
                 key={value}
                 onClick={() => handleRightValueChange(value)}
                 className={`${value === rightValue && 'text-yellow-400'} px-8`}
               >
-                {value}
+                {value === 65 ? value + '+' : value}
               </div>
             ))}
           </div>
