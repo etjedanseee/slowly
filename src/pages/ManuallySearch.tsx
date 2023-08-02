@@ -217,8 +217,10 @@ const ManuallySearch = () => {
   }
 
   return (
-    <div className={`px-3 py-16 min-h-screen ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
-      <div className='fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] z-10 w-full flex items-center bg-inherit justify-between gap-x-6 py-3 px-3'>
+    <div className={`px-3 py-16 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
+      <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
+          z-10 w-full flex items-center bg-inherit justify-between gap-x-6 py-3 px-3
+        `}>
         <ArrowBackIcon
           className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
@@ -231,23 +233,24 @@ const ManuallySearch = () => {
         <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-500'} h-[1px] w-full absolute top-full left-0`} />
       </div>
 
-      {
-        loading
-          ? <div className='flex justify-center py-20'><Loader size='16' /></div>
-          : !findedUsers.length
-            ? <div className='mb-2'>No match users</div>
-            : (
-              <div className='grid grid-cols-2 gap-2'>
-                {findedUsers.map(user => (
-                  <CompactUserProfile userProfile={user} key={user.id} />)
-                )}
-              </div>
-            )
+      {loading
+        ? <div className='flex justify-center py-20'><Loader size='16' /></div>
+        : !findedUsers.length
+          ? <div className='mb-2'>No match users</div>
+          : (
+            <div className='grid grid-cols-2 gap-2'>
+              {findedUsers.map(user => (
+                <CompactUserProfile userProfile={user} key={user.id} />)
+              )}
+            </div>
+          )
       }
 
       {isFilterModalVisible && (
-        <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] z-20 min-h-screen w-full ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'}`}>
-          <div className={`fixed top-0 z-20 w-full flex items-center justify-between flex-wrap gap-y-3 py-3 px-2 
+        <div className={`fixed top-0 left-0 h-full nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] z-20 w-full 
+          ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'}
+        `}>
+          <div className={`absolute top-0 z-20 w-full flex items-center justify-between flex-wrap gap-y-3 py-3 px-2 
             ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
             <CloseIcon
               className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}

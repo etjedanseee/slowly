@@ -87,7 +87,7 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
 
   return (
     <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
-        z-50 w-full min-h-screen bg-inherit flex flex-col
+        z-50 w-full h-screen bg-inherit flex flex-col
       `}>
       <div className='py-4 px-3 flex items-center justify-between'>
         <div>{t('lettersOnWay')}</div>
@@ -148,7 +148,7 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
         </MapContainer>
 
         <div
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-x-4 items-center 
+          className={`absolute bottom-16 left-1/2 -translate-x-1/2 flex gap-x-4 items-center 
           text-white border-4 border-black w-5/6 py-2 px-4 bg-zinc-800 rounded-sm`}
           style={{ zIndex: 999 }}
         >

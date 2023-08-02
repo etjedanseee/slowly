@@ -16,7 +16,7 @@ const SortMenu = ({ close, onChangeSort, selectedSort }: SortMenuProps) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full  min-h-screen nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
+      className={`fixed top-0 left-0 w-full  h-screen nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
         z-50 bg-black bg-opacity-70 flex flex-col justify-end
       `}
       onClick={close}

@@ -68,7 +68,7 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} 
-      px-2 flex flex-col items-center justify-between pt-20 min-h-screen absolute top-0 z-10 w-full`}>
+      px-2 flex flex-col items-center justify-between pt-20 h-screen absolute top-0 z-10 w-full`}>
       <img src={GlobusIcon} className='h-32 mt-10' alt="" />
       <div className='w-full flex flex-col items-center'>
         <div className='text-4xl mb-3 font-medium'>{t('Where are you?')}</div>

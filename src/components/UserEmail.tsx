@@ -67,7 +67,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} 
-    py-20 px-2 absolute top-0 w-full min-h-screen`}>
+    py-20 px-2 absolute top-0 w-full h-screen`}>
       <div className='mb-4'>
         <div className='mb-2 text-2xl'>{t('email')}</div>
         <TextInput

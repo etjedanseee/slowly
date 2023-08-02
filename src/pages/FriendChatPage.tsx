@@ -130,7 +130,7 @@ const FriendChatPage = () => {
   }
 
   return (
-    <div className={`px-3 py-3 min-h-screen ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
+    <div className={`px-3 py-3 flex-1 flex flex-col ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
       <div className='flex items-center justify-between gap-x-6 mb-4'>
         <ArrowBackIcon
           className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}

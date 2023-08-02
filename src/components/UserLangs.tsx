@@ -90,7 +90,7 @@ const UserLangs = ({ userLangs, setUserLangs, user, isShowAnotherLanguages }: Us
       {isControlMenuVisible && (
         <div
           className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
-            min-h-screen w-full bg-opacity-60 flex flex-col justify-end items-center z-50 bg-black
+            h-screen w-full bg-opacity-60 flex flex-col justify-end items-center z-50 bg-black
           `}
           onClick={onControlMenuClose}
         >

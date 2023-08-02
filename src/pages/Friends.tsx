@@ -76,10 +76,11 @@ const Friends = () => {
   }
 
   return (
-    <div className='flex flex-col'>
-      <div className={`
-        ${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} 
-          font-medium text-2xl px-4 py-3 flex items-center justify-between`}
+    <div className={`flex flex-col ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} pb-20 pt-14`}>
+      <div className={`fixed top-0 left-0 w-full nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
+          ${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} 
+          font-medium text-2xl px-4 py-3 flex items-center justify-between
+        `}
       >
         <div>{t('penpals')}</div>
         <div className='flex items-center gap-x-6'>

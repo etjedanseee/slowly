@@ -21,7 +21,7 @@ const AgeRangeModal = ({ defaultLeftValue, defaultRightValue, onSaveAgeRange, on
   const [rightValue, setRightValue] = useState(defaultRightValue);
 
   return (
-    <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full min-h-screen z-20 py-14 
+    <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full h-screen z-20 py-14 
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'}`}
     >
       <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full gap-x-6 py-3 px-3 flex items-center justify-between`}>

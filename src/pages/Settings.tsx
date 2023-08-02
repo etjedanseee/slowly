@@ -54,7 +54,7 @@ const Settings = () => {
   }
 
   return (
-    <div className={`min-h-screen pt-20 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
+    <div className={`h-screen pt-20 ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
       <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
         w-full py-3 px-3 flex items-center gap-x-6 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}
       `}>

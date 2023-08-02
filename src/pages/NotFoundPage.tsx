@@ -23,7 +23,7 @@ const NotFoundPage = () => {
   }
 
   return (
-    <div className={`flex flex-col items-center min-h-screen`}>
+    <div className={`flex flex-col items-center h-screen`}>
       <div className='text-center flex-1 flex flex-col justify-center'>
         <div className='text-8xl text-yellow-400 font-bold'>404</div>
         <div className='font-medium text-xl'>{t('notFoundPage')}</div>

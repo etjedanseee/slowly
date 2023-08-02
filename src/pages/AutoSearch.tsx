@@ -208,7 +208,7 @@ const AutoSearch = () => {
   }
 
   return (
-    <div className={`${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} min-h-screen pt-16`}>
+    <div className={`${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} h-screen pt-16`}>
       <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
         py-3 px-3 w-full z-10 bg-inherit flex items-center justify-between gap-x-6
       `}>

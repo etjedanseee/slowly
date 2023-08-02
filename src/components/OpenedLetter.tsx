@@ -40,12 +40,12 @@ const OpenedLetter = ({ letter, friend, onClose, showSwitchLettersArrows, isNext
 
   return (
     <div
-      className={`absolute top-0 left-0 w-full min-h-screen z-50 bg-inherit px-2 py-1`}
+      className={`absolute top-0 left-0 w-full h-screen z-50 bg-inherit  py-1`}
     >
       <div className='py-2 relative mb-4'>
         <div className={`flex ${showSwitchLettersArrows ? 'justify-center' : 'justify-end'}`}>
           <CloseIcon
-            className={`absolute top-2 left-0 h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+            className={`absolute top-2 left-2 h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
             onClick={onClose}
           />
 
@@ -72,7 +72,7 @@ const OpenedLetter = ({ letter, friend, onClose, showSwitchLettersArrows, isNext
         </div>
 
         {showSwitchLettersArrows && (
-          <div className='absolute top-2 right-0 flex items-center'>
+          <div className='absolute top-2 right-2 flex items-center'>
             <ArrowDownIcon
               onClick={isPrevLetterArrowDisabled ? () => { } : () => openAnotherLetter(letterIndex - 1)}
               className={`h-7 w-7 rotate-90 
