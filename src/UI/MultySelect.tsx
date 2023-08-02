@@ -28,7 +28,8 @@ const MultySelect = <T,>({ onSelectOption, options, selectedOptions, onClose, on
   }, [])
 
   return (
-    <div className={`fixed left-0 top-0 w-full h-full z-50 flex flex-col justify-between gap-y-4 overflow-hidden py-3
+    <div className={`fixed left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
+      top-0 w-full h-full z-50 flex flex-col justify-between gap-y-4 overflow-hidden py-3
       ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'} 
     `}>
       <div className='w-full overflow-y-auto flex flex-col gap-y-3 text-xl py-20'>

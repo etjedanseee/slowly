@@ -20,7 +20,7 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid, onClos
   return (
     <div className={`
       ${theme === 'dark' ? 'bg-black text-white' : 'bg-zinc-300 text-zinc-900'}
-      flex items-center justify-between py-3 px-2 z-50 fixed top-0 w-full
+      flex items-center justify-between py-3 px-2 z-50 fixed top-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full
     `}>
       <div>
         {step === 1

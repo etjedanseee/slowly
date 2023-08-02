@@ -83,7 +83,7 @@ const OtherProfile = () => {
   return (
     <div className={`pb-10 ${theme === 'dark' ? 'bg-zinc-700 text-white' : 'bg-slate-200 text-zinc-900'}`}>
       <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-300 text-zinc-900'} pt-12 pb-3`}>
-        <div className={`flex items-center gap-x-5 fixed z-10 top-0 py-2 px-3 w-full 
+        <div className={`flex items-center gap-x-5 fixed nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] z-10 top-0 py-2 px-3 w-full 
           ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-300 '}
         `}>
           <ArrowBackIcon

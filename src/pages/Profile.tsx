@@ -190,7 +190,7 @@ const Profile = () => {
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} py-3`}>
-      <div className={`fixed z-20 top-0 left-0 w-full py-2 bg-inherit`}>
+      <div className={`fixed z-20 top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full py-2 bg-inherit`}>
         <div className='font-medium text-center text-xl'>{user.info.nickName}</div>
         <div className='absolute right-3 top-3'>
           <NavLink to='/profile/settings'>

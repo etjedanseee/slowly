@@ -19,7 +19,7 @@ const AuthPage = () => {
   return (
     <div className={`
     ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
-    min-h-screen fixed top-0 left-0 w-full flex flex-col justify-between items-center px-2 py-3`
+    min-h-screen fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full flex flex-col justify-between items-center px-2 py-3`
     }>
       {user && (
         <div className='flex justify-start w-full'>

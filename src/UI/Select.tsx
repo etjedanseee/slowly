@@ -28,8 +28,10 @@ const Select = <T,>({ title, options, onSelectOption, selectedOption, onSave, on
   }
 
   return (
-    <div className={`fixed top-0 left-0 w-full min-h-screen z-30 flex justify-center items-center px-10 py-10
-      ${theme === 'dark' ? 'bg-opacity-70' : ''} bg-black`}
+    <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
+      w-full min-h-screen z-30 flex justify-center items-center px-10 py-10
+      ${theme === 'dark' ? 'bg-opacity-70' : ''} bg-black
+      `}
       onClick={onClose}
     >
       <div className={`

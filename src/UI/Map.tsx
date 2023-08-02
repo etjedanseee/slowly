@@ -86,7 +86,9 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
   const uCoords = latLng({ lat: user.geo.coord.latitude, lng: user.geo.coord.longitude })
 
   return (
-    <div className='fixed top-0 left-0 z-50 w-full min-h-screen bg-inherit flex flex-col'>
+    <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
+        z-50 w-full min-h-screen bg-inherit flex flex-col
+      `}>
       <div className='py-4 px-3 flex items-center justify-between'>
         <div>{t('lettersOnWay')}</div>
         <CloseIcon

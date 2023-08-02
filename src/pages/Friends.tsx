@@ -76,13 +76,12 @@ const Friends = () => {
   }
 
   return (
-    <div className='flex flex-col min-h-screen'>
+    <div className='flex flex-col'>
       <div className={`
         ${theme === 'dark' ? 'text-gray-200 bg-zinc-900' : 'text-gray-900 bg-gray-200'} 
           font-medium text-2xl px-4 py-3 flex items-center justify-between`}
       >
         <div>{t('penpals')}</div>
-
         <div className='flex items-center gap-x-6'>
           <SortIcon
             className={`h-8 w-8 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
