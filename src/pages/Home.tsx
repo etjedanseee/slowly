@@ -56,7 +56,7 @@ const Home = () => {
   }
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'} flex-1 w-full pt-4`}>
+    <div className={`${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'} flex-1 pt-4`}>
       <div className='mb-2 px-2'>
         <LogoIcon className={`${theme === 'dark' ? 'fill-white' : 'fill-black'} h-20 w-20`} />
       </div>

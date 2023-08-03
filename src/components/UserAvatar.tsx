@@ -41,7 +41,7 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
   return (
     <div className='w-full'>
       <div className='w-full flex justify-center'>
-        {isValidImage
+        {isValidImage && userAvatar.length
           ? <img src={avatarUrl} className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover`} alt="User Avatar" />
           : <DefaultUserIcon className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
         }

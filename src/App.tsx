@@ -78,10 +78,9 @@ function App() {
   }, [chatList])
 
   return (
-    <div className={`
+    <div className={`flex-1 flex flex-col relative 
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
-      w-full flex-1 flex flex-col relative`
-    }>
+    `}>
       <ToastContainer
         position="top-right"
         autoClose={3000}
