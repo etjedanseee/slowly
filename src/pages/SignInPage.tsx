@@ -88,7 +88,7 @@ const SignInPage = () => {
         />
       </div>
 
-      <div className='absolute w-full bottom-2 left-0 z-50'>
+      <div className='absolute w-full bottom-4 left-0 z-50'>
         <MyButton
           color='black'
           onClick={singIn}
