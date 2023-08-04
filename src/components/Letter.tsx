@@ -4,6 +4,7 @@ import { msInDay } from '../utils/consts'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as CheckMarkIcon } from '../assets/checkmark.svg'
+import { useLazyTyping } from '../hooks/useLazyTyping'
 
 interface ILetterProps {
   letter: ILetter,
@@ -19,6 +20,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
   const { t } = useTranslation()
 
   const [deliveredDateInMin, setDeliveredDateInMin] = useState(Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000))
+  const letterText = useLazyTyping(letter.message, 15)
 
   useEffect(() => {
     const deliveryDateInterval = setInterval(() => {
@@ -70,10 +72,10 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
         ? letter.senderId === otherUser.id
           ? null
           : isOpened
-            ? <div className='flex-1 mb-4 min-h-[100px] break-words'>{letter.message}</div>
+            ? <div className='flex-1 mb-4 min-h-[100px] break-words'>{letterText}</div>
             : <div className='flex-1 leading-tight text-xs py-4 break-words'>{letter.message.slice(0, 50)}</div>
         : isOpened
-          ? <div className='flex-1 mb-4 min-h-[100px] break-words'>{letter.message}</div>
+          ? <div className='flex-1 mb-4 min-h-[100px] break-words'>{letterText}</div>
           : <div className='flex-1 leading-tight text-xs py-4 break-words'>{letter.message.slice(0, 50)}</div>
       }
       <div>

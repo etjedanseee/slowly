@@ -44,7 +44,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
 
       try {
         const { data, error } = await supabase.auth.signUp({
-          email,
+          email: email.trim(),
           password,
           options: {
             data: userMetadata
@@ -58,7 +58,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
         const upsertData = await supabase.from('Users')
           .upsert({
             id: data.user?.id,
-            email,
+            email: email.trim(),
             ...userMetadata,
           })
         toast.success(t('successfulSignUp'))

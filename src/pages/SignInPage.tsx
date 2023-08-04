@@ -35,8 +35,8 @@ const SignInPage = () => {
     setLoading(true)
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email || '',
-        password: password || '',
+        email: email?.trim() || '',
+        password: password?.trim() || '',
       })
       console.log('singIn data', data)
 
