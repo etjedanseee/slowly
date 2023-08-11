@@ -376,7 +376,7 @@ const AutoSearch = () => {
         </div>
       </div>
 
-      <div className='py-5 px-3'>
+      <div className='py-5 px-3 bg-inherit'>
         <MyButton
           color='yellow'
           onClick={onSendMailingLetter}

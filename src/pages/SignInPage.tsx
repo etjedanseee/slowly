@@ -70,7 +70,7 @@ const SignInPage = () => {
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} 
-      absolute top-0 w-full h-screen overflow-hidden py-3 px-2
+      w-full h-screen overflow-hidden py-3 px-2
     `}>
       <ArrowBackIcon className={`h-7 w-7 mb-5 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} onClick={onGoBackClick} />
       <div className='flex justify-center'>
@@ -88,12 +88,13 @@ const SignInPage = () => {
         />
       </div>
 
-      <div className='absolute w-full bottom-4 left-0 z-50'>
+      <div className='absolute w-full bottom-4 left-0 z-50 px-2'>
         <MyButton
           color='black'
           onClick={singIn}
           title='signIn'
           disabled={!isFormValid}
+          p='py-2'
         />
       </div>
     </div>

@@ -14,6 +14,7 @@ import { useDebounce } from '../hooks/useDebounce'
 import { readLetter } from '../utils/readLetter'
 import { useActions } from '../hooks/useActions'
 import OpenedLetter from '../components/OpenedLetter'
+import { useLazyTyping } from '../hooks/useLazyTyping'
 
 const FriendChatPage = () => {
   const { theme } = useTypedSelector(state => state.theme)
@@ -39,6 +40,7 @@ const FriendChatPage = () => {
   const [isNoResultsFind, setIsNoResultsFind] = useState(false)
 
   const debounceSearch = useDebounce(search, 700)
+  const friendNickname = useLazyTyping(friend?.info.nickName || ' ', 30)
 
   useEffect(() => {
     if (currentChat) {
@@ -170,7 +172,7 @@ const FriendChatPage = () => {
               onClick={onFriendClick}
             >
               <div>
-                <div className='font-medium text-lg'>{friend.info.nickName}</div>
+                <div className='font-medium text-lg'>{friendNickname || friend.info.nickName[0]}</div>
                 <div className='flex gap-x-4 items-center'>
                   <div className='flex items-center gap-x-1'>
                     <GeoIcon className={`h-4 w-4 fill-yellow-400`} />

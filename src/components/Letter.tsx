@@ -4,7 +4,6 @@ import { msInDay } from '../utils/consts'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
 import { ReactComponent as CheckMarkIcon } from '../assets/checkmark.svg'
-import { useLazyTyping } from '../hooks/useLazyTyping'
 
 interface ILetterProps {
   letter: ILetter,
@@ -20,7 +19,6 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
   const { t } = useTranslation()
 
   const [deliveredDateInMin, setDeliveredDateInMin] = useState(Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000))
-  const letterText = useLazyTyping(letter.message, 15)
 
   useEffect(() => {
     const deliveryDateInterval = setInterval(() => {
@@ -45,11 +43,13 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
 
   return (
     <div
-      className={`${isOpened ? 'py-4 pb-16' : 'px-2 py-2'} min-w-[150px] flex flex-col justify-end ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}
+      className={`${isOpened ? 'py-4 pb-16' : 'px-2 py-2'} min-w-[150px] min-h-[100px] flex flex-col justify-end 
+        ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}
+      `}
       onClick={() => onOpenLetter(index)}
     >
       {!isOpened && (
-        <div className='flex-1 flex pb-3'>
+        <div className='flex-1 flex pb-5'>
           {Date.now() > +new Date(letter.deliveredDate)
             ? letter.isRead
               ? (
@@ -72,11 +72,11 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
         ? letter.senderId === otherUser.id
           ? null
           : isOpened
-            ? <div className='flex-1 mb-4 min-h-[100px] break-words'>{letterText}</div>
-            : <div className='flex-1 leading-tight text-xs py-4 break-words'>{letter.message.slice(0, 50)}</div>
+            ? <div className='flex-1 mb-8 break-words'>{letter.message}</div>
+            : <div className='flex-1 leading-tight text-xs pb-3 break-words'>{letter.message.slice(0, 50)}</div>
         : isOpened
-          ? <div className='flex-1 mb-4 min-h-[100px] break-words'>{letterText}</div>
-          : <div className='flex-1 leading-tight text-xs py-4 break-words'>{letter.message.slice(0, 50)}</div>
+          ? <div className='flex-1 mb-8 break-words'>{letter.message}</div>
+          : <div className='flex-1 leading-tight text-xs pb-3 break-words'>{letter.message.slice(0, 50)}</div>
       }
       <div>
         {isOpened

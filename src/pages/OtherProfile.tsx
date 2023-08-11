@@ -161,7 +161,7 @@ const OtherProfile = () => {
 
       <div className='px-3 mb-6'>
         <div className={`text-sm mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>{t('interests')}</div>
-        <div className='flex flex-wrap items-center gap-x-2 gap-y-1 text-sm mb-3'>
+        <div className='flex flex-wrap items-center gap-x-2 gap-y-2 text-sm mb-3'>
           {commonInterests.map(int => (
             <div key={int} className='bg-yellow-400 text-zinc-900 font-medium rounded-2xl px-3 py-1'>{t(int)}</div>
           ))}

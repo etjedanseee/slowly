@@ -76,7 +76,7 @@ const SearchFriends = () => {
         <img src={TalkingIcon} className='h-64' alt="" />
       </div>
 
-      <div>
+      <div className='mb-4'>
         <div className='mb-4'>
           <div className='text-2xl leading-none mb-2'>{t('findNewPenPals')}</div>
           <div className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} `}>{t('startCommunicate')} Slowly</div>
@@ -114,12 +114,12 @@ const SearchFriends = () => {
                       <div className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} `}>{otherUser.geo.location.country}</div>
                     </div>
                   </div>
-                  <div >
+                  {otherUser.id !== user?.id && (
                     <PlaneIcon
                       className={`h-10 w-10 p-2 rounded-full fill-black bg-gray-300`}
                       onClick={handleIsWriteLetterVisible}
-                    />
-                  </div>
+                    />)
+                  }
                 </div>
               )
             }
