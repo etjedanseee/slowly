@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { MapContainer, Marker, Polyline, Popup, TileLayer, } from 'react-leaflet'
+import { MapContainer, Marker, Polyline, TileLayer, } from 'react-leaflet'
 import { IFriendsWithLetter, ILetter } from '../types/Auth/auth'
 import { LatLngLiteral, latLng } from 'leaflet'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -87,7 +87,7 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
 
   return (
     <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
-        z-50 w-full h-screen bg-inherit flex flex-col
+        z-50 w-full h-full bg-inherit flex flex-col
       `}>
       <div className='py-4 px-3 flex items-center justify-between'>
         <div>{t('lettersOnWay')}</div>
