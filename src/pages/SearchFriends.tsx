@@ -69,7 +69,7 @@ const SearchFriends = () => {
   }, [fetchOtherUserError])
 
   return (
-    <div className={`flex flex-col justify-around text-center pb-20 px-3 gap-y-3
+    <div className={`flex flex-col justify-around h-full text-center pb-20 px-3 gap-y-3
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} 
     `}>
       <div className='flex items-center justify-center'>
