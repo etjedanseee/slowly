@@ -85,7 +85,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
       >
         <div className='flex-1'>
           <CloseIcon
-            className={`w-6 h-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+            className={`w-6 h-6 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
             onClick={handleCloseWriteLetter}
           />
         </div>
@@ -97,7 +97,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
           />
         </div>
         <div
-          className='flex flex-col justify-center gap-y-[1px] mr-1'
+          className='flex flex-col justify-center gap-y-[1px] cursor-pointer p-1'
           onClick={handleHelpMenuVisible}
         >
           {[0, 1, 2].map((_, i) => <div key={i} className={`${theme === 'dark' ? 'bg-white' : 'bg-black'} w-1 h-1 rounded-full`} />)}

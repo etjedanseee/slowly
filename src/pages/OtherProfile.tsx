@@ -87,7 +87,7 @@ const OtherProfile = () => {
           ${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-300 '}
         `}>
           <ArrowBackIcon
-            className={`h-7 w-7 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
+            className={`h-7 w-7 cursor-pointer ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`}
             onClick={onGoBackClick}
           />
           <div>{otherUser.info.nickName}</div>
@@ -227,7 +227,9 @@ const OtherProfile = () => {
         </div>
       </div>
 
-      {user.id !== otherUser.id && <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />}
+      {user.id !== otherUser.id && !isWriteLetterVisible && (
+        <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />
+      )}
 
       {isWriteLetterVisible && (
         <WriteLetter

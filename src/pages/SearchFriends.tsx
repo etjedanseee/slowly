@@ -105,7 +105,7 @@ const SearchFriends = () => {
               : otherUser && (
                 <div className='flex justify-between items-center py-3'>
                   <div
-                    className='flex items-center gap-x-4'
+                    className='flex items-center gap-x-4 cursor-pointer'
                     onClick={onUserProfileClick}
                   >
                     <img src={otherUser.info.avatarUrl} className='rounded-full h-12 w-12' alt="other user avatar" />

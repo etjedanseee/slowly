@@ -85,11 +85,11 @@ const Friends = () => {
         <div>{t('penpals')}</div>
         <div className='flex items-center gap-x-6'>
           <SortIcon
-            className={`h-8 w-8 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+            className={`h-8 w-8 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
             onClick={handleSortMenuVisible}
           />
           <ReloadIcon
-            className={`h-6 w-6 ${loadingChatList && 'animate-spin'} ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+            className={`h-6 w-6 cursor-pointer ${loadingChatList && 'animate-spin'} ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
             onClick={onReloadChatListClick}
           />
         </div>
@@ -119,7 +119,7 @@ const Friends = () => {
                 ? sortedChatList.map(chat => (
                   <div
                     key={chat.chatId}
-                    className='flex items-center gap-x-3'
+                    className='flex items-center gap-x-3 cursor-pointer'
                     onClick={() => onFriendClick(chat.chatId)}
                   >
                     <img

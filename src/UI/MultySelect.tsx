@@ -48,8 +48,9 @@ const MultySelect = <T,>({ onSelectOption, options, selectedOptions, onClose, on
             className='flex items-center gap-x-4 px-5'
           >
             <div
-              className={`${selectedOptions.find(item => item === option) ? 'bg-yellow-400 shadow-md shadow-blue-300' : ' '} 
-              p-3 border-2 border-yellow-400 transition-colors duration-500
+              className={`${selectedOptions.find(item => item === option)
+                ? 'bg-yellow-400 shadow-md shadow-blue-300' : ' '} 
+              p-3 border-2 border-yellow-400 transition-colors duration-500 cursor-pointer
             `} />
             <div>{t(`${option}`)}</div>
           </div>

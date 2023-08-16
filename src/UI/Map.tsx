@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { MapContainer, Marker, Polyline, TileLayer, } from 'react-leaflet'
+import { MapContainer, Marker, Polyline, TileLayer, useMapEvent, } from 'react-leaflet'
 import { IFriendsWithLetter, ILetter } from '../types/Auth/auth'
 import { LatLngLiteral, latLng } from 'leaflet'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -30,7 +30,6 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
   const [isPrevArrowDisabled, setIsPrevArrowDisabled] = useState(true)
   const [isNextArrowDisabled, setIsNextArrowDisabled] = useState(true)
   const [letterCurrentPosition, setLetterCurrentPosition] = useState<LatLngLiteral | null>(null)
-
 
   const gotoPrevFriend = () => {
     if (index > 0) {
@@ -92,7 +91,9 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
       <div className='py-4 px-3 flex items-center justify-between'>
         <div>{t('lettersOnWay')}</div>
         <CloseIcon
-          className={`${theme === 'dark' ? 'fill-white' : 'fill-black'} h-6 w-6`} onClick={onClose} />
+          className={`${theme === 'dark' ? 'fill-white' : 'fill-black'} h-6 w-6 cursor-pointer`}
+          onClick={onClose}
+        />
       </div>
       <div className='flex-1 w-full min-h-full h-full relative flex flex-col'>
         <MapContainer
@@ -184,7 +185,7 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
           }
           <div
             className={`absolute top-1/2 left-0 -translate-x-4 -translate-y-1/2 bg-zinc-900 rounded-full p-1 
-              ${isPrevArrowDisabled ? 'opacity-50' : 'opacity-90'} 
+              ${isPrevArrowDisabled ? 'opacity-50' : 'opacity-90 cursor-pointer'} 
             `}
             onClick={isPrevArrowDisabled ? () => { } : gotoPrevFriend}
           >
@@ -192,7 +193,7 @@ const Map = ({ onWayLetters, onClose }: MapProps) => {
           </div>
           <div
             className={`absolute top-1/2 right-0 translate-x-4 -translate-y-1/2 rounded-full p-1 bg-zinc-900  
-              ${isNextArrowDisabled ? 'opacity-50' : 'opacity-90'} 
+              ${isNextArrowDisabled ? 'opacity-50' : 'opacity-90 cursor-pointer'} 
             `}
             onClick={isNextArrowDisabled ? () => { } : gotoNextFriend}
           >

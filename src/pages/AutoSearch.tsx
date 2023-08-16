@@ -213,7 +213,7 @@ const AutoSearch = () => {
         py-3 px-3 w-full z-10 bg-inherit flex items-center justify-between gap-x-6
       `}>
         <ArrowBackIcon
-          className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+          className={`h-7 w-7 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
         />
         <div className='text-lg font-medium flex-1'>{t('autoSearch')}</div>
@@ -228,7 +228,7 @@ const AutoSearch = () => {
         <div className='flex items-center justify-between mb-3'>
           <div className='text-sm'>{t('includeMyCountryInSearch')}</div>
           <div
-            className={`border-yellow-400 border-2 h-5 w-5 flex items-center justify-center`}
+            className={`border-yellow-400 border-2 h-5 w-5 cursor-pointer flex items-center justify-center`}
             onClick={onIncludeMyCountryToSearchChange}
           >
             <div className={`${isIncludeMyCountryToSearch ? 'bg-yellow-400' : 'bg-transparent'} h-3 w-3`} />
@@ -240,7 +240,7 @@ const AutoSearch = () => {
 
           <div
             onClick={handleNumOfRecipientsSelectVisible}
-            className='flex items-center gap-x-1'
+            className='flex items-center gap-x-1 cursor-pointer'
           >
             <div>{selectedNumOfRecipients}</div>
             <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
@@ -261,7 +261,7 @@ const AutoSearch = () => {
         <div className='flex items-center gap-x-4 mb-2'>
           <div className='flex-1'>{t('ageRange')}</div>
           <div
-            className='flex items-center gap-x-1'
+            className='flex items-center gap-x-1 cursor-pointer'
             onClick={handleAgeRangeVisible}
           >
             {!isAgeRangeVisible && <div>{leftValue} - {rightValue}</div>}
@@ -290,7 +290,7 @@ const AutoSearch = () => {
           <div className='text-sm'>{t('learningLangs')}</div>
           <div
             onClick={handleLearningLangSelectVisible}
-            className='flex items-center gap-x-1'
+            className='flex items-center gap-x-1 cursor-pointer'
           >
             <div className='text-sm'>{selectedLearningLang?.name}</div>
             <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
@@ -312,7 +312,7 @@ const AutoSearch = () => {
           <div className='text-sm'>{t('Language Proficiency')}</div>
           <div
             onClick={handleLangProficiencySelectVisible}
-            className='flex items-center gap-x-1'
+            className='flex items-center gap-x-1 cursor-pointer'
           >
             <div className='text-sm'>{t(levelLangNames[selectedLangProficiency])}</div>
             <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
@@ -334,7 +334,7 @@ const AutoSearch = () => {
           <div className='text-sm'>{t('topic')}</div>
           <div
             onClick={handleTopicSelectVisible}
-            className='flex items-center gap-x-1'
+            className='flex items-center gap-x-1 cursor-pointer'
           >
             <div className='text-sm'>{t(selectedTopic || '')}</div>
             <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />

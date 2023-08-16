@@ -90,19 +90,29 @@ const UserLangs = ({ userLangs, setUserLangs, user, isShowAnotherLanguages }: Us
       {isControlMenuVisible && (
         <div
           className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
-            h-screen w-full bg-opacity-60 flex flex-col justify-end items-center z-50 bg-black
+            h-screen w-full bg-opacity-60 flex flex-col justify-end items-center z-50 bg-black cursor-pointer
           `}
           onClick={onControlMenuClose}
         >
-          <CloseIcon className='h-6 w-6 fill-gray-200 mb-2' />
-          <div className={`${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'} w-full flex flex-col p-4 rounded-t-xl`}>
+          <CloseIcon className='h-6 w-6 fill-gray-200 mb-2 cursor-pointer' />
+          <div className={`${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'} 
+              w-full flex flex-col p-4 rounded-t-xl cursor-default
+            `}>
             <div className={`${theme === 'dark' ? 'text-yellow-500 font-medium' : 'text-yellow-400 font-bold'} text-xl text-center mb-3`}>
               {selectedLang?.name}
             </div>
-            <div className={`${theme === 'dark' ? '' : 'font-medium'} mb-3`} onClick={handleModalLangVisible}>
+            <div
+              className={`${theme === 'dark' ? '' : 'font-medium'} mb-3 cursor-pointer`}
+              onClick={handleModalLangVisible}
+            >
               {t('updateProficiency')}
             </div>
-            <div className='mb-3 text-red-700 font-medium' onClick={deleteLang}>{t('deleteLang')}</div>
+            <div
+              className='mb-3 text-red-700 font-medium cursor-pointer'
+              onClick={deleteLang}
+            >
+              {t('deleteLang')}
+            </div>
           </div>
         </div>
       )}
@@ -136,10 +146,13 @@ const UserLangs = ({ userLangs, setUserLangs, user, isShowAnotherLanguages }: Us
             </div>
 
             <div
-              className='flex gap-x-1 p-2 pr-2'
+              className='flex gap-x-1 p-2 pr-2 cursor-pointer'
               onClick={() => { setSelectedLang(addedLang); handleControlMenuVisible(); }}
             >{[0, 1, 2].map(i => (
-              <div key={i} className={`h-1 w-1 ${theme === 'dark' ? 'bg-white' : 'bg-gray-400'} rounded-full`}></div>
+              <div
+                key={i}
+                className={`h-1 w-1 rounded-full ${theme === 'dark' ? 'bg-white' : 'bg-gray-400'}`}
+              />
             ))}</div>
           </div>
         ))}
@@ -149,7 +162,7 @@ const UserLangs = ({ userLangs, setUserLangs, user, isShowAnotherLanguages }: Us
             {writingLangs.filter(lng => !userLangs.find(l => l.code === lng.code)).map(lang => (
               <div
                 key={lang.code}
-                className={`${theme === 'dark' ? 'border-zinc-900' : ''} mb-3 border-b-2 pb-3`}
+                className={`${theme === 'dark' ? 'border-zinc-900' : ''} mb-3 border-b-2 pb-3 cursor-pointer`}
                 onClick={() => handleSelectLang(lang)}
               >
                 <div className='font-medium leading-none'>{lang.name}</div>

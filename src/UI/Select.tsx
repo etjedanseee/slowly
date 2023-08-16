@@ -29,14 +29,14 @@ const Select = <T,>({ title, options, onSelectOption, selectedOption, onSave, on
 
   return (
     <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
-      w-full h-screen z-30 flex justify-center items-center px-10 py-10
+      w-full h-screen z-30 flex justify-center items-center px-10 py-10 cursor-pointer
       ${theme === 'dark' ? 'bg-opacity-70' : ''} bg-black
       `}
       onClick={onClose}
     >
       <div className={`
         ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
-        w-full min-h-[400px] max-h-full rounded-md flex flex-col
+        w-full min-h-[400px] max-h-full rounded-md flex flex-col cursor-default
       `}
         onClick={handleCancelCloseSelect}
       >
@@ -52,7 +52,7 @@ const Select = <T,>({ title, options, onSelectOption, selectedOption, onSave, on
               onClick={() => onSelectOption(option)}
               className='flex items-center gap-x-4'
             >
-              <div className={`border-yellow-400 border-2 h-5 w-5 flex items-center justify-center`}>
+              <div className={`border-yellow-400 border-2 h-5 w-5 flex items-center justify-center cursor-pointer`}>
                 <div className={`${selectedOption === option ? 'bg-yellow-400' : 'bg-transparent'} h-3 w-3`} />
               </div>
               <div>{t(`${option}`)}</div>

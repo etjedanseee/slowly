@@ -115,7 +115,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
               : theme === 'dark'
                 ? 'bg-zinc-800 text-white border-zinc-800' : 'bg-zinc-300 text-zinc-700 border-zinc-300'
             } 
-          rounded-xl border py-1 transition-colors duration-500
+          rounded-xl border py-1 transition-colors duration-500 cursor-pointer
         `}
             onClick={() => handleSex(sexT)}
           >

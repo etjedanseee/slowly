@@ -26,7 +26,7 @@ const AgeRangeModal = ({ defaultLeftValue, defaultRightValue, onSaveAgeRange, on
     >
       <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full gap-x-6 py-3 px-3 flex items-center justify-between`}>
         <CloseIcon
-          className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+          className={`h-6 w-6 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onClose}
         />
         <div className='flex-1 text-lg'>{t('ageRange')}</div>

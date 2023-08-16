@@ -218,7 +218,7 @@ const Profile = () => {
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3 mb-3`}>
           <div
             onClick={handleEditUserInfoVisible}
-            className='relative'
+            className='relative cursor-pointer'
           >
             <div className='font-medium text-lg mb-2'>
               {user.info.nickName}
@@ -314,7 +314,7 @@ const Profile = () => {
             </div>
 
             <div
-              className='flex items-center gap-x-1'
+              className='flex items-center gap-x-1 cursor-pointer'
               onClick={handleLetterLengthSelectVisible}
             >
               <div>{t(letterLength)}</div>
@@ -340,7 +340,7 @@ const Profile = () => {
             </div>
 
             <div
-              className='flex items-center gap-x-1'
+              className='flex items-center gap-x-1 cursor-pointer'
               onClick={handleResponseTimeMenuVisible}
             >
               <div>{t(responseTime)}</div>
@@ -369,7 +369,7 @@ const Profile = () => {
               ? <SuccessIcon className={`h-7 w-7 fill-green-500`} />
               : (
                 <div
-                  className='flex items-center justify-between gap-x-1'
+                  className='flex items-center justify-between gap-x-1 cursor-pointer'
                   onClick={onCopyId}
                 >
                   <div className='-mb-2 font-medium text-lg'>******</div>
@@ -387,7 +387,7 @@ const Profile = () => {
           <div className='flex items-center gap-x-4 mb-4'>
             <div className='flex-1'>{t('ageRange')}</div>
             <div
-              className='flex items-center gap-x-1'
+              className='flex items-center gap-x-1 cursor-pointer'
               onClick={handleAgeRangeVisible}
             >
               {!isAgeRangeVisible && <div>{leftValue} - {rightValue}</div>}
@@ -422,11 +422,11 @@ const Profile = () => {
             onClick={handleInterestsMenuVisible}
           >
             {[...userInterests].sort((a, b) => t(a).localeCompare(t(b))).slice(0, 2).map(int => (
-              <div className='border border-yellow-400 rounded-xl px-4 py-1' key={int}>
+              <div className='border border-yellow-400 rounded-xl px-4 py-1 cursor-pointer' key={int}>
                 {t(int)}
               </div>
             ))}
-            <div className='border border-yellow-400 rounded-xl px-8 text-xl pb-1' key={'...'}>...</div>
+            <div className='border border-yellow-400 rounded-xl px-8 text-xl pb-1 cursor-pointer' key={'...'}>...</div>
           </div>
         </div>
 

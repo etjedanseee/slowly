@@ -45,7 +45,7 @@ const OpenedLetter = ({ letter, friend, onClose, showSwitchLettersArrows, isNext
       <div className='py-2 relative mb-4'>
         <div className={`flex ${showSwitchLettersArrows ? 'justify-center' : 'justify-end'}`}>
           <CloseIcon
-            className={`absolute top-2 left-2 h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+            className={`absolute top-2 left-2 h-6 w-6 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
             onClick={onClose}
           />
 
@@ -58,7 +58,7 @@ const OpenedLetter = ({ letter, friend, onClose, showSwitchLettersArrows, isNext
             : (
               <div
                 onClick={onFriendClick}
-                className='flex gap-x-2 text-lg font-medium items-center'
+                className='flex gap-x-2 text-lg font-medium items-center cursor-pointer'
               >
                 <div>{friend.info.nickName}</div>
                 <UserAvatar
@@ -79,10 +79,10 @@ const OpenedLetter = ({ letter, friend, onClose, showSwitchLettersArrows, isNext
                   ${theme === 'dark'
                   ? isPrevLetterArrowDisabled
                     ? 'fill-gray-500'
-                    : 'fill-white'
+                    : 'fill-white cursor-pointer'
                   : isPrevLetterArrowDisabled
                     ? 'fill-zinc-700'
-                    : 'fill-black'
+                    : 'fill-black cursor-pointer'
                 }
                 `}
             />
@@ -92,10 +92,10 @@ const OpenedLetter = ({ letter, friend, onClose, showSwitchLettersArrows, isNext
                   ${theme === 'dark'
                   ? isNextLetterArrowDisabled
                     ? 'fill-gray-500'
-                    : 'fill-white'
+                    : 'fill-white cursor-pointer'
                   : isNextLetterArrowDisabled
                     ? 'fill-zinc-700'
-                    : 'fill-black'
+                    : 'fill-black cursor-pointer'
                 }
                 `}
             />
@@ -113,7 +113,7 @@ const OpenedLetter = ({ letter, friend, onClose, showSwitchLettersArrows, isNext
         />
       </div>
 
-      <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />
+      {!isWriteLetterVisible && <WriteLetterButton onWriteLetterClick={handleIsWriteLetterVisible} />}
 
       {isWriteLetterVisible && (
         <WriteLetter

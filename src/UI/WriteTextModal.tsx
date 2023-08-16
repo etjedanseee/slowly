@@ -41,7 +41,7 @@ const WriteTextModal = ({ onClose, onSave, defaultText }: WriteTextModalProps) =
       >
         <div className='flex-1'>
           <CloseIcon
-            className={`w-6 h-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+            className={`w-6 h-6 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
             onClick={onClose}
           />
         </div>

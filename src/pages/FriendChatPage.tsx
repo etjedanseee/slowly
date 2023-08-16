@@ -135,7 +135,7 @@ const FriendChatPage = () => {
     <div className={`px-3 py-3 flex-1 flex flex-col ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
       <div className='flex items-center justify-between gap-x-6 mb-4'>
         <ArrowBackIcon
-          className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+          className={`h-7 w-7 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
         />
         {isSearchVisible
@@ -143,7 +143,7 @@ const FriendChatPage = () => {
           : (
             <SearchIcon
               onClick={handleSearchVisible}
-              className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+              className={`h-6 w-6 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
             />)
         }
       </div>
@@ -159,7 +159,10 @@ const FriendChatPage = () => {
                 onChange={onSearchChange}
                 className={`${theme === 'dark' ? '' : ''} bg-inherit py-1 outline-none w-full`}
               />
-              <div onClick={handleSearchVisible}>{t('close')}</div>
+              <div
+                onClick={handleSearchVisible}
+                className='cursor-pointer'
+              >{t('close')}</div>
             </div>
             <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-400'} h-[1px] w-full mb-3`} />
             {isNoResultsFind && <div className='text-sm'>{t('noResultsFind')}</div>}
@@ -168,7 +171,7 @@ const FriendChatPage = () => {
         : (
           <>
             <div
-              className='flex items-center justify-between mb-4'
+              className='flex items-center justify-between mb-4 cursor-pointer'
               onClick={onFriendClick}
             >
               <div>

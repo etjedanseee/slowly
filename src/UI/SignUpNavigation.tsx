@@ -24,8 +24,18 @@ const SignUpNavigation = ({ onNextClick, onPrevClick, step, isStepsValid, onClos
     `}>
       <div>
         {step === 1
-          ? <CloseIcon className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} onClick={onCloseClick} />
-          : <ArrowBack className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} onClick={onPrevClick} />
+          ? (
+            <CloseIcon
+              className={`h-6 w-6 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+              onClick={onCloseClick}
+            />
+          )
+          : (
+            <ArrowBack
+              className={`h-7 w-7 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+              onClick={onPrevClick}
+            />
+          )
         }
       </div>
       <div>

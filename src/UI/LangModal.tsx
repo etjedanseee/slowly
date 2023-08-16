@@ -32,7 +32,7 @@ const LangModal = ({ lang, handleModalLangVisible, onAddLang }: LangModalProps) 
     >
       <div className='flex justify-between mb-8 px-2'>
         <CloseIcon
-          className={`${theme === 'dark' ? 'fill-white' : 'fill-black'} h-7 w-7`}
+          className={`${theme === 'dark' ? 'fill-white' : 'fill-black'} h-7 w-7 cursor-pointer`}
           onClick={handleModalLangVisible}
         />
         <div className='flex-initial'>
@@ -78,11 +78,11 @@ const LangModal = ({ lang, handleModalLangVisible, onAddLang }: LangModalProps) 
             >
               <div
                 className={`
-              ${langLevel === index
+                  ${langLevel === index
                     ? 'border-yellow-400 bg-yellow-400'
                     : theme === 'dark' ? 'border-white bg-transparent' : 'border-gray-400'
                   } 
-                rounded-full border-2 h-4 w-4
+                rounded-full border-2 h-4 w-4 cursor-pointer
               `}
               ></div>
               <div className={`${theme === 'dark' ? 'text-white' : 'text-gray-700'}`}>{t(name)}</div>

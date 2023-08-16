@@ -59,7 +59,7 @@ const SelectGender = ({ userPreferenceSex, onSave }: SelectGenderProps) => {
         )}
         <div
           onClick={handlePrefSexMultySelectVisible}
-          className='flex items-center gap-x-1'
+          className='flex items-center gap-x-1 cursor-pointer'
         >
           <div>
             {userPreferenceSex.length === 3

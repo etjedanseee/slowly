@@ -50,7 +50,8 @@ const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }
       {!isLeftOptionsVisible
         ? (
           <div
-            className={`border-y-[1px] ${theme === 'dark' ? 'border-white' : 'border-gray-500'} py-2 px-8 text-xl`}
+            className={`border-y-[1px] cursor-pointer  py-2 px-8 text-xl 
+            ${theme === 'dark' ? 'border-white' : 'border-gray-500'}`}
             onClick={handleLeftOptionsVisible}
           >{leftValue}</div>
         )
@@ -60,7 +61,7 @@ const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }
               <div
                 key={value}
                 onClick={() => handleLeftValueChange(value)}
-                className={`${value === leftValue && 'text-yellow-400'} px-8`}
+                className={`${value === leftValue && 'text-yellow-400'} px-8 cursor-pointer`}
               >
                 {value}
               </div>
@@ -78,7 +79,9 @@ const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }
       {!isRightOptionsVisible
         ? (
           <div
-            className={`border-y-[1px] ${theme === 'dark' ? 'border-white' : 'border-gray-500'} py-2 px-8 text-xl`}
+            className={`border-y-[1px] cursor-pointer  py-2 px-8 text-xl 
+                ${theme === 'dark' ? 'border-white' : 'border-gray-500'}
+              `}
             onClick={handleRightOptionsVisible}
           >{rightValue === 65 ? rightValue + '+' : rightValue}</div>
         )
@@ -90,7 +93,7 @@ const AgeRangeSelector = ({ leftValue, rightValue, setLeftValue, setRightValue }
               <div
                 key={value}
                 onClick={() => handleRightValueChange(value)}
-                className={`${value === rightValue && 'text-yellow-400'} px-8`}
+                className={`${value === rightValue && 'text-yellow-400'} px-8 cursor-pointer`}
               >
                 {value === 65 ? value + '+' : value}
               </div>

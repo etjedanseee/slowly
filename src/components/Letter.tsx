@@ -43,7 +43,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
 
   return (
     <div
-      className={`${isOpened ? 'py-4 pb-16' : 'px-2 py-2'} min-w-[150px] min-h-[100px] flex flex-col justify-end 
+      className={`${isOpened ? 'py-4 pb-16' : 'px-2 py-2 cursor-pointer'} min-w-[150px] min-h-[100px] flex flex-col justify-end 
         ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}
       `}
       onClick={() => onOpenLetter(index)}

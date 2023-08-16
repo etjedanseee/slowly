@@ -52,7 +52,7 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
           <div className='flex items-center justify-between mb-2'>
             <div className='text-sm'>Update avatar URL:</div>
             <div className={`${theme === 'dark' ? 'text-white' : 'text-zinc-900'} 
-              ${isValidImage && avatarUrl !== userAvatar ? 'opacity-100' : 'opacity-50'}
+              ${isValidImage && avatarUrl !== userAvatar ? 'opacity-100 cursor-pointer' : 'opacity-50'}
               border-2 rounded-xl inline-block px-4 py-[2px] mt-1 text-sm`}
               onClick={handleSaveImageURL}
             >

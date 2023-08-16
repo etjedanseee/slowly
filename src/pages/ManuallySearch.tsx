@@ -224,13 +224,13 @@ const ManuallySearch = () => {
           z-10 w-full flex items-center bg-inherit justify-between gap-x-6 py-3 px-3
         `}>
         <ArrowBackIcon
-          className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+          className={`h-7 w-7 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
         />
         <div className='flex-1'>{t('coincidences')}</div>
         <MenuIcon
           onClick={handleFilterModalVisible}
-          className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+          className={`h-7 w-7 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
         />
         <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-500'} h-[1px] w-full absolute top-full left-0`} />
       </div>
@@ -255,7 +255,7 @@ const ManuallySearch = () => {
           <div className={`absolute top-0 z-20 w-full flex items-center justify-between flex-wrap gap-y-3 py-3 px-2 
             ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
             <CloseIcon
-              className={`h-6 w-6 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+              className={`h-6 w-6 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
               onClick={handleFilterModalVisible}
             />
             <div>
@@ -276,7 +276,7 @@ const ManuallySearch = () => {
               />
               <div className='flex-1'>{t('withBiography')}</div>
               <div
-                className={`border-yellow-400 border-2 h-5 w-5 flex items-center justify-center`}
+                className={`border-yellow-400 border-2 cursor-pointer h-5 w-5 flex items-center justify-center`}
                 onClick={onChangeIncludeUsersWithBio}
               >
                 <div className={`${isIncludeUsersWithBiography ? 'bg-yellow-400' : 'bg-transparent'} h-3 w-3`} />
@@ -289,7 +289,7 @@ const ManuallySearch = () => {
               />
               <div className='flex-1'>{t('langs')}</div>
               <div
-                className='flex items-center gap-x-1'
+                className='flex items-center gap-x-1 cursor-pointer'
                 onClick={handleLangsMultySelectVisible}
               >
                 <div>{selectedLangs.length} {t('selected')}</div>
@@ -316,7 +316,7 @@ const ManuallySearch = () => {
               />
               <div className='flex-1'>{t('interests')}</div>
               <div
-                className='flex items-center gap-x-1'
+                className='flex items-center gap-x-1 cursor-pointer'
                 onClick={handleInterestsMultySelectVisible}
               >
                 <div>{selectedInterests.length} {t('selected')}</div>
@@ -345,7 +345,7 @@ const ManuallySearch = () => {
               </div>
               <div className='flex-1'>{t('ageRange')}</div>
               <div
-                className='flex items-center gap-x-1'
+                className='flex items-center gap-x-1 cursor-pointer'
                 onClick={handleAgeRangeVisible}
               >
                 {!isAgeRangeVisible && <div>{leftAge} - {rightAge}</div>}
@@ -387,7 +387,7 @@ const ManuallySearch = () => {
               />
               <div className='flex-1'>{t('zodiac')}</div>
               <div
-                className='flex items-center gap-x-1'
+                className='flex items-center gap-x-1 cursor-pointer'
                 onClick={handleZodiacMultySelectVisible}
               >
                 <div>{zodiac.length} {t('selected')}</div>

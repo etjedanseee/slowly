@@ -59,7 +59,7 @@ const Settings = () => {
         w-full py-3 px-3 flex items-center gap-x-6 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}
       `}>
         <ArrowBackIcon
-          className={`h-7 w-7 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+          className={`h-7 w-7 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
           onClick={onGoBackClick}
         />
         <div className='text-xl'>{t('settings')}</div>
@@ -69,7 +69,7 @@ const Settings = () => {
         <div className='text-lg'>{t('appLang')}</div>
 
         <div
-          className='flex items-center gap-x-1'
+          className='flex items-center gap-x-1 cursor-pointer'
           onClick={handleAppLanguageSelectVisible}
         >
           <div className='text-lg font-medium'>{lang}</div>
@@ -94,15 +94,15 @@ const Settings = () => {
       <div className={`flex px-2 items-center justify-between py-3 mb-6 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
         <div className='text-lg'>{t('switchTheme')}</div>
         {theme === 'white'
-          ? <SunIcon className='h-10 w-10 fill-black' onClick={onSwitchTheme} />
-          : <MoonIcon className='h-9 w-9 fill-white' onClick={onSwitchTheme} />}
+          ? <SunIcon className='h-10 w-10 fill-black cursor-pointer' onClick={onSwitchTheme} />
+          : <MoonIcon className='h-9 w-9 fill-white cursor-pointer' onClick={onSwitchTheme} />}
       </div>
 
 
       <div className={`flex items-center justify-between px-2 py-3 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
         <div className='text-lg'>{t('signOut')}</div>
         <SignOutIcon
-          className={`h-7 w-7 fill-red-500`}
+          className={`h-7 w-7 fill-red-500 cursor-pointer`}
           onClick={onSignOutClick}
         />
       </div>

@@ -105,25 +105,27 @@ const Home = () => {
             <div>{t('loading')}</div>
           </div>
         )
-        : <div className='px-2 flex items-center gap-x-2'>
-          <PlaneIcon className={`fill-yellow-400 h-7 w-7 -mb-[2px]`} />
-          {lettersOnWay.length
-            ? (
-              <div
-                className='w-full flex items-center justify-between'
-                onClick={handleMapVisible}
-              >
-                <div className='text-sm'>{t('lettersOnWay')}</div>
+        : (
+          <div className='px-2 flex items-center gap-x-2 cursor-pointer'>
+            <PlaneIcon className={`fill-yellow-400 h-7 w-7 -mb-[2px]`} />
+            {lettersOnWay.length
+              ? (
                 <div
-                  className='bg-yellow-400 h-7 w-7 rounded-full flex items-center justify-center text-black font-semibold'
+                  className='w-full flex items-center justify-between'
+                  onClick={handleMapVisible}
                 >
-                  {lettersOnWay.length}
+                  <div className='text-sm'>{t('lettersOnWay')}</div>
+                  <div
+                    className='bg-yellow-400 h-7 w-7 rounded-full flex items-center justify-center text-black font-semibold'
+                  >
+                    {lettersOnWay.length}
+                  </div>
                 </div>
-              </div>
-            )
-            : <div onClick={fetchChatList} className='text-sm'>{t('noLettersOnWay')}</div>
-          }
-        </div>
+              )
+              : <div onClick={fetchChatList} className='text-sm'>{t('noLettersOnWay')}</div>
+            }
+          </div>
+        )
       }
 
       <div id='map'></div>
