@@ -30,7 +30,7 @@ body{
   flex-direction:column;
 }
 
-.withoutscroll::-webkit-scrollbar {
-  width: 0.5em;
+::-webkit-scrollbar {
+  width: 0em;
 }
 

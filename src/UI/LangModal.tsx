@@ -8,15 +8,17 @@ import { levelLangNames } from '../utils/consts'
 
 interface LangModalProps {
   lang: ILang | null,
+  userLangs: ILang[],
   handleModalLangVisible: () => void,
   onAddLang: (lang: ILang) => void
 }
 
-const LangModal = ({ lang, handleModalLangVisible, onAddLang }: LangModalProps) => {
+const LangModal = ({ lang, userLangs, handleModalLangVisible, onAddLang }: LangModalProps) => {
   const [langLevel, setLangLevel] = useState(lang?.level || 0)
   const { theme } = useTypedSelector(state => state.theme)
-
   const { t } = useTranslation()
+
+  const isLangAdded = userLangs.find(l => l.code === lang?.code)
 
   if (!lang) {
     return null
@@ -36,7 +38,11 @@ const LangModal = ({ lang, handleModalLangVisible, onAddLang }: LangModalProps) 
           onClick={handleModalLangVisible}
         />
         <div className='flex-initial'>
-          <MyButton color='yellow' title='add' onClick={() => onAddLang({ ...lang, level: langLevel })} />
+          <MyButton
+            color='yellow'
+            title={isLangAdded ? 'save' : 'add'}
+            onClick={() => onAddLang({ ...lang, level: langLevel })}
+          />
         </div>
       </div>
 

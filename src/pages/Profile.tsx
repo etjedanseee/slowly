@@ -390,7 +390,7 @@ const Profile = () => {
               className='flex items-center gap-x-1 cursor-pointer'
               onClick={handleAgeRangeVisible}
             >
-              {!isAgeRangeVisible && <div>{leftValue} - {rightValue}</div>}
+              {!isAgeRangeVisible && <div>{leftValue} - {rightValue === 65 ? '65+' : rightValue}</div>}
               <ArrowDownIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} />
             </div>
           </div>

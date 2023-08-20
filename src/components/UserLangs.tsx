@@ -82,6 +82,7 @@ const UserLangs = ({ userLangs, setUserLangs, user, isShowAnotherLanguages }: Us
       {isModalLangChoiceVisible && (
         <LangModal
           lang={selectedLang}
+          userLangs={userLangs}
           handleModalLangVisible={handleModalLangVisible}
           onAddLang={handleAddLang}
         />

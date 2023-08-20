@@ -223,7 +223,7 @@ const OtherProfile = () => {
         </div>
         <div className='flex items-center gap-x-2'>
           <CakeIcon className={`h-5 w-5 fill-yellow-400`} />
-          <div className='flex-1'>{t('ageRange')}: {otherUser.profile.ageRange[0]}-{otherUser.profile.ageRange[1]}</div>
+          <div className='flex-1'>{t('ageRange')}: {otherUser.profile.ageRange[0]}-{otherUser.profile.ageRange[1] === 65 ? '65+' : otherUser.profile.ageRange[1]}</div>
         </div>
       </div>
 
