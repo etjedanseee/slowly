@@ -112,7 +112,7 @@ const Home = () => {
               ? (
                 <div
                   className='w-full flex items-center justify-between'
-                  onClick={handleMapVisible}
+                  onClick={lettersOnWay.length ? handleMapVisible : fetchChatList}
                 >
                   <div className='text-sm'>{t('lettersOnWay')}</div>
                   <div
