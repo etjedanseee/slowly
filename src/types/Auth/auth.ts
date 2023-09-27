@@ -1,5 +1,6 @@
 import { LatLng } from "leaflet"
 import { langType } from "../../utils/consts"
+import { appLangType, themeType } from "../Theme/theme"
 
 export interface IUser {
   id: string,
@@ -8,7 +9,8 @@ export interface IUser {
   interests: interest[],
   languages: ILang[],
   geo: IUserGeo,
-  profile: IUserProfile
+  profile: IUserProfile,
+  settings: IUserSettings
 }
 
 export interface IUserInfo {
@@ -25,6 +27,12 @@ export interface IUserProfile {
   responseTime: ResponseTimeType,
   sexPreference: SexType[],
   ageRange: number[]
+}
+
+export interface IUserSettings {
+  theme: themeType,
+  appLang: appLangType,
+  isConfirmBeforeSendLetter: boolean
 }
 
 export interface ILang {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import supabase from '../supabaseClient'
 import { useTranslation } from 'react-i18next'
 import { useTypedSelector } from '../hooks/useTypedSelector'
-import { ILang, IUserGeo, IUserInfo, interest } from '../types/Auth/auth'
+import { ILang, IUserGeo, IUserInfo, IUserSettings, interest } from '../types/Auth/auth'
 import MyButton from '../UI/MyButton'
 import { useNavigate } from 'react-router-dom'
 import { ReactComponent as SuccessIcon } from '../assets/success.svg'
@@ -22,10 +22,16 @@ interface ConfirmEmailProps {
 
 const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, password }: ConfirmEmailProps) => {
   const { t } = useTranslation()
-  const { theme } = useTypedSelector(state => state.theme)
+  const { theme, lang } = useTypedSelector(state => state.theme)
   const navigate = useNavigate()
 
   const [loading, setLoading] = useState(false)
+
+  const initialUserSettings: IUserSettings = {
+    appLang: lang,
+    isConfirmBeforeSendLetter: true,
+    theme: theme
+  }
 
   const onGoToLoginClick = () => {
     navigate('/auth/signIn', { replace: true })
@@ -39,7 +45,8 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
         interests,
         languages,
         geo,
-        profile: initialUserProfile
+        profile: initialUserProfile,
+        settings: initialUserSettings
       }
 
       try {

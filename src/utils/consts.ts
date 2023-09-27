@@ -1,4 +1,4 @@
-import { ILang, IUserInfo, IUserProfile, LetterLengthType, ResponseTimeType, SexType, ZodiacType } from "../types/Auth/auth"
+import { ILang, IUserInfo, IUserProfile, IUserSettings, LetterLengthType, ResponseTimeType, SexType, ZodiacType } from "../types/Auth/auth"
 import { appLangType } from "../types/Theme/theme"
 
 export const dictionary = {
@@ -249,8 +249,10 @@ export const dictionary = {
     noLettersOnWay: 'No letters on the way',
     loading: 'Loading...',
     nickNameMustBeLess15: 'Nickname must be less than 15 characters',
+    confirmBeforeSendLetter: 'Confirm before sending email',
   },
   ua: {
+    confirmBeforeSendLetter: 'Підтверджувати перед відправкою листа',
     nickNameMustBeLess15: 'Нік повинен бути менше 15 символів',
     loading: 'Завантаження...',
     noLettersOnWay: 'Немає листів у дорозі',

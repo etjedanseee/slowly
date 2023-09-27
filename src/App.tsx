@@ -22,12 +22,13 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFoundPage from './pages/NotFoundPage';
 import supabase from './supabaseClient';
+import { IUser } from './types/Auth/auth';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user, chatList } = useTypedSelector(state => state.auth)
   const { interests } = useTypedSelector(state => state.data)
-  const { setUser, fetchInterests, fetchUserChatList, fetchFriends } = useActions()
+  const { setUser, fetchInterests, fetchUserChatList, fetchFriends, changeLanguage, switchTheme } = useActions()
 
   const [isHaveSession, setIsHaveSession] = useState(true)
 
@@ -52,11 +53,16 @@ function App() {
   useEffect(() => {
     const localUser = localStorage.getItem('user')
     if (localUser && !user && isHaveSession) {
-      setUser(JSON.parse(localUser))
+      const parsedUser: IUser = JSON.parse(localUser)
+      setUser(parsedUser)
+      changeLanguage(parsedUser.settings.appLang)
+      if (theme !== parsedUser.settings.theme) {
+        switchTheme()
+      }
     } else if (user && !localUser) {
       localStorage.setItem('user', JSON.stringify(user))
     }
-  }, [user, setUser, isHaveSession])
+  }, [user, setUser, isHaveSession, theme])
 
   useEffect(() => {
     if (!interests.length) {

@@ -15,11 +15,13 @@ import { appLangType } from '../types/Theme/theme'
 const Settings = () => {
   const { t } = useTranslation()
   const { theme, lang } = useTypedSelector(state => state.theme)
-  const { switchTheme, changeLanguage } = useActions()
+  const { user } = useTypedSelector(state => state.auth)
+  const { switchTheme, changeLanguage, updateUserSettings } = useActions()
   const navigate = useNavigate()
 
   const [isAppLanguageSelectVisible, setIsAppLanguageSelectVisible] = useState(false)
   const [appLanguage, setAppLanguage] = useState(lang)
+  const [isConfirmBeforeSendLetter, setIsConfirmBeforeSendLetter] = useState(user?.settings.isConfirmBeforeSendLetter ?? true)
 
   const handleAppLanguageSelectVisible = () => {
     setIsAppLanguageSelectVisible(prev => !prev)
@@ -31,6 +33,13 @@ const Settings = () => {
 
   const onSaveAppLanguage = () => {
     changeLanguage(appLanguage)
+    if (user) {
+      updateUserSettings(user, {
+        appLang: appLanguage,
+        isConfirmBeforeSendLetter: user.settings.isConfirmBeforeSendLetter,
+        theme,
+      })
+    }
     handleAppLanguageSelectVisible()
   }
 
@@ -51,6 +60,24 @@ const Settings = () => {
 
   const onSwitchTheme = () => {
     switchTheme()
+    if (user) {
+      updateUserSettings(user, {
+        appLang: lang,
+        isConfirmBeforeSendLetter: user.settings.isConfirmBeforeSendLetter,
+        theme: theme === 'dark' ? 'white' : 'dark'
+      })
+    }
+  }
+
+  const onSwitchIsConfirmBeforeSendLetter = () => {
+    setIsConfirmBeforeSendLetter(prev => !prev)
+    if (user) {
+      updateUserSettings(user, {
+        appLang: lang,
+        isConfirmBeforeSendLetter: !isConfirmBeforeSendLetter,
+        theme,
+      })
+    }
   }
 
   return (
@@ -90,7 +117,6 @@ const Settings = () => {
         )}
       </div>
 
-
       <div className={`flex px-2 items-center justify-between py-3 mb-6 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
         <div className='text-lg'>{t('switchTheme')}</div>
         {theme === 'white'
@@ -98,6 +124,17 @@ const Settings = () => {
           : <MoonIcon className='h-9 w-9 fill-white cursor-pointer' onClick={onSwitchTheme} />}
       </div>
 
+      <div className={`flex px-2 gap-x-1 items-center justify-between py-3 mb-6 
+        ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}
+      `}>
+        <div className='text-lg'>{t('confirmBeforeSendLetter')}</div>
+        <div className={`border-yellow-400 border-2 h-5 w-5 flex items-center justify-center cursor-pointer`}>
+          <div
+            className={`${isConfirmBeforeSendLetter ? 'bg-yellow-400' : 'bg-transparent'} h-3 w-3`}
+            onClick={onSwitchIsConfirmBeforeSendLetter}
+          />
+        </div>
+      </div>
 
       <div className={`flex items-center justify-between px-2 py-3 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
         <div className='text-lg'>{t('signOut')}</div>

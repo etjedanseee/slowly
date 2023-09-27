@@ -52,7 +52,8 @@ const SignInPage = () => {
         interests: data.user?.user_metadata?.interests || [],
         languages: data.user?.user_metadata?.languages || [],
         geo: data.user?.user_metadata?.geo || { coord: { latitude: 0, longitude: 0 }, location: { country: '', city: '' } },
-        profile: data.user?.user_metadata?.profile || initialUserProfile
+        profile: data.user?.user_metadata?.profile || initialUserProfile,
+        settings: data.user?.user_metadata?.settings || { appLang: 'en', isConfirmBeforeSendLetter: true, theme: 'dark' }
       }
       // console.log('Get user', userObj)
       setUser(userObj)

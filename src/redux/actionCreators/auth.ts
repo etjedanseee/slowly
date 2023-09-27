@@ -1,7 +1,7 @@
 
 import { Dispatch } from 'redux';
 import { AuthAction, AuthActionTypes } from '../../types/Auth/authReducer';
-import { IChatList, ILang, ILetter, IUser, IUserInfo, IUserProfile, interest } from '../../types/Auth/auth';
+import { IChatList, ILang, ILetter, IUser, IUserInfo, IUserProfile, IUserSettings, interest } from '../../types/Auth/auth';
 import supabase from '../../supabaseClient';
 
 
@@ -47,7 +47,8 @@ export const updateUserInterests = (user: IUser, updatedInterests: interest[]) =
     interests: updatedInterests,
     languages: user.languages,
     geo: user.geo,
-    profile: user.profile
+    profile: user.profile,
+    settings: user.settings
   }
 
   return updateUser(user, updatedMetadata)
@@ -59,7 +60,8 @@ export const updateUserLangs = (user: IUser, updatedLangs: ILang[]) => {
     interests: user.interests,
     languages: updatedLangs,
     geo: user.geo,
-    profile: user.profile
+    profile: user.profile,
+    settings: user.settings
   }
 
   return updateUser(user, updatedMetadata)
@@ -71,7 +73,8 @@ export const updateUserInfo = (user: IUser, updatedInfo: IUserInfo) => {
     interests: user.interests,
     languages: user.languages,
     geo: user.geo,
-    profile: user.profile
+    profile: user.profile,
+    settings: user.settings
   }
 
   return updateUser(user, updatedMetadata)
@@ -83,7 +86,21 @@ export const updateUserProfile = (user: IUser, updatedProfile: IUserProfile) => 
     interests: user.interests,
     languages: user.languages,
     geo: user.geo,
-    profile: updatedProfile
+    profile: updatedProfile,
+    settings: user.settings
+  }
+
+  return updateUser(user, updatedMetadata)
+}
+
+export const updateUserSettings = (user: IUser, updatedSettings: IUserSettings) => {
+  const updatedMetadata = {
+    info: user.info,
+    interests: user.interests,
+    languages: user.languages,
+    geo: user.geo,
+    profile: user.profile,
+    settings: updatedSettings
   }
 
   return updateUser(user, updatedMetadata)
