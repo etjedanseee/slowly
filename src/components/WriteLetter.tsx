@@ -1,8 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react'
 import { IUser } from '../types/Auth/auth'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { ReactComponent as CloseIcon } from '../assets/close.svg'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import MyButton from '../UI/MyButton'
 import { calcWordsCount } from '../utils/calcWordsCount'
@@ -10,6 +9,7 @@ import { sendLetter } from '../utils/sendLetter'
 import { checkCommonLanguages } from '../utils/checkCommonLanguages'
 import { useActions } from '../hooks/useActions'
 import { toast } from 'react-toastify';
+import Confirm from '../UI/Confirm'
 
 interface WriteLetterProps {
   otherUser: IUser,
@@ -26,13 +26,24 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   const [signsCount, setSignsCount] = useState(0)
   const [wordsCount, setWordsCount] = useState(0)
   const [isHelpMenuVisible, setIsHelpMenuVisible] = useState(false)
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false)
+
+  const handleConfirmVisible = () => {
+    setIsConfirmVisible(prev => !prev)
+  }
+
+  const onConfirmSendLetter = () => {
+    onSendLetter()
+  }
 
   const handleLetterText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setLetterText(e.target.value)
   }
 
-  const handleHelpMenuVisible = () => {
+  const handleHelpMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
+    console.log('work handle open')
     setIsHelpMenuVisible(prev => !prev)
+    e.stopPropagation();
   }
 
   const handleCloseWriteLetter = () => {
@@ -48,7 +59,6 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
     if (user && letterText?.trim().length) {
       await sendLetter(user.id, otherUser.id, letterText, deliveredTime, t)
       fetchUserChatList(user.id, () => { })
-
       localStorage.removeItem(`WriteLetterTo ${otherUser.id}`)
       onClose()
     } else {
@@ -75,6 +85,23 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
     }
   }, [])
 
+  useEffect(() => {
+    const handleCloseHelpMenuClick = (e: MouseEvent) => {
+      if (e.target instanceof Element && !e.target.classList.contains('help-menu')) {
+        setIsHelpMenuVisible(false)
+      }
+    }
+    if (isHelpMenuVisible) {
+      window.addEventListener('click', e => handleCloseHelpMenuClick)
+      console.log('work handle close')
+    } else {
+      window.removeEventListener('click', e => handleCloseHelpMenuClick)
+    }
+    return () => {
+      window.removeEventListener('click', e => handleCloseHelpMenuClick)
+    }
+  }, [isHelpMenuVisible])
+
   return (
     <div className={`fixed min-h-full h-full w-full top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] z-20 px-3 py-20 
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'}
@@ -92,7 +119,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
         <div>
           <MyButton
             color='yellow'
-            onClick={onSendLetter}
+            onClick={user?.settings.isConfirmBeforeSendLetter ? handleConfirmVisible : onSendLetter}
             title='send'
           />
         </div>
@@ -104,9 +131,8 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
         </div>
       </div>
 
-      {/* дописать закрытие по фону */}
       {isHelpMenuVisible && (
-        <div className={`absolute top-16 right-2 py-2 rounded-md px-2 ${theme === 'dark' ? 'bg-zinc-900' : 'border-2 border-gray-400'}`}>
+        <div className={`absolute top-16 right-2 py-2 rounded-md px-2 ${theme === 'dark' ? 'bg-zinc-900' : 'border-2 border-gray-400'} help-menu`}>
           <div className='flex items-center justify-between gap-x-2'>
             <div>{t('words')}:</div>
             <div className='font-medium'>{wordsCount}</div>
@@ -140,6 +166,14 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
         onChange={handleLetterText}
       ></textarea>
 
+      {isConfirmVisible && (
+        <Confirm
+          text={t('confirmSendingTheLetter')}
+          onCancel={handleConfirmVisible}
+          onConfirm={onConfirmSendLetter}
+        />
+      )
+      }
     </div>
   )
 }

@@ -250,8 +250,12 @@ export const dictionary = {
     loading: 'Loading...',
     nickNameMustBeLess15: 'Nickname must be less than 15 characters',
     confirmBeforeSendLetter: 'Confirm before sending email',
+    confirmSendingTheLetter: 'Confirm sending the letter',
+    confirm: 'Confirm',
   },
   ua: {
+    confirmSendingTheLetter: 'Підтвердьте надсилання листа',
+    confirm: 'Підтвердити',
     confirmBeforeSendLetter: 'Підтверджувати перед відправкою листа',
     nickNameMustBeLess15: 'Нік повинен бути менше 15 символів',
     loading: 'Завантаження...',
