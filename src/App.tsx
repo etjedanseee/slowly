@@ -23,6 +23,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import NotFoundPage from './pages/NotFoundPage';
 import supabase from './supabaseClient';
 import { IUser } from './types/Auth/auth';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
@@ -118,6 +119,7 @@ function App() {
         <Route path='/auth' element={<AuthPage />} />
         <Route path='/auth/signUp' element={<SignUpPage />} />
         <Route path='/auth/signIn' element={<SignInPage />} />
+        <Route path='/auth/resetPassword' element={<ResetPassword />} />
         {(!localStorage.getItem('user') || !isHaveSession) && <Route path='*' element={<Navigate to='/auth' />} />}
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

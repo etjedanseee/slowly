@@ -28,6 +28,10 @@ const SignInPage = () => {
     navigate('/auth')
   }
 
+  const onResetPasswordClick = () => {
+    navigate('/auth/resetPassword')
+  }
+
   const singIn = async () => {
     if (!isFormValid) {
       return false
@@ -73,7 +77,10 @@ const SignInPage = () => {
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} 
       fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full h-full overflow-hidden py-3 px-2
     `}>
-      <ArrowBackIcon className={`h-7 w-7 mb-5 ${theme === 'dark' ? 'fill-white' : 'fill-black'}`} onClick={onGoBackClick} />
+      <ArrowBackIcon
+        className={`h-7 w-7 mb-5 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
+        onClick={onGoBackClick}
+      />
       <div className='flex justify-center'>
         <LogoIcon className={`h-24 w-24 mb-2 fill-yellow-400`} />
       </div>
@@ -90,6 +97,12 @@ const SignInPage = () => {
       </div>
 
       <div className='absolute w-full bottom-4 left-0 z-50 px-2'>
+        <div
+          onClick={onResetPasswordClick}
+          className='text-center text-red-500 mb-2 cursor-pointer hover:underline'
+        >
+          {t('forgotPassword')}
+        </div>
         <MyButton
           color='black'
           onClick={singIn}

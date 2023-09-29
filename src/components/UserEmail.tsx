@@ -71,7 +71,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
       <div className='mb-4'>
         <div className='mb-2 text-2xl'>{t('email')}</div>
         <TextInput
-          placeholder='Enter email'
+          placeholder={t('enterEmail') || 'Enter email'}
           value={emailText}
           onInputChange={onEmailTextChange}
           onFocus={onEmailFocus}
@@ -82,7 +82,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
       <div className='mb-4'>
         <div className='mb-2 text-2xl'>{t('password')}</div>
         <TextInput
-          placeholder='Enter password'
+          placeholder={t('enterPassword') || 'Enter password'}
           value={passwordText}
           onInputChange={onPasswordTextChange}
           onFocus={onPasswordFocus}
