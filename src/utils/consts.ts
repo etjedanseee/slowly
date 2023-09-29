@@ -261,8 +261,10 @@ export const dictionary = {
     enterNewPassword: 'Enter new password',
     enterEmail: 'Enter email',
     setNewPassword: 'Set new password',
+    checkEmail: 'Check your email',
   },
   ua: {
+    checkEmail: 'Перевірити свою е-пошту',
     setNewPassword: 'Встановити новий пароль',
     enterEmail: 'Введіть е-пошту',
     enterNewPassword: 'Введіть новий пароль',

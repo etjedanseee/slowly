@@ -18,7 +18,7 @@ const ResetPassword = () => {
   const [email, setEmail] = useState<string>('')
   const [emailError, setEmailError] = useState('')
   const [isEmailDirty, setIsEmailDirty] = useState(false)
-  const [isChangePasswordFormVisible, setIsChangePasswordFormVisible] = useState(true)
+  const [isChangePasswordFormVisible, setIsChangePasswordFormVisible] = useState(false)
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [isPasswordDirty, setIsPasswordDirty] = useState(false)
@@ -65,6 +65,9 @@ const ResetPassword = () => {
   const onResetPasswordClick = async () => {
     const { data, error } = await supabase.auth
       .resetPasswordForEmail(email, { redirectTo: window.location.origin })
+    if (!error) {
+      toast.warn(t('checkEmail'))
+    }
     console.log(data, error)
   }
 
@@ -152,7 +155,6 @@ const ResetPassword = () => {
         </div>
       )}
     </div>
-
   )
 }
 
