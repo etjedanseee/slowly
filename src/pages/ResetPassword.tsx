@@ -63,20 +63,33 @@ const ResetPassword = () => {
   }
 
   const onResetPasswordClick = async () => {
-    const { data, error } = await supabase.auth
-      .resetPasswordForEmail(email, { redirectTo: window.location.origin })
-    if (!error) {
-      toast.warn(t('checkEmail'))
+    try {
+      const { data, error } = await supabase.auth
+        .resetPasswordForEmail(email, { redirectTo: window.location.origin + '/auth/resetPassword' })
+      if (!error) {
+        toast.warn(t('checkEmail'))
+      }
+      console.log(data, error)
+    } catch (e) {
+      console.log(e)
     }
-    console.log(data, error)
   }
 
   const onSetNewPassword = async () => {
-    const { data, error } = await supabase.auth
-      .updateUser({ password: password })
-    console.log('new p', data, error)
-    if (data) toast.success(t('passwordUpdatedSuccessfully'))
-    if (error) toast.error(t('errorUpdatePassword'))
+    try {
+      const { data, error } = await supabase.auth
+        .updateUser({ password: password })
+      console.log('new p', data, error)
+      if (data) {
+        toast.success(t('passwordUpdatedSuccessfully'))
+        setTimeout(() => {
+          navigate('/auth/signIn')
+        }, 1500)
+      }
+      if (error) toast.error(t('errorUpdatePassword'))
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   useEffect(() => {
