@@ -15,7 +15,7 @@ const ResetPassword = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const [email, setEmail] = useState<string>('')
+  const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [isEmailDirty, setIsEmailDirty] = useState(false)
   const [isChangePasswordFormVisible, setIsChangePasswordFormVisible] = useState(false)
@@ -64,12 +64,11 @@ const ResetPassword = () => {
 
   const onResetPasswordClick = async () => {
     try {
-      const { data, error } = await supabase.auth
+      const { error } = await supabase.auth
         .resetPasswordForEmail(email, { redirectTo: window.location.origin + '/auth/resetPassword' })
       if (!error) {
         toast.warn(t('checkEmail'))
       }
-      console.log(data, error)
     } catch (e) {
       console.log(e)
     }

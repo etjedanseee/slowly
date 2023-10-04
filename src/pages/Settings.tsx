@@ -16,7 +16,7 @@ const Settings = () => {
   const { t } = useTranslation()
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
-  const { switchTheme, changeLanguage, updateUserSettings } = useActions()
+  const { changeTheme, changeLanguage, updateUserSettings } = useActions()
   const navigate = useNavigate()
 
   const [isAppLanguageSelectVisible, setIsAppLanguageSelectVisible] = useState(false)
@@ -58,13 +58,14 @@ const Settings = () => {
     window.location.reload()
   }
 
-  const onSwitchTheme = () => {
-    switchTheme()
+  const onChangeTheme = () => {
+    const newTheme = theme === 'dark' ? 'white' : 'dark'
+    changeTheme(newTheme)
     if (user) {
       updateUserSettings(user, {
         appLang: lang,
         isConfirmBeforeSendLetter: user.settings.isConfirmBeforeSendLetter,
-        theme: theme === 'dark' ? 'white' : 'dark'
+        theme: newTheme
       })
     }
   }
@@ -120,8 +121,8 @@ const Settings = () => {
       <div className={`flex px-2 items-center justify-between py-3 mb-6 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
         <div className='text-lg'>{t('switchTheme')}</div>
         {theme === 'white'
-          ? <SunIcon className='h-10 w-10 fill-black cursor-pointer' onClick={onSwitchTheme} />
-          : <MoonIcon className='h-9 w-9 fill-white cursor-pointer' onClick={onSwitchTheme} />}
+          ? <SunIcon className='h-10 w-10 fill-black cursor-pointer' onClick={onChangeTheme} />
+          : <MoonIcon className='h-9 w-9 fill-white cursor-pointer' onClick={onChangeTheme} />}
       </div>
 
       <div className={`flex px-2 gap-x-1 items-center justify-between py-3 mb-6 

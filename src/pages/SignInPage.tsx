@@ -12,6 +12,7 @@ import { IUser } from '../types/Auth/auth'
 import { initialUserInfo, initialUserProfile } from '../utils/consts'
 import Loader from '../UI/Loader'
 import { toast } from 'react-toastify';
+import { getPropertiesForUserFromSbUser } from '../utils/getPropertiesForUserFromSbUser'
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string | null>(null)
@@ -49,18 +50,8 @@ const SignInPage = () => {
         throw new Error(error.message)
       }
 
-      const userObj: IUser = {
-        id: data.user?.id || '0',
-        email: data.user?.email || '0',
-        info: data.user?.user_metadata?.info || initialUserInfo,
-        interests: data.user?.user_metadata?.interests || [],
-        languages: data.user?.user_metadata?.languages || [],
-        geo: data.user?.user_metadata?.geo || { coord: { latitude: 0, longitude: 0 }, location: { country: '', city: '' } },
-        profile: data.user?.user_metadata?.profile || initialUserProfile,
-        settings: data.user?.user_metadata?.settings || { appLang: 'en', isConfirmBeforeSendLetter: true, theme: 'dark' }
-      }
-      // console.log('Get user', userObj)
-      setUser(userObj)
+      const user = getPropertiesForUserFromSbUser(data.user)
+      setUser(user)
       navigate('/')
     } catch (e) {
       console.log('singIn error', e)

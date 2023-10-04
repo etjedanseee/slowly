@@ -1,11 +1,11 @@
 import { ThemeActionsTypes } from './../../types/Theme/themeReducer';
 import { Dispatch } from 'redux';
 import { ThemeAction } from '../../types/Theme/themeReducer';
-import { appLangType } from '../../types/Theme/theme';
+import { appLangType, themeType } from '../../types/Theme/theme';
 
-export const switchTheme = () => {
+export const changeTheme = (newTheme: themeType) => {
   return (dispatch: Dispatch<ThemeAction>) => {
-    dispatch({ type: ThemeActionsTypes.SET_THEME })
+    dispatch({ type: ThemeActionsTypes.SET_THEME, payload: newTheme })
   }
 }
 

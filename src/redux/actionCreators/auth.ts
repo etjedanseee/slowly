@@ -32,9 +32,6 @@ const updateUser = (user: IUser, updatedUserMetadata: any) => {
       }
 
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })
-
-      localStorage.setItem('user', JSON.stringify(updatedUser))
-      // console.log('success update user', updatedUser)
     } catch (e) {
       console.log('update user error', e)
     }

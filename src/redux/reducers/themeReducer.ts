@@ -11,7 +11,7 @@ export const themeReducer = (state = initialState, action: ThemeAction): ThemeSt
     case ThemeActionsTypes.SET_THEME: {
       return {
         ...state,
-        theme: state.theme === 'dark' ? 'white' : 'dark'
+        theme: action.payload
       }
     }
     case ThemeActionsTypes.SET_LANG: {

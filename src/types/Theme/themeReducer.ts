@@ -13,6 +13,7 @@ export enum ThemeActionsTypes {
 
 interface setTheme {
   type: ThemeActionsTypes.SET_THEME,
+  payload: themeType
 }
 
 interface setLang {

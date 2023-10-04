@@ -22,14 +22,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFoundPage from './pages/NotFoundPage';
 import supabase from './supabaseClient';
-import { IUser } from './types/Auth/auth';
 import ResetPassword from './pages/ResetPassword';
+import { getPropertiesForUserFromSbUser } from './utils/getPropertiesForUserFromSbUser';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user, chatList } = useTypedSelector(state => state.auth)
   const { interests } = useTypedSelector(state => state.data)
-  const { setUser, fetchInterests, fetchUserChatList, fetchFriends, changeLanguage, switchTheme } = useActions()
+  const { setUser, fetchInterests, fetchUserChatList, fetchFriends, changeLanguage, changeTheme } = useActions()
 
   const [isHaveSession, setIsHaveSession] = useState(true)
 
@@ -42,28 +42,28 @@ function App() {
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data, error } = await supabase.auth.getSession()
-      if (!data && !error) {
-        setIsHaveSession(false)
+      try {
+        const { data, error } = await supabase.auth.getSession()
+        if (!data) {
+          setIsHaveSession(false)
+        } else {
+          setIsHaveSession(true)
+          if (data.session) {
+            const userObj = getPropertiesForUserFromSbUser(data.session.user)
+            setUser(userObj)
+            changeLanguage(userObj.settings.appLang)
+            changeTheme(userObj.settings.theme)
+          }
+        }
+        if (error) {
+          throw new Error(error.message)
+        }
+      } catch (e) {
+        console.log('get session error', e)
       }
-      setIsHaveSession(true)
     }
     checkSession()
   }, [])
-
-  useEffect(() => {
-    const localUser = localStorage.getItem('user')
-    if (localUser && !user && isHaveSession) {
-      const parsedUser: IUser = JSON.parse(localUser)
-      setUser(parsedUser)
-      changeLanguage(parsedUser.settings.appLang)
-      if (theme !== parsedUser.settings.theme) {
-        switchTheme()
-      }
-    } else if (user && !localUser) {
-      localStorage.setItem('user', JSON.stringify(user))
-    }
-  }, [user, setUser, isHaveSession, theme])
 
   useEffect(() => {
     if (!interests.length) {
@@ -120,7 +120,7 @@ function App() {
         <Route path='/auth/signUp' element={<SignUpPage />} />
         <Route path='/auth/signIn' element={<SignInPage />} />
         <Route path='/auth/resetPassword' element={<ResetPassword />} />
-        {(!localStorage.getItem('user') || !isHaveSession) && <Route path='*' element={<Navigate to='/auth' />} />}
+        {!isHaveSession && <Route path='*' element={<Navigate to='/auth' />} />}
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>
