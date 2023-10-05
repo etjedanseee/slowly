@@ -217,9 +217,7 @@ const ManuallySearch = () => {
   }
 
   return (
-    <div className={`px-3 py-16 h-full fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full
-        ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}
-      `}>
+    <div className={`px-3 py-16 w-full h-full ${theme === 'dark' ? 'bg-zinc-900' : 'bg-gray-200'}`}>
       <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] 
           z-10 w-full flex items-center bg-inherit justify-between gap-x-6 py-3 px-3
         `}>

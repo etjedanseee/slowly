@@ -89,7 +89,7 @@ function App() {
 
   if (isCheckingSession) {
     return (
-      <div className='h-screen flex justify-center items-center'>
+      <div className='h-screen flex justify-center items-center bg-zinc-800'>
         <Loader size='20' />
       </div>
     )
