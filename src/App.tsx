@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useTypedSelector } from './hooks/useTypedSelector';
 import Draft from './pages/Draft';
 import Friends from './pages/Friends';
@@ -24,14 +24,16 @@ import NotFoundPage from './pages/NotFoundPage';
 import supabase from './supabaseClient';
 import ResetPassword from './pages/ResetPassword';
 import { getPropertiesForUserFromSbUser } from './utils/getPropertiesForUserFromSbUser';
+import Loader from './UI/Loader';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user, chatList } = useTypedSelector(state => state.auth)
   const { interests } = useTypedSelector(state => state.data)
   const { setUser, fetchInterests, fetchUserChatList, fetchFriends, changeLanguage, changeTheme } = useActions()
+  const navigate = useNavigate()
 
-  const [isHaveSession, setIsHaveSession] = useState(true)
+  const [isCheckingSession, setIsCheckingSession] = useState(true)
 
   i18n.use(initReactI18next).init({
     resources: { en: { translation: dictionary.en }, ua: { translation: dictionary.ua } },
@@ -44,10 +46,9 @@ function App() {
     const checkSession = async () => {
       try {
         const { data, error } = await supabase.auth.getSession()
-        if (!data) {
-          setIsHaveSession(false)
+        if (!data.session) {
+          navigate('/auth')
         } else {
-          setIsHaveSession(true)
           if (data.session) {
             const userObj = getPropertiesForUserFromSbUser(data.session.user)
             setUser(userObj)
@@ -60,6 +61,8 @@ function App() {
         }
       } catch (e) {
         console.log('get session error', e)
+      } finally {
+        setIsCheckingSession(false)
       }
     }
     checkSession()
@@ -84,6 +87,14 @@ function App() {
     }
   }, [chatList])
 
+  if (isCheckingSession) {
+    return (
+      <div className='h-screen flex justify-center items-center'>
+        <Loader size='20' />
+      </div>
+    )
+  }
+
   return (
     <div className={`flex-1 flex flex-col relative 
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
@@ -102,25 +113,30 @@ function App() {
       />
 
       <Routes>
-        {user && (
-          <>
-            <Route path='/' element={<Home />} />
-            <Route path='/friends' element={<Friends />} />
-            <Route path='/friends/:id' element={<FriendChatPage />} />
-            <Route path='/search' element={<SearchFriends />} />
-            <Route path='/search/autoSearch' element={<AutoSearch />} />
-            <Route path='/search/manuallySearch' element={<ManuallySearch />} />
-            <Route path='/draft' element={<Draft />} />
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/profile/settings' element={<Settings />} />
-            <Route path='/users/:id' element={<OtherProfile />} />
-          </>
-        )}
-        <Route path='/auth' element={<AuthPage />} />
-        <Route path='/auth/signUp' element={<SignUpPage />} />
-        <Route path='/auth/signIn' element={<SignInPage />} />
-        <Route path='/auth/resetPassword' element={<ResetPassword />} />
-        {!isHaveSession && <Route path='*' element={<Navigate to='/auth' />} />}
+        {user
+          ? (
+            <>
+              <Route path='/' element={<Home />} />
+              <Route path='/friends' element={<Friends />} />
+              <Route path='/friends/:id' element={<FriendChatPage />} />
+              <Route path='/search' element={<SearchFriends />} />
+              <Route path='/search/autoSearch' element={<AutoSearch />} />
+              <Route path='/search/manuallySearch' element={<ManuallySearch />} />
+              <Route path='/draft' element={<Draft />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/profile/settings' element={<Settings />} />
+              <Route path='/users/:id' element={<OtherProfile />} />
+            </>
+          )
+          : (
+            <>
+              <Route path='/auth' element={<AuthPage />} />
+              <Route path='/auth/signUp' element={<SignUpPage />} />
+              <Route path='/auth/signIn' element={<SignInPage />} />
+              <Route path='/auth/resetPassword' element={<ResetPassword />} />
+              <Route path='*' element={<Navigate to='/auth' />} />
+            </>
+          )}
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>

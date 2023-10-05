@@ -303,7 +303,7 @@ const AutoSearch = () => {
               onClose={onCloseLearningLangSelect}
               onSave={onSaveLearningLang}
               selectedOption={learningLang?.name}
-              title='aboutLetter'
+              title='learningLangs'
             />
           )}
         </div>
