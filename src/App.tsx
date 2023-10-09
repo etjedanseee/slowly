@@ -1,30 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import { useTypedSelector } from './hooks/useTypedSelector';
-import Draft from './pages/Draft';
-import Friends from './pages/Friends';
-import Home from './pages/Home';
-import SearchFriends from './pages/SearchFriends';
-import Settings from './pages/Settings';
 import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
 import { dictionary } from './utils/consts';
-import Profile from './pages/Profile';
-import AuthPage from './pages/AuthPage';
-import SignUpPage from './pages/SignUpPage';
-import SignInPage from './pages/SignInPage';
-import { useActions } from './hooks/useActions';
-import OtherProfile from './pages/OtherProfile';
-import FriendChatPage from './pages/FriendChatPage';
-import AutoSearch from './pages/AutoSearch';
-import ManuallySearch from './pages/ManuallySearch';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFoundPage from './pages/NotFoundPage';
 import supabase from './supabaseClient';
-import ResetPassword from './pages/ResetPassword';
 import { getPropertiesForUserFromSbUser } from './utils/getPropertiesForUserFromSbUser';
 import Loader from './UI/Loader';
+import { useActions } from './hooks/useActions';
+import { privateRoutes, publicRoutes } from './utils/routes';
 
 function App() {
   const { theme, lang } = useTypedSelector(state => state.theme)
@@ -95,6 +82,7 @@ function App() {
     )
   }
 
+
   return (
     <div className={`flex-1 flex flex-col relative 
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
@@ -109,31 +97,27 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
+        theme="light"
       />
 
       <Routes>
         {user
           ? (
             <>
-              <Route path='/' element={<Home />} />
-              <Route path='/friends' element={<Friends />} />
-              <Route path='/friends/:id' element={<FriendChatPage />} />
-              <Route path='/search' element={<SearchFriends />} />
-              <Route path='/search/autoSearch' element={<AutoSearch />} />
-              <Route path='/search/manuallySearch' element={<ManuallySearch />} />
-              <Route path='/draft' element={<Draft />} />
-              <Route path='/profile' element={<Profile />} />
-              <Route path='/profile/settings' element={<Settings />} />
-              <Route path='/users/:id' element={<OtherProfile />} />
+              {
+                privateRoutes.map(route => (
+                  <Route  {...route} key={route.path} />
+                ))
+              }
             </>
           )
           : (
             <>
-              <Route path='/auth' element={<AuthPage />} />
-              <Route path='/auth/signUp' element={<SignUpPage />} />
-              <Route path='/auth/signIn' element={<SignInPage />} />
-              <Route path='/auth/resetPassword' element={<ResetPassword />} />
+              {
+                publicRoutes.map(route => (
+                  <Route  {...route} key={route.path} />
+                ))
+              }
               <Route path='*' element={<Navigate to='/auth' />} />
             </>
           )}
