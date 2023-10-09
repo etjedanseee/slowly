@@ -23,10 +23,10 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   const [avatarUrl, setAvatarUrl] = useState(userInfo?.avatarUrl || '')
   const [sex, setSex] = useState<SexType>(userInfo?.sex || 'male')
   const [birthDate, setBirthDate] = useState(userInfo?.birthDate || '')
-  const [birthDateError, setBirthDateError] = useState(t('required') || 'Field is required')
+  const [birthDateError, setBirthDateError] = useState(userInfo ? '' : (t('required') || 'Field is required'))
   const [isBirthDateDirty, setIsBirthDateDirty] = useState(false)
   const [nickName, setNickName] = useState(userInfo?.nickName || '')
-  const [nickNameError, setNickNameError] = useState(t('required') || 'Field is required')
+  const [nickNameError, setNickNameError] = useState(userInfo ? '' : (t('required') || 'Field is required'))
   const [isNickNameDirty, setIsNickNameDirty] = useState(false)
 
   const handleSex = (s: SexType) => {
@@ -35,7 +35,14 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   }
 
   const onBirthDateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const date = e.target.value
+    let date = e.target.value
+    if (date.length === 4 || date.length === 7) {
+      if (date.length < birthDate.length) {
+        date = date.slice(0, date.length - 1)
+      } else if (birthDate.length < date.length) {
+        date += '-'
+      }
+    }
     if (!isValidDate(date)) {
       setBirthDateError(t('enterDate') || 'Enter correct date (YYYY-MM-DD)')
     } else {
@@ -45,7 +52,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
     setIsInfoUpdated(true)
   }
 
-  const onBirthDateFocus = () => {
+  const onBirthDateBlur = () => {
     setIsBirthDateDirty(true)
   }
 
@@ -61,7 +68,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
     setIsInfoUpdated(true)
   }
 
-  const onNickNameFocus = () => {
+  const onNickNameBlur = () => {
     setIsNickNameDirty(true)
   }
 
@@ -128,7 +135,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
         <div className='mb-3'>{t('birthday')}</div>
         <TextInput
           placeholder='YYYY-MM-DD'
-          onFocus={onBirthDateFocus}
+          onBlur={onBirthDateBlur}
           onInputChange={onBirthDateChange}
           value={birthDate}
         />
@@ -141,7 +148,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
           placeholder=''
           value={nickName}
           onInputChange={onNickNameChange}
-          onFocus={onNickNameFocus}
+          onBlur={onNickNameBlur}
         />
         {(isNickNameDirty && nickNameError) && <div className='text-red-600 text-sm'>{nickNameError}</div>}
       </div>

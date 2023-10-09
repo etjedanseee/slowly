@@ -17,11 +17,11 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
   const { theme } = useTypedSelector(state => state.theme)
 
   const [emailText, setEmailText] = useState(userEmail || '')
-  const [emailTextError, setEmailTextError] = useState('')
+  const [emailTextError, setEmailTextError] = useState(t('required') || 'Field is required')
   const [isEmailDirty, setIsEmailDirty] = useState(false)
 
   const [passwordText, setPasswordText] = useState(userPassword || '')
-  const [passwordTextError, setPasswordTextError] = useState('')
+  const [passwordTextError, setPasswordTextError] = useState(t('required') || 'Field is required')
   const [isPasswordDirty, setIsPasswordDirty] = useState(false)
 
   const onEmailTextChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,11 +47,11 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
     setPasswordText(e.target.value)
   }
 
-  const onEmailFocus = () => {
+  const onEmailBlur = () => {
     setIsEmailDirty(true)
   }
 
-  const onPasswordFocus = () => {
+  const onPasswordBlur = () => {
     setIsPasswordDirty(true)
   }
 
@@ -74,7 +74,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
           placeholder={t('enterEmail') || 'Enter email'}
           value={emailText}
           onInputChange={onEmailTextChange}
-          onFocus={onEmailFocus}
+          onBlur={onEmailBlur}
         />
         {(isEmailDirty && emailTextError) && <div className='text-red-600 text-sm'>{emailTextError}</div>}
       </div>
@@ -85,7 +85,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
           placeholder={t('enterPassword') || 'Enter password'}
           value={passwordText}
           onInputChange={onPasswordTextChange}
-          onFocus={onPasswordFocus}
+          onBlur={onPasswordBlur}
         />
         {(isPasswordDirty && passwordTextError) && <div className='text-red-600 text-sm'>{passwordTextError}</div>}
       </div>

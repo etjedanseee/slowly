@@ -61,7 +61,7 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
           </div>
 
           <TextInput
-            onFocus={() => { }}
+            onBlur={() => { }}
             onInputChange={handleAvatarChange}
             value={avatarUrl}
           />

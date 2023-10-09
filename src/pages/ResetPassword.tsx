@@ -16,11 +16,11 @@ const ResetPassword = () => {
   const { t } = useTranslation()
 
   const [email, setEmail] = useState('')
-  const [emailError, setEmailError] = useState('')
+  const [emailError, setEmailError] = useState(t('required') || 'Field is required')
   const [isEmailDirty, setIsEmailDirty] = useState(false)
   const [isChangePasswordFormVisible, setIsChangePasswordFormVisible] = useState(false)
   const [password, setPassword] = useState('')
-  const [passwordError, setPasswordError] = useState('')
+  const [passwordError, setPasswordError] = useState(t('required') || 'Field is required')
   const [isPasswordDirty, setIsPasswordDirty] = useState(false)
 
   const handleChangePasswordFormVisible = () => {
@@ -43,7 +43,7 @@ const ResetPassword = () => {
     setEmail(e.target.value)
   }
 
-  const onEmailFocus = () => {
+  const onEmailBlur = () => {
     setIsEmailDirty(true)
   }
 
@@ -58,7 +58,7 @@ const ResetPassword = () => {
     setPassword(e.target.value)
   }
 
-  const onPasswordFocus = () => {
+  const onPasswordBlur = () => {
     setIsPasswordDirty(true)
   }
 
@@ -116,7 +116,7 @@ const ResetPassword = () => {
           placeholder={t('enterEmail') || 'Enter email'}
           value={email}
           onInputChange={onEmailChange}
-          onFocus={onEmailFocus}
+          onBlur={onEmailBlur}
         />
         {(isEmailDirty && emailError) && <div className='text-red-600 text-sm'>{emailError}</div>}
       </div>
@@ -148,7 +148,7 @@ const ResetPassword = () => {
                 placeholder={t('enterPassword') || 'Enter password'}
                 value={password}
                 onInputChange={onPasswordChange}
-                onFocus={onPasswordFocus}
+                onBlur={onPasswordBlur}
               />
               {(isPasswordDirty && passwordError) && <div className='text-red-600 text-sm'>{passwordError}</div>}
             </div>

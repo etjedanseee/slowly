@@ -5,10 +5,10 @@ interface TextInputProps {
   onInputChange: (e: ChangeEvent<HTMLInputElement>) => void,
   value: string,
   placeholder?: string,
-  onFocus: () => void,
+  onBlur: () => void,
 }
 
-const TextInput = ({ placeholder = '', onInputChange, value, onFocus }: TextInputProps) => {
+const TextInput = ({ placeholder = '', onInputChange, value, onBlur }: TextInputProps) => {
   const { theme } = useTypedSelector(state => state.theme)
 
   return (
@@ -20,7 +20,7 @@ const TextInput = ({ placeholder = '', onInputChange, value, onFocus }: TextInpu
         w-full border-b px-4 py-1 mb-1 outline-none flex items-center
       `}
       spellCheck={false}
-      onFocus={onFocus}
+      onBlur={onBlur}
     />
   )
 }
