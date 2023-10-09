@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import supabase from '../supabaseClient'
 import { useTranslation } from 'react-i18next'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -25,6 +25,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
   const { theme, lang } = useTypedSelector(state => state.theme)
   const navigate = useNavigate()
 
+  const isSendedSignUp = useRef(false)
   const [loading, setLoading] = useState(false)
 
   const initialUserSettings: IUserSettings = {
@@ -79,8 +80,10 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
         setLoading(false)
       }
     }
-    if (isFormValid) {
+    if (isFormValid && !isSendedSignUp.current) {
       singUp()
+      isSendedSignUp.current = true
+      localStorage.removeItem('signUpData')
     }
   }, [isFormValid, info, interests, languages, geo, email, password, t])
 
@@ -101,6 +104,7 @@ const ConfirmEmail = ({ interests, isFormValid, languages, email, geo, info, pas
         color='yellow'
         onClick={onGoToLoginClick}
         title='gotoLogin'
+        p='py-2'
       />
     </div>
   )

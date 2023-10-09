@@ -4,7 +4,7 @@ import UserInfo from '../components/UserInfo'
 import Interests from '../components/Interests'
 import UserGeo from '../components/UserGeo'
 import UserEmail from '../components/UserEmail'
-import { ILang, IUserGeo, IUserInfo, interest } from '../types/Auth/auth'
+import { ILang, ISignUpData, IUserGeo, IUserInfo, interest } from '../types/Auth/auth'
 import ConfirmEmail from './ConfirmEmail'
 import UserLangs from '../components/UserLangs'
 import { useNavigate } from 'react-router-dom'
@@ -41,6 +41,16 @@ const SignUpPage = () => {
 
   const onNextStepClick = () => {
     if (formStep < 6) {
+      const signUpData: ISignUpData = {
+        formStep: formStep + 1,
+        userInfo,
+        interests,
+        languages,
+        userEmail,
+        userGeo,
+        userPassword
+      }
+      localStorage.setItem('signUpData', JSON.stringify(signUpData))
       setFormStep(prev => prev + 1)
     }
   }
@@ -48,6 +58,35 @@ const SignUpPage = () => {
   const onCloseClick = () => {
     navigate('/auth', { replace: true })
   }
+
+  useEffect(() => {
+    const signUpData = localStorage.getItem('signUpData')
+    if (signUpData) {
+      const data: ISignUpData = JSON.parse(signUpData)
+      setFormStep(data.formStep)
+      if (data.userInfo) {
+        setUserInfo(data.userInfo)
+        setIsUserInfoValid(true)
+      }
+      if (data.interests.length) {
+        setInterests(data.interests)
+        setIsInterestsValid(true)
+      }
+      if (data.languages.length) {
+        setLanguages(data.languages)
+        setIsLanguagesValid(true)
+      }
+      if (data.userGeo) {
+        setUserGeo(data.userGeo)
+        setIsUserGeoValid(true)
+      }
+      if (data.userEmail) {
+        setUserEmail(data.userEmail)
+        setIsUserEmailValid(true)
+      }
+      setUserPassword(data.userPassword)
+    }
+  }, [])
 
   useEffect(() => {
     if (languages.length) {
@@ -96,13 +135,6 @@ const SignUpPage = () => {
             isShowAnotherLanguages={true}
           />
         </div>
-      )}
-      {formStep === 4 && (
-        <UserGeo
-          userGeo={userGeo}
-          setIsUserGeoValid={setIsUserGeoValid}
-          setUserGeo={setUserGeo}
-        />
       )}
       {formStep === 4 && (
         <UserGeo

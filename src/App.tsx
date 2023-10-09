@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useTypedSelector } from './hooks/useTypedSelector';
 import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
@@ -18,7 +18,6 @@ function App() {
   const { user, chatList } = useTypedSelector(state => state.auth)
   const { interests } = useTypedSelector(state => state.data)
   const { setUser, fetchInterests, fetchUserChatList, fetchFriends, changeLanguage, changeTheme } = useActions()
-  const navigate = useNavigate()
 
   const [isCheckingSession, setIsCheckingSession] = useState(true)
 
@@ -33,15 +32,11 @@ function App() {
     const checkSession = async () => {
       try {
         const { data, error } = await supabase.auth.getSession()
-        if (!data.session) {
-          navigate('/auth')
-        } else {
-          if (data.session) {
-            const userObj = getPropertiesForUserFromSbUser(data.session.user)
-            setUser(userObj)
-            changeLanguage(userObj.settings.appLang)
-            changeTheme(userObj.settings.theme)
-          }
+        if (data.session) {
+          const userObj = getPropertiesForUserFromSbUser(data.session.user)
+          setUser(userObj)
+          changeLanguage(userObj.settings.appLang)
+          changeTheme(userObj.settings.theme)
         }
         if (error) {
           throw new Error(error.message)
@@ -81,7 +76,6 @@ function App() {
       </div>
     )
   }
-
 
   return (
     <div className={`flex-1 flex flex-col relative 

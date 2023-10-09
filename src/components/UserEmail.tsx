@@ -17,11 +17,11 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
   const { theme } = useTypedSelector(state => state.theme)
 
   const [emailText, setEmailText] = useState(userEmail || '')
-  const [emailTextError, setEmailTextError] = useState(t('required') || 'Field is required')
+  const [emailTextError, setEmailTextError] = useState(userEmail ? '' : (t('required') || 'Field is required'))
   const [isEmailDirty, setIsEmailDirty] = useState(false)
 
   const [passwordText, setPasswordText] = useState(userPassword || '')
-  const [passwordTextError, setPasswordTextError] = useState(t('required') || 'Field is required')
+  const [passwordTextError, setPasswordTextError] = useState(userPassword ? '' : (('required') || 'Field is required'))
   const [isPasswordDirty, setIsPasswordDirty] = useState(false)
 
   const onEmailTextChange = (e: ChangeEvent<HTMLInputElement>) => {

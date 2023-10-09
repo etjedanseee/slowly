@@ -96,3 +96,13 @@ export interface IFriendsWithLetter {
   coords: LatLng,
   letter: ILetter
 }
+
+export interface ISignUpData {
+  formStep: number,
+  userInfo: IUserInfo | null,
+  interests: interest[],
+  languages: ILang[],
+  userGeo: IUserGeo | null,
+  userEmail: string | null,
+  userPassword: string | null
+}

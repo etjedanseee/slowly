@@ -78,6 +78,15 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
   }
 
   useEffect(() => {
+    if (userInfo) {
+      setAvatarUrl(userInfo.avatarUrl)
+      setBirthDate(userInfo.birthDate)
+      setNickName(userInfo.nickName)
+      setSex(userInfo.sex)
+    }
+  }, [userInfo])
+
+  useEffect(() => {
     if (isInfoUpdated) {
       if (!birthDateError && !nickNameError && avatarUrl) {
         const updatedUserInfo: IUserInfo = {
