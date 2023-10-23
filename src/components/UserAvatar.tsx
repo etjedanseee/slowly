@@ -17,16 +17,20 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value
+    setAvatarUrl(url);
+    checkIsValidImage(url)
+  };
+
+  const checkIsValidImage = (url: string) => {
     const img = new Image();
     img.src = url;
     img.onload = () => {
-      setIsValidImage(true);
-    };
+      setIsValidImage(true)
+    }
     img.onerror = () => {
-      setIsValidImage(false);
-    };
-    setAvatarUrl(url);
-  };
+      setIsValidImage(false)
+    }
+  }
 
   const handleSaveImageURL = () => {
     if (isValidImage && (avatarUrl !== userAvatar)) {
