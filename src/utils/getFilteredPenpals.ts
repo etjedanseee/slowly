@@ -30,22 +30,29 @@ export const getFilteredPenpals = async ({ ageRange, includesBiography, interest
 
     const users = data as IUser[]
 
-    const filteredByBiography = includesBiography
+    //filteredByBiography
+    let filteredUsers = includesBiography
       ? users.filter(user => !!user.profile.biography.length)
       : users
-    const filteredBySex = filterUsersBySex(filteredByBiography, sex)
-    const filteredByLang = filterUsersByLangs(filteredBySex, langs)
-    const filteredByAge = filterUsersByAgeRange(filteredByLang, ageRange)
-    const filteredByInterests = filterUsersByInterests(filteredByAge, interests)
-    const filteredByZodiac = filteredByInterests.filter(user => zodiac.includes(user.info.zodiac))
-    const filteredByIds = filteredByZodiac.filter(user => !excludeIds.includes(user.id))
-    // console.log('filteredUsers', filteredByIds)
+    //filteredBySex
+    filteredUsers = filterUsersBySex(filteredUsers, sex)
+    //filteredByLang
+    filteredUsers = filterUsersByLangs(filteredUsers, langs)
+    //filteredByAge
+    filteredUsers = filterUsersByAgeRange(filteredUsers, ageRange)
+    //filteredByInterests
+    filteredUsers = filterUsersByInterests(filteredUsers, interests)
+    //filteredByZodiac
+    filteredUsers = filteredUsers.filter(user => zodiac.includes(user.info.zodiac))
+    //filteredByIds
+    filteredUsers = filteredUsers.filter(user => !excludeIds.includes(user.id))
+    // console.log('filteredUsers', filteredUsers)
 
-    if (!filteredByIds.length) {
+    if (!filteredUsers.length) {
       toast.info(t('didntFindFriends'))
       setFindedUsers([])
     } else {
-      setFindedUsers(filteredByIds)
+      setFindedUsers(filteredUsers)
     }
   } catch (e) {
     console.log('getFilteredPenpals error', e)

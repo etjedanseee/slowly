@@ -9,8 +9,9 @@ import { ReactComponent as UserIcon } from '../assets/navbarIcons/user.svg'
 
 const Navbar = () => {
   const { theme } = useTypedSelector(state => state.theme)
-
   const location = useLocation()
+
+  const iconFillColor = theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'
 
   return (
     <div className={`
@@ -18,19 +19,19 @@ const Navbar = () => {
       ${theme === 'dark' ? 'bg-black' : 'bg-white'}
     `}>
       <NavLink to='/'>
-        <HouseIcon className={`h-8 w-8  ${location.pathname === '/' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <HouseIcon className={`h-8 w-8  ${location.pathname === '/' ? iconFillColor : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/search'>
-        <SearchIcon className={`h-8 w-8 -mb-1 ${location.pathname === '/search' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <SearchIcon className={`h-8 w-8 -mb-1 ${location.pathname === '/search' ? iconFillColor : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/friends'>
-        <LetterIcon className={`h-10 w-10 -mb-1 ${location.pathname === '/friends' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <LetterIcon className={`h-10 w-10 -mb-1 ${location.pathname === '/friends' ? iconFillColor : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/draft'>
-        <PencilIcon className={`h-7 w-7 ${location.pathname === '/draft' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <PencilIcon className={`h-7 w-7 ${location.pathname === '/draft' ? iconFillColor : 'fill-gray-500'}`} />
       </NavLink>
       <NavLink to='/profile'>
-        <UserIcon className={`h-10 w-10 ${location.pathname === '/profile' ? theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900' : 'fill-gray-500'}`} />
+        <UserIcon className={`h-10 w-10 ${location.pathname === '/profile' ? iconFillColor : 'fill-gray-500'}`} />
       </NavLink>
     </div>
   )

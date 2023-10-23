@@ -12,7 +12,7 @@ const WriteLetterButton = ({ onWriteLetterClick }: WriteLetterButtonProps) => {
 
   return (
     <div className={`fixed bottom-3 right-3 z-10 rounded-full border-2 bg-gray-300
-        ${theme === 'dark' ? 'border-black' : ' border-zinc-500'} 
+        ${theme === 'dark' ? 'border-none' : ' border-zinc-500'} 
       `}>
       <PlaneIcon
         className={`h-12 w-12 p-2 rounded-full fill-black bg-gray-300 cursor-pointer`}

@@ -14,14 +14,14 @@ const LangCheckBox = ({ cheked, name, title, onLangCheckBoxChange }: LangCheckBo
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
 
+  const notChekedStyles = theme === 'dark' ? 'border-white' : 'border-gray-500'
+
   return (
     <div className='flex items-center gap-x-4' onClick={() => onLangCheckBoxChange(title)}>
       <div className={`
         ${cheked
           ? 'bg-yellow-400 border-yellow-400'
-          : theme === 'dark'
-            ? 'border-white'
-            : 'border-gray-500'
+          : notChekedStyles
         } 
           p-2 border-2`
       }

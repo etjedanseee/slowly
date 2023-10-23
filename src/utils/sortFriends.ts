@@ -2,8 +2,9 @@ import { IChatList, IUser } from "../types/Auth/auth";
 import { coordsToDistance } from "./calcDistance";
 
 export const sortFriends = (chatList: IChatList[], friends: IUser[], user: IUser, sort: string): IChatList[] => {
+  const copyChatList = [...chatList]
   if (sort === 'alphabet') {
-    const sortedChatList = [...chatList].sort((a, b) => {
+    const sortedChatList = copyChatList.sort((a, b) => {
       const friend1 = friends.find(user => user.id === a.chatId)
       const friend2 = friends.find(user => user.id === b.chatId)
 
@@ -16,19 +17,11 @@ export const sortFriends = (chatList: IChatList[], friends: IUser[], user: IUser
   } else if (sort === 'recent') {
     return chatList
   } else if (sort === 'frequency') {
-    return [...chatList].sort((a, b) => b.messages.length - a.messages.length)
+    return copyChatList.sort((a, b) => b.messages.length - a.messages.length)
   } else if (sort === 'unread') {
-    const sortedChatList = [...chatList].sort((a, b) => {
-      const isRead1 = a.messages[0].isRead
-      const isRead2 = b.messages[0].isRead
-
-      if (isRead1 && !isRead2) return 1
-      else if (isRead2 && !isRead1) return -1
-      else return 0
-    })
-    return sortedChatList
+    return copyChatList.sort((a, b) => +a.messages[0].isRead - +b.messages[0].isRead)
   } else if (sort === 'distance') {
-    const sortedChatList = [...chatList].sort((a, b) => {
+    const sortedChatList = copyChatList.sort((a, b) => {
       const friend1 = friends.find(user => user.id === a.chatId)
       const friend2 = friends.find(user => user.id === b.chatId)
 

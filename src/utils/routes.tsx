@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom"
 import AuthPage from "../pages/AuthPage"
 import AutoSearch from "../pages/AutoSearch"
 import Draft from "../pages/Draft"
@@ -35,5 +36,6 @@ export const publicRoutes: IRoute[] = [
   { path: '/auth', element: <AuthPage /> },
   { path: '/auth/signUp', element: <SignUpPage /> },
   { path: '/auth/signIn', element: <SignInPage /> },
-  { path: '/auth/resetPassword', element: <ResetPassword /> }
+  { path: '/auth/resetPassword', element: <ResetPassword /> },
+  { path: '*', element: <Navigate to={'/auth'} /> }
 ]

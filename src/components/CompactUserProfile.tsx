@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { IUser } from '../types/Auth/auth'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import UserAvatar from './UserAvatar'
@@ -14,11 +14,23 @@ interface CompactUserProfileProps {
 
 const CompactUserProfile = ({ userProfile }: CompactUserProfileProps) => {
   const { theme } = useTypedSelector(state => state.theme)
+  const { user } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
   const navigate = useNavigate()
 
+  const commonLanguages = useMemo(() => {
+    return checkCommonLanguages(user?.languages || [], userProfile.languages)
+      .sort((a, b) => b.level - a.level)
+  }, [user, userProfile])
+
+  const commonInterests = useMemo(() => filterInterests(user?.interests || [], userProfile.interests)[0], [user, userProfile])
+
   const onUserClick = (id: string) => {
     navigate('/users/' + id)
+  }
+
+  if (!user) {
+    return null
   }
 
   return (
@@ -38,11 +50,14 @@ const CompactUserProfile = ({ userProfile }: CompactUserProfileProps) => {
       <div className='mb-1'>{userProfile.geo.location.country}</div>
       <div className={`${theme === 'dark' ? 'bg-black' : 'bg-gray-500'} h-[1px] w-full mb-1`} />
       <div className='text-xs flex'>
-        {checkCommonLanguages(userProfile.languages, userProfile.languages).sort((a, b) => b.level - a.level).slice(0, 2).map((l, i) => (
-          <div className='' key={l.engName}>{i === 1 && ','} {l.name}</div>
+        {commonLanguages.slice(0, 2).map((l, i) => (
+          <div key={l.engName}>{i === 1 && ','} {l.name}</div>
         ))}
+        {commonLanguages.length > 2 && (
+          <div>...</div>
+        )}
       </div>
-      <div className='text-xs'>{t('coincided')}: {filterInterests(userProfile.interests, userProfile.interests)[0].length}</div>
+      <div className='text-xs'>{t('coincided')}: {commonInterests.length}</div>
     </div>
   )
 }

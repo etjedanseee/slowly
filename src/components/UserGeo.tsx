@@ -77,7 +77,7 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
             userGeo.location.country === 'Россия' || userGeo.location.country === 'Russia'
               ? <div className='text-center'>{t('condolences')} {userGeo.location.country}</div>
               : <div className='text-center'>
-                {userGeo.location.country === 'Україна' || userGeo.location.country === 'Ukraine'
+                {userGeo.location.country === 'Україна' || userGeo.location.country === 'Ukraine' || userGeo.location.country === 'Украина'
                   ? <div className='flex items-center gap-x-2'>
                     <div>{t('helloUkraine')}</div>
                     <UkraineFlag className='h-6' />

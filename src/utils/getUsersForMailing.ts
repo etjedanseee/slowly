@@ -31,22 +31,21 @@ export const getUsersForMailing = async ({ isIncludeMyCountryToSearch, setUsersF
 
     const Users = data as IUser[]
 
-    const filteredByCountry = isIncludeMyCountryToSearch
+    let filteredUsers = isIncludeMyCountryToSearch
       ? Users
       : Users.filter(user => user.geo.location.country !== userCountry)
+    filteredUsers = filterUsersByAgeRange(filteredUsers, ageRange)
+    filteredUsers = filterUsersById(filteredUsers, excludeIds)
+    filteredUsers = filterUsersBySex(filteredUsers, preferenceSex)
+    filteredUsers = filterUsersByLang(filteredUsers, selectedLearningLang, selectedLangProficiency)
 
-    const filteredByAge = filterUsersByAgeRange(filteredByCountry, ageRange)
-    const filteredById = filterUsersById(filteredByAge, excludeIds)
-    const filteredBySex = filterUsersBySex(filteredById, preferenceSex)
-    const filteredByLang = filterUsersByLang(filteredBySex, selectedLearningLang, selectedLangProficiency)
-
-    if (!filteredByLang.length) {
+    if (!filteredUsers.length) {
       setUsersForMailing([])
       toast.error(t('noUsersToSend'))
-    } else if (filteredByLang.length < selectedNumOfRecipients) {
-      setUsersForMailing(filteredByLang)
+    } else if (filteredUsers.length < selectedNumOfRecipients) {
+      setUsersForMailing(filteredUsers)
     } else {
-      setUsersForMailing(filteredByLang.slice(0, selectedNumOfRecipients))
+      setUsersForMailing(filteredUsers.slice(0, selectedNumOfRecipients))
     }
   } catch (e) {
     console.log('getUsersForMailing error', e)

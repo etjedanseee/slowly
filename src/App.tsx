@@ -112,7 +112,6 @@ function App() {
                   <Route  {...route} key={route.path} />
                 ))
               }
-              <Route path='*' element={<Navigate to='/auth' />} />
             </>
           )}
         <Route path='*' element={<NotFoundPage />} />

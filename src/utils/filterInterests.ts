@@ -8,7 +8,7 @@ export const filterInterests = (intr1: interest[], intr2: interest[]) => {
 
   for (let i = 0; i < allInterests.length; i++) {
     const currentInterest = allInterests[i]
-    const isCommonInterestsIncludes = commonInterests.find(intr => intr === currentInterest)
+    const isCommonInterestsIncludes = commonInterests.includes(currentInterest)
 
     if (allInterests.lastIndexOf(currentInterest) !== i && !isCommonInterestsIncludes) {
       commonInterests.push(currentInterest)

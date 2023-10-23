@@ -17,8 +17,8 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value
-    setAvatarUrl(url);
     checkIsValidImage(url)
+    setAvatarUrl(url);
   };
 
   const checkIsValidImage = (url: string) => {

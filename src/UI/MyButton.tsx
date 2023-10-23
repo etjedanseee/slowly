@@ -11,7 +11,6 @@ interface MyButtonProps {
   onClick: () => void,
 }
 
-//при светлой теме и дизейбл поменять цвета
 const MyButton = ({ color, title, variant, disabled, onClick, p }: MyButtonProps) => {
   const { t } = useTranslation();
 

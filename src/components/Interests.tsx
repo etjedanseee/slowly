@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { interest } from '../types/Auth/auth'
@@ -13,6 +13,8 @@ const Interests = ({ userInterests, setInterests, setIsInterestsValid }: Interes
   const { theme } = useTypedSelector(state => state.theme)
   const { interests } = useTypedSelector(state => state.data)
   const { t } = useTranslation()
+
+  const sortedInterests = useMemo(() => interests.sort((a, b) => t(a).localeCompare(t(b))), [interests, t])
 
   const handleSelectInterest = (selectedI: interest) => {
     const isSelectedIntIncludes = userInterests.includes(selectedI)
@@ -45,7 +47,7 @@ const Interests = ({ userInterests, setInterests, setIsInterestsValid }: Interes
       </div>
 
       <div className='grid grid-cols-2 gap-x-3 items-start gap-y-2 text-center'>
-        {interests.sort((a, b) => t(a).localeCompare(t(b))).map(intr => (
+        {sortedInterests.map(intr => (
           <div
             key={intr}
             className={`
