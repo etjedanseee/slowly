@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { ILetter, IUser } from '../types/Auth/auth'
 import { msInDay } from '../utils/consts'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -18,18 +18,22 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
   const { user } = useTypedSelector(state => state.auth)
   const { t } = useTranslation()
 
-  const [deliveredDateInMin, setDeliveredDateInMin] = useState(Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000))
+  const now = Date.now()
+  const deliveredDate = useMemo(() => new Date(letter.deliveredDate), [letter.deliveredDate])
+  const [deliveredDateInMin, setDeliveredDateInMin] = useState(Math.round((+deliveredDate - now) / 60000))
 
   useEffect(() => {
-    const deliveryDateInterval = setInterval(() => {
-      const res = Math.round((+new Date(letter.deliveredDate) - Date.now()) / 60000)
-      setDeliveredDateInMin(res)
+    if (deliveredDateInMin <= 0) {
+      return
+    }
+    const deliveryDateTimeout = setTimeout(() => {
+      setDeliveredDateInMin(prev => prev - 1)
     }, 60000)
 
     return () => {
-      clearInterval(deliveryDateInterval)
+      clearTimeout(deliveryDateTimeout)
     }
-  }, [letter.deliveredDate, deliveredDateInMin])
+  }, [deliveredDateInMin])
 
   useEffect(() => {
     if (isOpened) {
@@ -50,7 +54,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
     >
       {!isOpened && (
         <div className='flex-1 flex pb-5'>
-          {Date.now() > +new Date(letter.deliveredDate)
+          {now > +deliveredDate
             ? letter.isRead
               ? (
                 <>
@@ -68,7 +72,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
           }
         </div>
       )}
-      {Date.now() < +new Date(letter.deliveredDate)
+      {now < +deliveredDate
         ? letter.senderId === otherUser.id
           ? null
           : isOpened
@@ -94,7 +98,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
                   {letter.senderId === otherUser.id ? otherUser?.geo.location.country : user?.geo.location.country}
                 </div>
 
-                {Date.now() < +new Date(letter.deliveredDate) ? (
+                {now < +deliveredDate ? (
                   <div className={`flex ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
                     {`${t('deliveredThrought')} ${deliveredDateInMin < 60
                       ? `${deliveredDateInMin} ${t('minutes')}`
@@ -113,7 +117,7 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
           )
           : (
             <div>
-              {Date.now() < +new Date(letter.deliveredDate) ? (
+              {now < +deliveredDate ? (
                 <div>
                   <div className='mb-1'>{letter.senderId === otherUser.id ? otherUser.info.nickName : user?.info.nickName}</div>
                   <div className={`flex text-sm leading-tight ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -127,11 +131,11 @@ const Letter = ({ letter, otherUser, index, onOpenLetter, isOpened }: ILetterPro
                   <div>
                     <div className='mb-1'>{letter.senderId === otherUser.id ? otherUser.info.nickName : user?.info.nickName}</div>
                     <div className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                      {(Date.now() - +new Date(letter.deliveredDate) <= msInDay) && (
-                        new Date(letter.deliveredDate).getDate() === new Date().getDate()
+                      {(now - +deliveredDate <= msInDay) && (
+                        deliveredDate.getDate() === new Date().getDate()
                       )
-                        ? new Date(letter.deliveredDate).toLocaleTimeString().slice(0, -3)
-                        : new Date(letter.deliveredDate).toDateString()
+                        ? deliveredDate.toLocaleTimeString().slice(0, -3)
+                        : deliveredDate.toDateString()
                       }
                     </div>
                   </div>
