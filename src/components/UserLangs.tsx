@@ -57,10 +57,11 @@ const UserLangs = ({ userLangs, setUserLangs, user, isShowAnotherLanguages }: Us
       }
       setUserLangs([...otherLangs, lang])
     } else if (!prevLang) {
+      const updatedUserLangs = [...userLangs, lang]
       if (user) {
-        updateUserLangs(user, [...userLangs, lang])
+        updateUserLangs(user, updatedUserLangs)
       }
-      setUserLangs([...userLangs, lang])
+      setUserLangs(updatedUserLangs)
     }
     handleModalLangVisible()
   }

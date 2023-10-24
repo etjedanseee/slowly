@@ -24,10 +24,7 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         position => fetchLocationByCoord({ coord: position.coords, setUserGeo, setLoading, t }),
-        error => {
-          // console.log("get geo error:", error)
-          toast.error(error.message + '. ' + t('getGeoByLocationError'))
-        },
+        error => toast.error(error.message + '. ' + t('getGeoByLocationError')),
         { enableHighAccuracy: true, maximumAge: 5000 }
       );
     } else {

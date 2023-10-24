@@ -41,9 +41,9 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   }
 
   const handleHelpMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
-    console.log('work handle open')
-    setIsHelpMenuVisible(prev => !prev)
     e.stopPropagation();
+    console.log('work handle')
+    setIsHelpMenuVisible(prev => !prev)
   }
 
   const handleCloseWriteLetter = () => {
@@ -86,19 +86,14 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
   }, [])
 
   useEffect(() => {
-    const handleCloseHelpMenuClick = (e: MouseEvent) => {
-      if (e.target instanceof Element && !e.target.classList.contains('help-menu')) {
+    const handleCloseHelpMenuClick = (e: globalThis.MouseEvent) => {
+      if (e.target instanceof Element && !e.target.closest(('.help-menu'))) {
         setIsHelpMenuVisible(false)
       }
     }
-    if (isHelpMenuVisible) {
-      window.addEventListener('click', e => handleCloseHelpMenuClick)
-      console.log('work handle close')
-    } else {
-      window.removeEventListener('click', e => handleCloseHelpMenuClick)
-    }
+    window.addEventListener('click', handleCloseHelpMenuClick)
     return () => {
-      window.removeEventListener('click', e => handleCloseHelpMenuClick)
+      window.removeEventListener('click', handleCloseHelpMenuClick)
     }
   }, [isHelpMenuVisible])
 

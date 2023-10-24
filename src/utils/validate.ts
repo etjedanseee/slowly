@@ -1,10 +1,11 @@
 
 export function isValidDate(dateString: string): boolean {
-  var regEx = /^\d{4}-\d{2}-\d{2}$/;
+  const regEx = /^\d{4}-\d{2}-\d{2}$/;
   if (!dateString.match(regEx)) return false;  // Invalid format
-  var d = new Date(dateString);
+  const d = new Date(dateString);
+  console.log(d.getFullYear())
   if (new Date().getFullYear() - d.getFullYear() > 100) return false
-  var dNum = d.getTime();
+  const dNum = d.getTime();
   if (!dNum && dNum !== 0) return false; // NaN value, Invalid date
   return d.toISOString().slice(0, 10) === dateString;
 }
