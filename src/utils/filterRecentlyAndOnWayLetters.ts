@@ -1,6 +1,6 @@
 import { IChatList, ILetter, IUser } from "../types/Auth/auth"
 
-export const filterRecenntlyAndOnWayLetters = (chatList: IChatList[], user: IUser) => {
+export const filterRecentlyAndOnWayLetters = (chatList: IChatList[], user: IUser) => {
   const resRecentlyLetters: ILetter[] = []
   const resLettersOnWay: ILetter[] = []
   chatList.forEach(chat => {

@@ -21,43 +21,44 @@ interface ZodiacIconProps {
 
 const ZodiacIcon = ({ zodiac, theme }: ZodiacIconProps) => {
   let imageComponent;
+  const iconFillColor = theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'
 
   switch (zodiac) {
     case 'Aries':
-      imageComponent = <AriesIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <AriesIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Taurus':
-      imageComponent = <TaurusIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <TaurusIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Gemini':
-      imageComponent = <GeminiIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <GeminiIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Cancer':
-      imageComponent = <CancerIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <CancerIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Leo':
-      imageComponent = <LeoIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <LeoIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Virgo':
-      imageComponent = <VirgoIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <VirgoIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Libra':
-      imageComponent = <LibraIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <LibraIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Scorpio':
-      imageComponent = <ScorpioIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <ScorpioIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Sagittarius':
-      imageComponent = <SagittariusIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <SagittariusIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Capricorn':
-      imageComponent = <CapricornIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <CapricornIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Aquarius':
-      imageComponent = <AquariusIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <AquariusIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     case 'Pisces':
-      imageComponent = <PiscesIcon className={`h-5 w-5 ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />;
+      imageComponent = <PiscesIcon className={`h-5 w-5 ${iconFillColor}`} />;
       break;
     default:
       imageComponent = null;

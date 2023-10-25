@@ -8,8 +8,6 @@ import { useTranslation } from 'react-i18next'
 import supabase from '../supabaseClient'
 import { useActions } from '../hooks/useActions'
 import MyButton from '../UI/MyButton'
-import { IUser } from '../types/Auth/auth'
-import { initialUserInfo, initialUserProfile } from '../utils/consts'
 import Loader from '../UI/Loader'
 import { toast } from 'react-toastify';
 import { getPropertiesForUserFromSbUser } from '../utils/getPropertiesForUserFromSbUser'

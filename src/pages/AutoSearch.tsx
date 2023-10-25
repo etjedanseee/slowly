@@ -175,7 +175,7 @@ const AutoSearch = () => {
       }
       const letterParams: getUsersForMailingProps = {
         userCountry: user.geo.location.country,
-        excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+        excludeIds: [user.id, ...[...chatList].map(chat => chat.chatId)],
         isIncludeMyCountryToSearch,
         preferenceSex,
         selectedLangProficiency,
@@ -195,13 +195,13 @@ const AutoSearch = () => {
       for (let receiverUser of usersForMailing) {
         const diffGeoDistance = coordsToDistance(user.geo.coord, receiverUser.geo.coord)
         const deliveredTime = Math.round(diffGeoDistance / 90)
-        sendLetter(user.id, receiverUser.id, letterText, deliveredTime, t)
+        sendLetter(user.id, receiverUser.id, letterText.trim(), deliveredTime, t)
       }
       toast.success(`${t('sended')} ${usersForMailing.length} ${t('users')}`, { delay: 1000 })
       setUsersForMailing([])
       setTimeout(() => navigate('/friends'), 300)
     }
-  }, [usersForMailing, user])
+  }, [usersForMailing, user, t, letterText])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>

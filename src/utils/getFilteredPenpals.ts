@@ -11,12 +11,12 @@ export interface getFilteredPenpalsProps {
   sex: SexType[],
   zodiac: ZodiacType[],
   excludeIds: string[],
-  setFindedUsers: (users: IUser[]) => void,
+  setFoundUsers: (users: IUser[]) => void,
   setLoading: (b: boolean) => void,
   t: (s: string) => string
 }
 
-export const getFilteredPenpals = async ({ ageRange, includesBiography, interests, langs, sex, zodiac, setFindedUsers, excludeIds, setLoading, t }: getFilteredPenpalsProps) => {
+export const getFilteredPenpals = async ({ ageRange, includesBiography, interests, langs, sex, zodiac, setFoundUsers, excludeIds, setLoading, t }: getFilteredPenpalsProps) => {
   try {
     setLoading(true)
     const { data, error } = await supabase
@@ -30,29 +30,22 @@ export const getFilteredPenpals = async ({ ageRange, includesBiography, interest
 
     const users = data as IUser[]
 
-    //filteredByBiography
     let filteredUsers = includesBiography
       ? users.filter(user => !!user.profile.biography.length)
       : users
-    //filteredBySex
     filteredUsers = filterUsersBySex(filteredUsers, sex)
-    //filteredByLang
     filteredUsers = filterUsersByLangs(filteredUsers, langs)
-    //filteredByAge
     filteredUsers = filterUsersByAgeRange(filteredUsers, ageRange)
-    //filteredByInterests
     filteredUsers = filterUsersByInterests(filteredUsers, interests)
-    //filteredByZodiac
     filteredUsers = filteredUsers.filter(user => zodiac.includes(user.info.zodiac))
-    //filteredByIds
     filteredUsers = filteredUsers.filter(user => !excludeIds.includes(user.id))
     // console.log('filteredUsers', filteredUsers)
 
     if (!filteredUsers.length) {
       toast.info(t('didntFindFriends'))
-      setFindedUsers([])
+      setFoundUsers([])
     } else {
-      setFindedUsers(filteredUsers)
+      setFoundUsers(filteredUsers)
     }
   } catch (e) {
     console.log('getFilteredPenpals error', e)

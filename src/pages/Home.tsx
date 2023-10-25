@@ -10,7 +10,7 @@ import { readLetter } from '../utils/readLetter'
 import { useActions } from '../hooks/useActions'
 import Map from '../UI/Map'
 import Loader from '../UI/Loader'
-import { filterRecenntlyAndOnWayLetters } from '../utils/filterRecentlyAndOnWayLetters'
+import { filterRecentlyAndOnWayLetters } from '../utils/filterRecentlyAndOnWayLetters'
 import OpenedLetter from '../components/OpenedLetter'
 
 const Home = () => {
@@ -27,7 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     if (user) {
-      const [resRecentlyLetters, resLettersOnWay] = filterRecenntlyAndOnWayLetters(chatList, user)
+      const [resRecentlyLetters, resLettersOnWay] = filterRecentlyAndOnWayLetters(chatList, user)
       setRecentlyLetters(resRecentlyLetters)
       setLettersOnWay(resLettersOnWay)
     }
@@ -69,18 +69,16 @@ const Home = () => {
         </div>
         <div className='flex gap-x-4 flex-nowrap overflow-x-auto px-20 withoutscroll'>
           {!!friends.length && !!recentlyLetters.length && recentlyLetters.map((letter, index) => (
-            friends.find(f => f.id === letter.senderId)
-              ? (
-                <Letter
-                  letter={letter}
-                  otherUser={friends.find(f => f.id === letter.senderId) || friends[0]}
-                  index={index}
-                  onOpenLetter={() => onOpenLetter(letter)}
-                  key={letter.id}
-                  isOpened={false}
-                />
-              )
-              : null
+            friends.find(f => f.id === letter.senderId) && (
+              <Letter
+                letter={letter}
+                otherUser={friends.find(f => f.id === letter.senderId) || friends[0]}
+                index={index}
+                onOpenLetter={() => onOpenLetter(letter)}
+                key={letter.id}
+                isOpened={false}
+              />
+            )
           ))}
         </div>
       </div>

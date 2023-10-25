@@ -13,7 +13,7 @@ import { useActions } from '../hooks/useActions'
 import Loader from '../UI/Loader'
 import MyButton from '../UI/MyButton'
 import SortMenu from '../UI/SortMenu'
-import { sortFriends } from '../utils/sortFriends'
+import { sortChatList } from '../utils/sortChatList'
 
 const Friends = () => {
   const { t } = useTranslation()
@@ -67,7 +67,7 @@ const Friends = () => {
     if (!user) {
       return
     }
-    const sortedChats = sortFriends(chatList, friends, user, sort)
+    const sortedChats = sortChatList(chatList, friends, user, sort)
     setSortedChatList(sortedChats)
   }, [sort, chatList, friends, user])
 

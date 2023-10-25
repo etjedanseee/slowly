@@ -37,7 +37,7 @@ const SearchFriends = () => {
   const onSearchOtherUser = async () => {
     if (!otherUserId) {
       toast.error(t('emptyId'))
-      return false
+      return
     }
     setOtherUserLoading(true)
     setIsHideSearchButton(true)
@@ -66,7 +66,7 @@ const SearchFriends = () => {
       toast.error(t('noFoundUser'))
       setFetchOtherUserError(false)
     }
-  }, [fetchOtherUserError])
+  }, [fetchOtherUserError, t])
 
   return (
     <div className={`flex flex-col justify-around h-full text-center pb-20 px-3 gap-y-3

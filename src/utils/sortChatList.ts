@@ -1,7 +1,7 @@
 import { IChatList, IUser } from "../types/Auth/auth";
 import { coordsToDistance } from "./calcDistance";
 
-export const sortFriends = (chatList: IChatList[], friends: IUser[], user: IUser, sort: string): IChatList[] => {
+export const sortChatList = (chatList: IChatList[], friends: IUser[], user: IUser, sort: string): IChatList[] => {
   const copyChatList = [...chatList]
   if (sort === 'alphabet') {
     const sortedChatList = copyChatList.sort((a, b) => {

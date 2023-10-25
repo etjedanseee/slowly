@@ -28,7 +28,7 @@ const ManuallySearch = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const [findedUsers, setFindedUsers] = useState<IUser[]>([])
+  const [foundUsers, setFoundUsers] = useState<IUser[]>([])
   const [isFilterModalVisible, setIsFilterModalVisible] = useState(false)
 
   const [isIncludeUsersWithBiography, setIsIncludeUsersWithBiography] = useState(false)
@@ -54,7 +54,7 @@ const ManuallySearch = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    if (user && !!chatList.length && !findedUsers.length) {
+    if (user && !!chatList.length && !foundUsers.length) {
       const manuallySearchFilters = localStorage.getItem('manuallySearchFilters')
 
       if (manuallySearchFilters) {
@@ -77,9 +77,9 @@ const ManuallySearch = () => {
           langs: data.selectedLangs,
           zodiac: data.selectedZodiac,
           sex: data.preferenceSex,
-          // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+          // excludeIds: [user.id, ...[...chatList].map(chat => chat.chatId)],
           excludeIds: [],
-          setFindedUsers,
+          setFoundUsers,
           setLoading, t
         })
       } else {
@@ -90,14 +90,14 @@ const ManuallySearch = () => {
           langs: selectedLangs,
           zodiac: selectedZodiac,
           sex: preferenceSex,
-          // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+          // excludeIds: [user.id, ...[...chatList].map(chat => chat.chatId)],
           excludeIds: [],
-          setFindedUsers,
+          setFoundUsers,
           setLoading, t
         })
       }
     }
-  }, [user, chatList])
+  }, [user, chatList, foundUsers.length])
 
   if (!user) {
     return <div className='flex justify-center py-20'><Loader size='16' /></div>
@@ -208,9 +208,9 @@ const ManuallySearch = () => {
       langs: selectedLangs,
       zodiac: selectedZodiac,
       sex: preferenceSex,
-      // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
+      // excludeIds: [user.id, ...[...chatList].map(chat => chat.chatId)],
       excludeIds: [],
-      setFindedUsers,
+      setFoundUsers,
       setLoading, t
     }
     await getFilteredPenpals(props)
@@ -235,11 +235,11 @@ const ManuallySearch = () => {
 
       {loading
         ? <div className='flex justify-center py-20'><Loader size='16' /></div>
-        : !findedUsers.length
+        : !foundUsers.length
           ? <div className='mb-2'>No match users</div>
           : (
             <div className='grid grid-cols-2 gap-2'>
-              {findedUsers.map(user => (
+              {foundUsers.map(user => (
                 <CompactUserProfile userProfile={user} key={user.id} />)
               )}
             </div>
