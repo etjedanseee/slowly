@@ -77,7 +77,7 @@ const ManuallySearch = () => {
           langs: data.selectedLangs,
           zodiac: data.selectedZodiac,
           sex: data.preferenceSex,
-          // excludeIds: [user.id, ...[...chatList].map(chat => chat.chatId)],
+          // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
           excludeIds: [],
           setFoundUsers,
           setLoading, t
@@ -90,7 +90,7 @@ const ManuallySearch = () => {
           langs: selectedLangs,
           zodiac: selectedZodiac,
           sex: preferenceSex,
-          // excludeIds: [user.id, ...[...chatList].map(chat => chat.chatId)],
+          // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
           excludeIds: [],
           setFoundUsers,
           setLoading, t
@@ -208,7 +208,7 @@ const ManuallySearch = () => {
       langs: selectedLangs,
       zodiac: selectedZodiac,
       sex: preferenceSex,
-      // excludeIds: [user.id, ...[...chatList].map(chat => chat.chatId)],
+      // excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
       excludeIds: [],
       setFoundUsers,
       setLoading, t

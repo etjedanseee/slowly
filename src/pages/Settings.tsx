@@ -16,7 +16,7 @@ const Settings = () => {
   const { t } = useTranslation()
   const { theme, lang } = useTypedSelector(state => state.theme)
   const { user } = useTypedSelector(state => state.auth)
-  const { changeTheme, changeLanguage, updateUserSettings } = useActions()
+  const { changeTheme, changeLanguage, updateUserSettings, setUser } = useActions()
   const navigate = useNavigate()
 
   const [isAppLanguageSelectVisible, setIsAppLanguageSelectVisible] = useState(false)
@@ -53,9 +53,9 @@ const Settings = () => {
   }
 
   const onSignOutClick = () => {
+    setUser(null)
     localStorage.clear()
     navigate('/auth', { replace: true })
-    window.location.reload()
   }
 
   const onChangeTheme = () => {

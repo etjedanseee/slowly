@@ -75,7 +75,7 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
               ? <div className='text-center'>{t('condolences')} {userGeo.location.country}</div>
               : <div className='text-center'>
                 {userGeo.location.country === 'Україна' || userGeo.location.country === 'Ukraine' || userGeo.location.country === 'Украина'
-                  ? <div className='flex items-center gap-x-2'>
+                  ? <div className='flex items-center gap-x-1 px-4'>
                     <div>{t('helloUkraine')}</div>
                     <UkraineFlag className='h-6' />
                   </div>
@@ -85,12 +85,13 @@ const UserGeo = ({ setUserGeo, userGeo, setIsUserGeoValid }: UserGeoProps) => {
         )
           : <div className='text-center leading-none opacity-80 mb-2'>{t('deliveryTimeDepens')}</div>
         }
+
+        {loading && <div className='flex justify-center pb-32 mt-6'><Loader size='14' /></div>}
       </div>
 
-      {loading
-        ? <div className='flex justify-center py-20'><Loader size='12' /></div>
-        : (
-          <div className='justify-self-end w-full flex flex-col gap-y-2 mb-2'>
+      {
+        !loading && (
+          <div className='justify-self-end w-full flex flex-col gap-y-2 mb-3'>
             <MyButton color='yellow' onClick={onGetCoordsByGeo} title='determineGeo' />
             <MyButton color='black' onClick={onFetchByIpAddress} title='determineIp' />
           </div>

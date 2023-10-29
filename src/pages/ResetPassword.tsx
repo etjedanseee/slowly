@@ -43,7 +43,7 @@ const ResetPassword = () => {
     setEmail(e.target.value)
   }
 
-  const onEmailBlur = () => {
+  const onEmailFocus = () => {
     setIsEmailDirty(true)
   }
 
@@ -58,7 +58,7 @@ const ResetPassword = () => {
     setPassword(e.target.value)
   }
 
-  const onPasswordBlur = () => {
+  const onPasswordFocus = () => {
     setIsPasswordDirty(true)
   }
 
@@ -79,13 +79,16 @@ const ResetPassword = () => {
       const { data, error } = await supabase.auth
         .updateUser({ password: password })
       console.log('new p', data, error)
+      if (error) {
+        toast.error(t('errorUpdatePassword') + error.message)
+        throw new Error(error.message)
+      }
       if (data) {
         toast.success(t('passwordUpdatedSuccessfully'))
         setTimeout(() => {
           navigate('/auth/signIn')
         }, 1500)
       }
-      if (error) toast.error(t('errorUpdatePassword'))
     } catch (e) {
       console.log(e)
     }
@@ -116,7 +119,7 @@ const ResetPassword = () => {
           placeholder={t('enterEmail') || 'Enter email'}
           value={email}
           onInputChange={onEmailChange}
-          onBlur={onEmailBlur}
+          onFocus={onEmailFocus}
         />
         {(isEmailDirty && emailError) && <div className='text-red-600 text-sm'>{emailError}</div>}
       </div>
@@ -142,13 +145,13 @@ const ResetPassword = () => {
                   className={`h-6 w-6 cursor-pointer ${theme === 'dark' ? 'fill-white' : 'fill-black'}`}
                   onClick={handleChangePasswordFormVisible}
                 />
-                <div className='text-2xl'>{t('enterNewPassword')}</div>
+                <div className='text-xl'>{t('enterNewPassword')}</div>
               </div>
               <TextInput
                 placeholder={t('enterPassword') || 'Enter password'}
                 value={password}
                 onInputChange={onPasswordChange}
-                onBlur={onPasswordBlur}
+                onFocus={onPasswordFocus}
               />
               {(isPasswordDirty && passwordError) && <div className='text-red-600 text-sm'>{passwordError}</div>}
             </div>

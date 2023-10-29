@@ -434,7 +434,7 @@ const Profile = () => {
         <div className={`${theme === 'dark' ? 'bg-zinc-700' : 'bg-slate-300'} px-2 py-3`}>
           <UserLangs
             setUserLangs={setUserLangs}
-            userLangs={userLangs.sort((a, b) => b.level - a.level)}
+            userLangs={[...userLangs].sort((a, b) => b.level - a.level)}
             user={user}
             isShowAnotherLanguages={false}
           />

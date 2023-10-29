@@ -14,7 +14,7 @@ const Interests = ({ userInterests, setInterests, setIsInterestsValid }: Interes
   const { interests } = useTypedSelector(state => state.data)
   const { t } = useTranslation()
 
-  const sortedInterests = useMemo(() => interests.sort((a, b) => t(a).localeCompare(t(b))), [interests, t])
+  const sortedInterests = useMemo(() => [...interests].sort((a, b) => t(a).localeCompare(t(b))), [interests, t])
 
   const handleSelectInterest = (selectedI: interest) => {
     const isSelectedIntIncludes = userInterests.includes(selectedI)

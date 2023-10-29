@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { useTypedSelector } from './hooks/useTypedSelector';
 import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
-import { dictionary } from './utils/consts';
+import { dictionary } from './utils/dictionary';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFoundPage from './pages/NotFoundPage';
@@ -22,7 +22,10 @@ function App() {
   const [isCheckingSession, setIsCheckingSession] = useState(true)
 
   i18n.use(initReactI18next).init({
-    resources: { en: { translation: dictionary.en }, ua: { translation: dictionary.ua } },
+    resources: {
+      en: { translation: dictionary.en },
+      ua: { translation: dictionary.ua }
+    },
     lng: lang,
     fallbackLng: lang,
     interpolation: { escapeValue: false },

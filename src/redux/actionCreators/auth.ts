@@ -21,14 +21,16 @@ const updateUser = (user: IUser, updatedUserMetadata: any) => {
     try {
       const { error } = await supabase.auth.updateUser({ data: { ...updatedUserMetadata } })
 
-      const upsertData = await supabase.from('Users')
+      const { error: upsertError } = await supabase.from('Users')
         .upsert({
           id: user.id,
           ...updatedUserMetadata,
         })
 
-      if (error) {
-        throw new Error(error.message)
+      const errorMessage = error?.message || upsertError?.message
+
+      if (errorMessage) {
+        throw new Error(errorMessage)
       }
 
       dispatch({ type: AuthActionTypes.SET_USER, payload: updatedUser })

@@ -1,14 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import MyButton from '../UI/MyButton'
+import Loader from '../UI/Loader'
 
 const NotFoundPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
+  const [timeLoading, setTimeLoading] = useState(0)
+
+  useEffect(() => {
+    const timeLoadingTimeout = setTimeout(() => { setTimeLoading(1000) }, 1000)
+    return () => { clearTimeout(timeLoadingTimeout) }
+  }, [])
+
   const onGoBackClick = () => {
     navigate(-1)
+  }
+
+  //first second show loader(wait when user state changed from null to userObj)
+  if (!timeLoading) {
+    return <div className='flex justify-center py-20'><Loader size='16' /></div>
   }
 
   return (

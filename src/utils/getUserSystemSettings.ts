@@ -17,6 +17,6 @@ export const getUserSystemLanguage = (): appLangType => {
   if (userLanguage === 'en' || userLanguage === 'ua') {
     return userLanguage
   } else {
-    return 'en'
+    return 'ua'
   }
 }

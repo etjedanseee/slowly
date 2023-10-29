@@ -40,7 +40,7 @@ const AutoSearch = () => {
   const [selectedLangProficiency, setSelectedLangProficiency] = useState(langProficiency)
   const [isLangProficiencySelectVisible, setIsLangProficiencyVisible] = useState(false)
 
-  const [topic, setTopic] = useState<interest>(user?.interests.sort((a, b) => a.localeCompare(b))[0] || 'Life')
+  const [topic, setTopic] = useState<interest>([...user?.interests || []].sort((a, b) => a.localeCompare(b))[0] || 'Life')
   const [selectedTopic, setSelectedTopic] = useState(topic)
   const [isTopicSelectVisible, setIsTopicSelectVisible] = useState(false)
 
@@ -175,7 +175,7 @@ const AutoSearch = () => {
       }
       const letterParams: getUsersForMailingProps = {
         userCountry: user.geo.location.country,
-        excludeIds: [user.id, ...[...chatList].map(chat => chat.chatId)],
+        excludeIds: [user.id, ...chatList.map(chat => chat.chatId)],
         isIncludeMyCountryToSearch,
         preferenceSex,
         selectedLangProficiency,
