@@ -80,7 +80,7 @@ const ResetPassword = () => {
         .updateUser({ password: password })
       console.log('new p', data, error)
       if (error) {
-        toast.error(t('errorUpdatePassword') + error.message)
+        toast.error(t('errorUpdatePassword') + '. ' + error.message)
         throw new Error(error.message)
       }
       if (data.user) {

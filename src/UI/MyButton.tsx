@@ -18,7 +18,7 @@ const MyButton = ({ color, title, variant, disabled, onClick, p }: MyButtonProps
   if (color === 'black') {
     buttonColor = disabled ? 'bg-black text-white' : 'bg-black text-white'
   } else {
-    buttonColor = disabled ? 'bg-yellow-400 bg-opacity-50 text-zinc-900' : 'bg-yellow-400 text-zinc-900'
+    buttonColor = disabled ? 'bg-yellow-400 bg-opacity-50 text-zinc-900' : 'bg-yellow-400 text-black'
   }
 
   return (

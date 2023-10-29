@@ -143,7 +143,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
       <div className='mb-4'>
         <div className='mb-3'>{t('birthday')}</div>
         <TextInput
-          placeholder='YYYY-MM-DD'
+          placeholder={t('ymd')}
           onBlur={onBirthDateBlur}
           onInputChange={onBirthDateChange}
           value={birthDate}

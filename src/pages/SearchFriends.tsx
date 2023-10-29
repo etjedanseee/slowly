@@ -91,7 +91,6 @@ const SearchFriends = () => {
       <div className='text-start'>
         <div className='font-medium text-sm mb-1'>{t('adddFriendById')} Slowly ID</div>
         <TextInput
-          onBlur={() => { }}
           onInputChange={handleOtherUserIdChange}
           value={otherUserId}
           placeholder={`${t('enter')} Slowly ID`}
