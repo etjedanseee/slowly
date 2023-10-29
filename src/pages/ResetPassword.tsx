@@ -83,7 +83,7 @@ const ResetPassword = () => {
         toast.error(t('errorUpdatePassword') + error.message)
         throw new Error(error.message)
       }
-      if (data) {
+      if (data.user) {
         toast.success(t('passwordUpdatedSuccessfully'))
         setTimeout(() => {
           navigate('/auth/signIn')

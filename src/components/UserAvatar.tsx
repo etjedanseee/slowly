@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { ReactComponent as DefaultUserIcon } from '../assets/navbarIcons/user.svg'
 import TextInput from '../UI/TextInput';
 import { useTypedSelector } from '../hooks/useTypedSelector';
+import { useTranslation } from 'react-i18next';
 
 interface UserAvatarProps {
   userAvatar: string,
@@ -12,6 +13,7 @@ interface UserAvatarProps {
 
 const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, size }: UserAvatarProps) => {
   const { theme } = useTypedSelector(state => state.theme)
+  const { t } = useTranslation()
   const [avatarUrl, setAvatarUrl] = useState(userAvatar);
   const [isValidImage, setIsValidImage] = useState(true);
 
@@ -46,26 +48,41 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
     <div className='w-full'>
       <div className='w-full flex justify-center'>
         {isValidImage && userAvatar.length
-          ? <img src={avatarUrl} className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover`} alt="User Avatar" />
-          : <DefaultUserIcon className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}`} />
+          ? (
+            <img
+              src={avatarUrl}
+              className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover`}
+              alt="User Avatar"
+            />
+          )
+          : (
+            <DefaultUserIcon
+              className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} 
+              rounded-full object-cover ${theme === 'dark' ? 'fill-gray-200' : 'fill-gray-900'}
+            `}
+            />
+          )
         }
       </div>
 
       {canUpdate && (
         <div>
-          <div className='flex items-center justify-between mb-2'>
-            <div className='text-sm'>Update avatar URL:</div>
-            <div className={`${theme === 'dark' ? 'text-white' : 'text-zinc-900'} 
-              ${isValidImage && avatarUrl !== userAvatar ? 'opacity-100 cursor-pointer' : 'opacity-50'}
-              border-2 rounded-xl inline-block px-4 py-[2px] mt-1 text-sm`}
-              onClick={handleSaveImageURL}
-            >
-              Save
-            </div>
+          <div className='flex items-center justify-between mb-1'>
+            <div>{t('avatar')}</div>
+            {isValidImage && avatarUrl !== userAvatar && (
+              <div className={`${theme === 'dark' ? 'text-white' : 'text-zinc-900'} 
+                  cursor-pointer border-2 rounded-xl inline-block px-4 py-[2px] mt-1 text-sm
+                `}
+                onClick={handleSaveImageURL}
+              >
+                {t('save')}
+              </div>
+            )
+            }
           </div>
 
           <TextInput
-            onBlur={() => { }}
+            placeholder={t('enterUrl')}
             onInputChange={handleAvatarChange}
             value={avatarUrl}
           />

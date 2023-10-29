@@ -11,6 +11,7 @@ import { ReactComponent as SignOutIcon } from '../assets/signout.svg'
 import Select from '../UI/Select'
 import { appLangsArr } from '../utils/consts'
 import { appLangType } from '../types/Theme/theme'
+import { getUserSystemLanguage, getUserSystemTheme } from '../utils/getUserSystemSettings'
 
 const Settings = () => {
   const { t } = useTranslation()
