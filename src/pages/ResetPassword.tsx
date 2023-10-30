@@ -161,6 +161,7 @@ const ResetPassword = () => {
                 <div className='text-xl'>{t('enterNewPassword')}</div>
               </div>
               <TextInput
+                isPassword={true}
                 placeholder={t('enterPassword') || 'Enter password'}
                 value={password}
                 onInputChange={onPasswordChange}

@@ -37,6 +37,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
   }
 
   const onPasswordTextChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
     if (!e.target.value.length) {
       setPasswordTextError(t('required') || 'Field is required')
     } else if (e.target.value.length < 6) {
@@ -82,6 +83,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
       <div className='mb-4'>
         <div className='mb-2 text-2xl'>{t('password')}</div>
         <TextInput
+          isPassword={true}
           placeholder={t('enterPassword') || 'Enter password'}
           value={passwordText}
           onInputChange={onPasswordTextChange}
