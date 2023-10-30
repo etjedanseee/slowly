@@ -9,11 +9,16 @@ import { isValidEmail } from '../utils/validate'
 import MyButton from '../UI/MyButton'
 import supabase from '../supabaseClient'
 import { toast } from 'react-toastify'
+import { ReactComponent as LogoIcon } from '../assets/logo.svg'
+import { singIn } from '../utils/signIn'
+import { useActions } from '../hooks/useActions'
+import Loader from '../UI/Loader'
 
 const ResetPassword = () => {
   const { theme } = useTypedSelector(state => state.theme)
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const { setUser } = useActions()
 
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState(t('required') || 'Field is required')
@@ -22,6 +27,8 @@ const ResetPassword = () => {
   const [password, setPassword] = useState('')
   const [passwordError, setPasswordError] = useState(t('required') || 'Field is required')
   const [isPasswordDirty, setIsPasswordDirty] = useState(false)
+  const [isNavigateFormVisible, setIsNavigateFormVisible] = useState(false)
+  const [signInloading, setSignInLoading] = useState(false)
 
   const handleChangePasswordFormVisible = () => {
     setIsChangePasswordFormVisible(prev => !prev)
@@ -85,13 +92,19 @@ const ResetPassword = () => {
       }
       if (data.user) {
         toast.success(t('passwordUpdatedSuccessfully'))
-        setTimeout(() => {
-          navigate('/auth/signIn')
-        }, 1500)
+        setIsNavigateFormVisible(true)
       }
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const onAutoLoginClick = () => {
+    singIn({ email, navigate, password, setLoading: setSignInLoading, setUser, t })
+  }
+
+  const onManualLoginClick = () => {
+    navigate('/auth/signIn')
   }
 
   useEffect(() => {
@@ -136,7 +149,7 @@ const ResetPassword = () => {
       )}
 
       {isChangePasswordFormVisible && (
-        <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full h-full overflow-hidden py-4 px-2 bg-black bg-opacity-90
+        <div className={`fixed top-0 left-0 nMb:left-1/2 nMb:-translate-x-1/2 nMb:max-w-[425px] w-full h-full overflow-hidden py-4 px-2 bg-black bg-opacity-90 z-20
         `}>
           <div className='py-4 px-4 border-2 border-white rounded-lg'>
             <div className='mb-6'>
@@ -169,6 +182,33 @@ const ResetPassword = () => {
           </div>
         </div>
       )}
+
+      {isNavigateFormVisible && (
+        <div className='fixed top-0 left-0 w-full bg-inherit z-30 h-full pt-4 px-2'>
+          <LogoIcon className={`m-auto h-32 w-32 mb-4 fill-yellow-400`} />
+          <div className="text-xl font-medium mb-4">{t('chooseHowToSignIn')}</div>
+          {!signInloading ? (
+            <div className='flex flex-col gap-y-2'>
+              <MyButton
+                color='yellow'
+                onClick={onAutoLoginClick}
+                title='autoLogin'
+                p='py-2'
+              />
+              <MyButton
+                color='black'
+                onClick={onManualLoginClick}
+                title='returnToLoginPage'
+                p='py-2'
+              />
+            </div>
+          )
+            : <div className='flex justify-center'><Loader size='12' /></div>
+          }
+        </div>
+      )
+
+      }
     </div>
   )
 }

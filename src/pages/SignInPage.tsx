@@ -5,12 +5,10 @@ import { ReactComponent as ArrowBackIcon } from '../assets/arrowBack.svg'
 import { ReactComponent as LogoIcon } from '../assets/logo.svg'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import supabase from '../supabaseClient'
 import { useActions } from '../hooks/useActions'
 import MyButton from '../UI/MyButton'
 import Loader from '../UI/Loader'
-import { toast } from 'react-toastify';
-import { getPropertiesForUserFromSbUser } from '../utils/getPropertiesForUserFromSbUser'
+import { singIn } from '../utils/signIn'
 
 const SignInPage = () => {
   const [email, setEmail] = useState<string | null>(null)
@@ -24,37 +22,16 @@ const SignInPage = () => {
   const { setUser } = useActions()
 
   const onGoBackClick = () => {
-    navigate('/auth')
+    navigate(-1)
   }
 
   const onResetPasswordClick = () => {
     navigate('/auth/resetPassword')
   }
 
-  const singIn = async () => {
-    if (!isFormValid) {
-      return false
-    }
-    setLoading(true)
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email?.trim() || '',
-        password: password?.trim() || '',
-      })
-      console.log('singIn data', data)
-
-      if (error) {
-        toast.error(t('wrongEmailOrPassword'))
-        throw new Error(error.message)
-      }
-
-      const user = getPropertiesForUserFromSbUser(data.user)
-      setUser(user)
-      navigate('/')
-    } catch (e) {
-      console.log('singIn error', e)
-    } finally {
-      setLoading(false)
+  const onSignInClick = () => {
+    if (isFormValid && email && password) {
+      singIn({ email, navigate, password, setLoading, setUser, t })
     }
   }
 
@@ -71,7 +48,7 @@ const SignInPage = () => {
         onClick={onGoBackClick}
       />
       <div className='flex justify-center'>
-        <LogoIcon className={`h-24 w-24 mb-2 fill-yellow-400`} />
+        <LogoIcon className={`h-28 w-28 mb-2 fill-yellow-400`} />
       </div>
       <div className='text-4xl text-center font-medium'>{t('welcome')}</div>
 
@@ -94,7 +71,7 @@ const SignInPage = () => {
         </div>
         <MyButton
           color='black'
-          onClick={singIn}
+          onClick={onSignInClick}
           title='signIn'
           disabled={!isFormValid}
           p='py-2'
