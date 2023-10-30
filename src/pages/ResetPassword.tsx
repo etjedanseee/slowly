@@ -85,7 +85,7 @@ const ResetPassword = () => {
     try {
       const { data, error } = await supabase.auth
         .updateUser({ password: password })
-      console.log('new p', data, error)
+
       if (error) {
         toast.error(t('errorUpdatePassword') + '. ' + error.message)
         throw new Error(error.message)

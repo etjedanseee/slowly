@@ -55,8 +55,8 @@ const SignUpPage = () => {
     }
   }
 
-  const onCloseClick = () => {
-    navigate('/auth', { replace: true })
+  const onGoBackClick = () => {
+    navigate('/auth')
   }
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const SignUpPage = () => {
       <SignUpNavigation
         onPrevClick={onPrevStepClick}
         onNextClick={onNextStepClick}
-        onCloseClick={onCloseClick}
+        onCloseClick={onGoBackClick}
         step={formStep}
         isStepsValid={[isUserInfoValid, isInterestsValid, isLanguagesValid, isUserGeoValid, isUserEmailValid]}
       />

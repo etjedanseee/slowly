@@ -22,7 +22,7 @@ const SignInPage = () => {
   const { setUser } = useActions()
 
   const onGoBackClick = () => {
-    navigate(-1)
+    navigate('/auth')
   }
 
   const onResetPasswordClick = () => {
