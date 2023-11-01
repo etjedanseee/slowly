@@ -37,7 +37,6 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
   }
 
   const onPasswordTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value)
     if (!e.target.value.length) {
       setPasswordTextError(t('required') || 'Field is required')
     } else if (e.target.value.length < 6) {

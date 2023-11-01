@@ -22,10 +22,10 @@ const SortMenu = ({ close, onChangeSort, selectedSort }: SortMenuProps) => {
       onClick={close}
     >
       <div
-        className={`${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'} rounded-t-lg py-3 px-4 cursor-default`}
+        className={`${theme === 'dark' ? 'bg-zinc-800' : 'bg-slate-200'} rounded-t-lg py-3 px-4 cursor-default font-medium`}
         onClick={e => e.stopPropagation()}
       >
-        <div className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-400'} text-center mb-2`}>{t('sortBy')}</div>
+        <div className={`${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'} text-center mb-2`}>{t('sortBy')}</div>
         <div className='flex flex-col gap-y-2'>
           {sortFriendsByNames.map(sort => (
             <div
@@ -37,7 +37,7 @@ const SortMenu = ({ close, onChangeSort, selectedSort }: SortMenuProps) => {
 
           <div
             onClick={close}
-            className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-400'} cursor-pointer`}
+            className={`${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'} cursor-pointer`}
           >
             {t('cancel')}
           </div>
