@@ -42,7 +42,6 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
 
   const handleHelpMenuVisible = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    console.log('work handle')
     setIsHelpMenuVisible(prev => !prev)
   }
 

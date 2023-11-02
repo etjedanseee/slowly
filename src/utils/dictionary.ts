@@ -266,8 +266,10 @@ export const dictionary = {
     autoLogin: 'Automatic login',
     returnToLoginPage: 'Return to login page',
     chooseHowToSignIn: 'Choose how to sign in:',
+    enterValidUrl: 'Please enter a valid URL',
   },
   ua: {
+    enterValidUrl: 'Введіть дійсну URL-адресу',
     chooseHowToSignIn: 'Виберіть спосіб входу:',
     returnToLoginPage: 'Повернутися до входу',
     autoLogin: 'Автоматичний вхід',

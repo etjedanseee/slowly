@@ -16,7 +16,7 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
   const { theme } = useTypedSelector(state => state.theme)
   const { t } = useTranslation()
   const [avatarUrl, setAvatarUrl] = useState(userAvatar);
-  const [isValidImage, setIsValidImage] = useState(true);
+  const [isValidImage, setIsValidImage] = useState(false);
   const [isFullSizeModalVisible, setIsFullSizeModalVisible] = useState(false)
 
   const handleFullSizeModalVisible = () => {
@@ -25,25 +25,20 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value
-    checkIsValidImage(url)
     setAvatarUrl(url);
+    setIsValidImage(false)
   };
 
-  const checkIsValidImage = (url: string) => {
-    const img = new Image();
-    img.src = url;
-    img.onload = () => {
-      setIsValidImage(true)
-    }
-    img.onerror = () => {
-      setIsValidImage(false)
-    }
+  const onSuccessfulLoadImage = () => {
+    setIsValidImage(true)
+  }
+
+  const onErrorLoadImage = () => {
+    setIsValidImage(false)
   }
 
   const handleSaveImageURL = () => {
-    if (isValidImage && (avatarUrl !== userAvatar)) {
-      updateImage(avatarUrl)
-    }
+    updateImage(avatarUrl)
   }
 
   useEffect(() => {
@@ -62,15 +57,16 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
   return (
     <div className='w-full'>
       <div className='w-full flex justify-center'>
-        {isValidImage && userAvatar.length
-          ? (
-            <img
-              src={avatarUrl}
-              className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} rounded-full object-cover`}
-              onClick={!canUpdate ? handleFullSizeModalVisible : () => { }}
-              alt="User Avatar"
-            />
-          )
+        {avatarUrl.length ? (
+          <img
+            src={avatarUrl}
+            className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} ${!canUpdate && 'cursor-pointer'} rounded-full object-cover`}
+            onClick={!canUpdate ? handleFullSizeModalVisible : () => { }}
+            onLoad={onSuccessfulLoadImage}
+            onError={onErrorLoadImage}
+            alt="User Avatar"
+          />
+        )
           : (
             <DefaultUserIcon
               className={`${size ? `h-${size} w-${size}` : 'h-32 w-32'} 
@@ -85,7 +81,7 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
         <div>
           <div className='flex items-center justify-between mb-1'>
             <div>{t('avatar')}</div>
-            {isValidImage && avatarUrl !== userAvatar && (
+            {!!avatarUrl.length && isValidImage && avatarUrl !== userAvatar && (
               <div className={`${theme === 'dark' ? 'text-white' : 'text-zinc-900'} 
                   cursor-pointer border-2 rounded-xl inline-block px-4 py-[2px] mt-1 text-sm
                 `}
@@ -102,6 +98,10 @@ const UserAvatar = ({ userAvatar, canUpdate = false, updateImage = () => { }, si
             onInputChange={handleAvatarChange}
             value={avatarUrl}
           />
+
+          {(!isValidImage || !avatarUrl.length) && (
+            <div className='text-red-600 text-sm'>{t('enterValidUrl')}</div>
+          )}
         </div>
       )}
 
