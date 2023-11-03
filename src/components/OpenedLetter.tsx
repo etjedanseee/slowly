@@ -40,7 +40,7 @@ const OpenedLetter = ({ letter, friend, onClose, showSwitchLettersArrows, isNext
 
   return (
     <div
-      className={`absolute top-0 left-0 w-full h-screen z-50 bg-inherit  py-1`}
+      className={`absolute top-0 left-0 w-full h-screen z-50 bg-inherit py-1`}
     >
       <div className='py-2 relative mb-4'>
         <div className={`flex ${showSwitchLettersArrows ? 'justify-center' : 'justify-end'}`}>

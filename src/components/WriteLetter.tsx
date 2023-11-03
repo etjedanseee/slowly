@@ -54,6 +54,14 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
     onClose()
   }
 
+  const onSendClick = () => {
+    if (letterText?.trim().length && user?.settings.isConfirmBeforeSendLetter) {
+      handleConfirmVisible()
+    } else {
+      onSendLetter()
+    }
+  }
+
   const onSendLetter = async () => {
     if (user && letterText?.trim().length) {
       await sendLetter(user.id, otherUser.id, letterText, deliveredTime, t)
@@ -113,7 +121,7 @@ const WriteLetter = ({ deliveredTime, otherUser, onClose }: WriteLetterProps) =>
         <div>
           <MyButton
             color='yellow'
-            onClick={user?.settings.isConfirmBeforeSendLetter ? handleConfirmVisible : onSendLetter}
+            onClick={onSendClick}
             title='send'
           />
         </div>

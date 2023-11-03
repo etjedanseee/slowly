@@ -20,6 +20,24 @@ function App() {
   const { setUser, fetchInterests, fetchUserChatList, fetchFriends, changeLanguage, changeTheme } = useActions()
 
   const [isCheckingSession, setIsCheckingSession] = useState(true)
+  const [toastXPosition, setToastXPosition] = useState({ left: '0', width: '0', transform: 'translateX(0)' })
+
+  const updateToastXPosition = () => {
+    const body = document.body;
+    if (body) {
+      const bodyWidth = body.offsetWidth
+      const position = (window.innerWidth - bodyWidth) / 2
+      setToastXPosition({ left: `${position}px`, width: bodyWidth + 'px', transform: 'translateX(0)' });
+    }
+  };
+
+  useEffect(() => {
+    updateToastXPosition();
+    window.addEventListener('resize', updateToastXPosition);
+    return () => {
+      window.removeEventListener('resize', updateToastXPosition);
+    };
+  }, [])
 
   i18n.use(initReactI18next).init({
     resources: {
@@ -81,11 +99,11 @@ function App() {
   }
 
   return (
-    <div className={`flex-1 flex flex-col relative 
+    <div className={`flex-1 flex flex-col relative
       ${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-slate-200 text-zinc-900'} 
     `}>
       <ToastContainer
-        position="top-right"
+        position="top-center"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -95,6 +113,7 @@ function App() {
         draggable
         pauseOnHover
         theme="dark"
+        style={toastXPosition}
       />
 
       <Routes>
