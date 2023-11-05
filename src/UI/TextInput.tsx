@@ -8,10 +8,11 @@ interface TextInputProps {
   placeholder: string,
   onBlur?: () => void,
   onFocus?: () => void,
-  isPassword?: boolean
+  isPassword?: boolean,
+  autoCompleteValue?: string
 }
 
-const TextInput = ({ placeholder = '', onInputChange, value, onBlur = () => { }, onFocus = () => { }, isPassword }: TextInputProps) => {
+const TextInput = ({ placeholder = '', onInputChange, value, onBlur = () => { }, onFocus = () => { }, isPassword, autoCompleteValue }: TextInputProps) => {
   const { theme } = useTypedSelector(state => state.theme)
   const [isPasswordVisible, setIsPasswordVisible] = useState(!isPassword)
 
@@ -26,9 +27,10 @@ const TextInput = ({ placeholder = '', onInputChange, value, onBlur = () => { },
         type={!isPasswordVisible && isPassword ? 'password' : 'text'}
         onChange={(e) => onInputChange(e)}
         placeholder={placeholder}
-        className={`${theme === 'dark' ? 'border-black bg-zinc-800' : 'border-gray-500 bg-gray-100'} 
-        w-full border-b px-4 py-1 mb-1 outline-none flex items-center
-      `}
+        autoComplete={autoCompleteValue || 'on'}
+        className={`${theme === 'dark' ? 'border-black bg-zinc-800 text-white' : 'border-gray-500 bg-gray-100 text-zinc-900'} 
+          w-full border-b px-4 py-1 mb-1 outline-none flex items-center
+        `}
         spellCheck={false}
         onBlur={onBlur}
         onFocus={onFocus}

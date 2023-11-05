@@ -158,6 +158,7 @@ const UserInfo = ({ setUserInfo, userInfo, setIsUserInfoValid }: UserInfoProps) 
           value={nickName}
           onInputChange={onNickNameChange}
           onBlur={onNickNameBlur}
+          autoCompleteValue='nickname'
         />
         {(isNickNameDirty && nickNameError) && <div className='text-red-600 text-sm'>{nickNameError}</div>}
       </div>

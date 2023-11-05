@@ -133,6 +133,7 @@ const ResetPassword = () => {
           value={email}
           onInputChange={onEmailChange}
           onFocus={onEmailFocus}
+          autoCompleteValue='email'
         />
         {(isEmailDirty && emailError) && <div className='text-red-600 text-sm'>{emailError}</div>}
       </div>
@@ -166,6 +167,7 @@ const ResetPassword = () => {
                 value={password}
                 onInputChange={onPasswordChange}
                 onFocus={onPasswordFocus}
+                autoCompleteValue='new-password'
               />
               {(isPasswordDirty && passwordError) && <div className='text-red-600 text-sm'>{passwordError}</div>}
             </div>

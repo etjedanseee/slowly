@@ -10,9 +10,10 @@ interface UserEmailProps {
   setIsUserEmailValid: (bool: boolean) => void,
   setUserPassword: (data: string | null) => void,
   userPassword: string | null,
+  autoCompletePasswordValue?: string
 }
 
-const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPassword, userPassword }: UserEmailProps) => {
+const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPassword, userPassword, autoCompletePasswordValue }: UserEmailProps) => {
   const { t } = useTranslation()
   const { theme } = useTypedSelector(state => state.theme)
 
@@ -21,7 +22,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
   const [isEmailDirty, setIsEmailDirty] = useState(false)
 
   const [passwordText, setPasswordText] = useState(userPassword || '')
-  const [passwordTextError, setPasswordTextError] = useState(userPassword ? '' : (('required') || 'Field is required'))
+  const [passwordTextError, setPasswordTextError] = useState(userPassword ? '' : (t('required') || 'Field is required'))
   const [isPasswordDirty, setIsPasswordDirty] = useState(false)
 
   const onEmailTextChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +68,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
 
   return (
     <div className={`${theme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-white text-zinc-900'} 
-    py-20 px-2 absolute top-0 w-full h-screen`}>
+    py-20 px-2 absolute top-0 w-full h-full`}>
       <div className='mb-4'>
         <div className='mb-2 text-2xl'>{t('email')}</div>
         <TextInput
@@ -75,6 +76,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
           value={emailText}
           onInputChange={onEmailTextChange}
           onBlur={onEmailBlur}
+          autoCompleteValue='email'
         />
         {(isEmailDirty && emailTextError) && <div className='text-red-600 text-sm'>{emailTextError}</div>}
       </div>
@@ -87,6 +89,7 @@ const UserEmail = ({ setIsUserEmailValid, setUserEmail, userEmail, setUserPasswo
           value={passwordText}
           onInputChange={onPasswordTextChange}
           onBlur={onPasswordBlur}
+          autoCompleteValue={autoCompletePasswordValue || 'new-password'}
         />
         {(isPasswordDirty && passwordTextError) && <div className='text-red-600 text-sm'>{passwordTextError}</div>}
       </div>

@@ -150,6 +150,7 @@ const SignUpPage = () => {
           setIsUserEmailValid={setIsUserEmailValid}
           setUserPassword={setUserPassword}
           userPassword={userPassword}
+          autoCompletePasswordValue='new-password'
         />
       )}
       {formStep === 6 && (

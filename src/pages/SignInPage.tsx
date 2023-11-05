@@ -59,6 +59,7 @@ const SignInPage = () => {
           setUserPassword={setPassword}
           userEmail={email}
           userPassword={password}
+          autoCompletePasswordValue='current-password'
         />
       </div>
 
